@@ -1,0 +1,69 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Student Elections</title>
+  <meta charset="UTF-8">
+  <meta content="width=device-width, initial-scale=1" name="viewport" />
+<!--===============================================================================================-->  
+  <link rel="icon" type="image/png" href="{% static 'election/images/icons/favicon.ico' %}"/>
+<!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="{% static 'election/vendor/bootstrap/css/bootstrap.min.css' %}">
+<!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="{% static 'election/fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+<!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="{% static 'election/fonts/Linearicons-Free-v1.0.0/icon-font.min.css' %}">
+<!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="{% static 'election/vendor/animate/animate.css' %}">
+<!--===============================================================================================-->  
+  <link rel="stylesheet" type="text/css" href="{% static 'election/vendor/css-hamburgers/hamburgers.min.css' %}">
+<!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="{% static 'election/vendor/animsition/css/animsition.min.css' %}">
+<!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="{% static 'election/vendor/select2/select2.min.css' %}">
+<!--===============================================================================================-->  
+  <link rel="stylesheet" type="text/css" href="{% static 'election/vendor/daterangepicker/daterangepicker.css' %}">
+<!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="{% static 'election/css/util.css' %}" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="{% static 'election/css/main.css' %}" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="{% static 'election/css/simple-sidebar.css' %}" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="{% static 'election/css/style.css' %}" rel="stylesheet">
+
+  <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="{% static 'election/css/simple-sidebar.css' %}" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="{% static 'election/css/style.css' %}" rel="stylesheet">
+<!--===============================================================================================-->
+</head>
+<body>
+    {% block content %}{% endblock %}
+</body>
+<!--===============================================================================================-->
+  <script type="text/javascript" src="{% static 'election/vendor/jquery/jquery-3.2.1.min.js' %}"></script>
+<!--===============================================================================================-->
+  <script type="text/javascript" src="{% static 'election/vendor/animsition/js/animsition.min.js' %}"></script>
+<!--===============================================================================================-->
+  <script type="text/javascript" src="{% static 'election/vendor/bootstrap/js/popper.js' %}"></script>
+  <script type="text/javascript" src="{% static 'election/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+<!--===============================================================================================-->
+  <script type="text/javascript" src="{% static 'election/vendor/select2/select2.min.js' %}"></script>
+<!--===============================================================================================-->
+  <script type="text/javascript" src="{% static 'election/vendor/daterangepicker/moment.min.js' %}"></script>
+  <script type="text/javascript" src="{% static 'election/vendor/daterangepicker/daterangepicker.js' %}"></script>
+<!--===============================================================================================-->
+  <script type="text/javascript" src="{% static 'election/vendor/countdowntime/countdowntime.js' %}"></script>
+<!--===============================================================================================-->
+  <script type="text/javascript" src="{% static 'election/js/main.js' %}"></script>
+  <script type="text/javascript" src="{% static 'election/js/custom.js' %}"></script>
+
+  <script type="text/javascript" src="{% static 'election/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+   <script type="text/javascript" src="{% static 'election/vendor/bootstrap/js/bootstrap.bundle.js' %}"></script>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <!-- Menu Toggle Script -->
+  <script>
+    $("#menu-toggle").click(function(e) {
+      e.preventDefault();
+      $("#wrapper").toggleClass("toggled");
+    });
+  </script>
+</html>

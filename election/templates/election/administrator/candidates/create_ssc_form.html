@@ -1,0 +1,120 @@
+{% extends "election/admin_base.html" %}
+{% block content %}
+	<form id="sscForm">
+  {% csrf_token %}	
+
+  <h1 class="h1 text-center p-4">{{ electionTypeName }} Form</h1>
+
+  <h1 class="h4 text-center p-4">Partylist</h1>
+  <div class="form-group row justify-content-center">
+      <label for="inputPartyName" class="col-sm-2 col-form-label">Party Name</label>
+        <div class="col-sm-6">
+              <input type="text" id="partyName" class="form-control" name="extras" value="PARTY NAME" required>
+        </div>
+  </div>
+    <div class="form-group row justify-content-center">
+      <label for="inputPresident" class="col-sm-2 col-form-label">Party Acronym</label>
+        <div class="col-sm-6">
+              <input type="text" id="partyAcronym" class="form-control" name="extras" value="PARTY Acronym" required>
+        </div>
+  </div>
+
+  <h1 class="h4 text-center p-4">Major Position</h1>
+  <input type="hidden" id="electionTypeId" name="electionType" value="{{ electionTypeId }}">
+  <!--<small class="text-muted mb-1">Notes</small>*/
+  <br>
+  <small class="text-muted mb-1">* Must be a full name</small>
+  <br>
+  <small class="text-muted mb-1">* Leave Blank will not be save</small>-->
+  <div class="form-group row justify-content-center">
+    <label for="inputPresident" class="col-sm-2 col-form-label">President</label>
+    <div class="col-sm-6">
+      {% for position in positions %}
+        {% if position.position_name == 'President' %}
+      <input type="text" id="{{ position.id }}" class="form-control candidate_name" name="candidate_name" onchange="formOnchange(this.value, 'PresDrop')">
+        {% endif %}
+      {% endfor %}
+    </div>
+          
+  </div>
+  <div class="form-group row justify-content-center">
+    <div class="col-sm-2 col-form-label text-muted"></div>
+    <div class="col-sm-6">
+      <select id="PresDrop" class="form-control  col-sm-6" name="colDropId" 
+      required disabled="true">
+              <option disabled selected value></option>
+              {% for college in colleges %}
+                {% for campus in campuses %}
+                  {% if college.2 == campus.id %}
+                    {% for position in positions %}
+                      {% if position.position_name == 'Vice President' %}
+                <option value='{"collegeId": {{ college.0 }},"campusId": {{ college.2 }}, "positionId": {{ position.id }}}'>
+                  {{ college.1 }} ({{campus.campus_name}})
+                </option>
+                      {% endif %}
+                    {% endfor %}
+                  {% endif %}
+                {% endfor %}
+              {% endfor %}
+          </select>
+          <small class="form-text text-muted m-1">Select college</small>
+    </div>
+  </div>
+  
+  <div class="form-group row justify-content-center">
+    <label for="inputVPresident" class="col-sm-2 col-form-label">Vice President</label>
+    <div class="col-sm-6">
+      
+      <input type="text" id="{{ position.id }}" class="form-control candidate_name" name="candidate_name" onchange="formOnchange(this.value, 'VPresDrop')">
+       
+    </div>
+  </div>
+  <div class="form-group row justify-content-center">
+    <div class="col-sm-2 col-form-label text-muted"></div>
+    <div class="col-sm-6">
+      <select id="VPresDrop" class="form-control  col-sm-6" name="colDropId" value="{{default_if_none}}" required disabled="true">
+              <option disabled selected value></option>
+              {% for college in colleges %}
+                {% for campus in campuses %}
+                  {% if college.2 == campus.id %}
+                    {% for position in positions %}
+                    {% if position.position_name == 'Vice President' %}
+                <option value='{"collegeId": {{ college.0 }},"campusId": {{ college.2 }}, "positionId": {{ position.id }}}'>
+                    {{ college.1 }} ({{campus.campus_name}})
+                </option>
+                      {% endif %}
+                    {% endfor %}
+                  {% endif %}
+                {% endfor %}
+              {% endfor %}
+          </select>
+          <small class="form-text text-muted m-1">Select college</small>
+    </div>
+  </div>
+  {% for campus in campuses %}
+    <h1 class="h4 text-center p-4">{{ campus.campus_name }}</h1>
+    {% for college in colleges %}
+      {% if college.2 == campus.id %}
+      <div class="form-group row justify-content-center">
+        <label for="inputPresident" class="col-sm-2 col-form-label">Board Member {{ college.1 }}</label>
+        {% for position in positions %}
+          {% if position.position_name == 'Board Member' %}
+        <div class="col-sm-6">
+              <input type="text" class="form-control" name="candidate_name"
+              value="{{ campus.campus_name }}">
+              <input type="hidden" name="collegeId" value='{"collegeId": {{ college.0 }},"campusId": {{ college.2 }}, "positionId": {{ position.id }}}'>
+        </div>
+      </div>
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+    {% endfor %}  
+  {% endfor %}
+  
+  <div class="form-group row text-center justify-content-center">
+    <div class="col-sm-12 mt-3">
+      <button type="submit" class="btn btn-primary" >Create Form</button>
+    </div>
+  </div>
+  </form>
+{% endblock content %}

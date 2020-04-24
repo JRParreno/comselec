@@ -1,0 +1,30 @@
+{% extends "election/admin_base.html" %}
+{% block content %}
+<div class="container">
+<div class="col">
+	<h1 class="text-center mt-5">Add New Campus</h1>
+	<a id="add" href="#" class="btn btn-secondary m-3 text-white float-right">Add Action</a>
+</div>
+<form method="POST" action="{% url 'campus-add' %}">
+	{% csrf_token %}
+	<table class="table table-hover">
+		<thead>
+			<tr>
+				<th scope="col">Campus Name</th>
+				<th scope="col">Action</th>
+			</tr>
+		</thead>
+
+		<tbody id="add-table">
+
+		</tbody>
+	</table>
+	<button id="save" type="submit" class="btn btn-info m-3" disabled>Save</button>
+</form>
+<a class="btn btn-primary m-3 float-right text-white"
+href="{% url 'campus-edit' %}"
+>Edit Campus</a>
+</div>
+
+
+{% endblock content %}

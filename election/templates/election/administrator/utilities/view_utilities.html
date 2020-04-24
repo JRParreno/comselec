@@ -1,0 +1,29 @@
+{% extends "election/admin_base.html" %}
+{% block content %}
+<div class="card">
+  <div class="card-header h4">
+    Utilities
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">Election</h5>
+    <p class="card-text">Create, edit and delete of Election Type.</p>
+    <a href="{% url 'election-edit' %}" class="btn btn-primary">see here</a>
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">Campus</h5>
+    <p class="card-text">Create, edit and delete of campus.</p>
+    <a href="{% url 'campus-edit' %}" class="btn btn-primary">see here</a>
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">Colleges</h5>
+    <p class="card-text">Create, edit and delete of colleges.</p>
+    <a href="{% url 'college-edit' %}" class="btn btn-primary">see here</a>
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">Positions</h5>
+    <p class="card-text">Create, edit and delete of positions.</p>
+    <a href="{% url 'position-edit' %}" class="btn btn-primary">see here</a>
+  </div>
+</div>
+
+{% endblock content %}

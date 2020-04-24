@@ -1,0 +1,184 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Student Election</title>
+
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <!-- Our Custom CSS -->
+    <link rel="stylesheet" href="{% static 'election/css/sidebar.css' %}">
+    <link rel="stylesheet" href="{% static 'election/css/jquery-ui.css' %}">
+    <link rel="stylesheet" href="{% static 'election/css/jquery-ui.structure.css' %}">
+    <link rel="stylesheet" href="{% static 'election/css/jquery-ui.theme.css' %}">
+
+
+    <!-- Font Awesome JS -->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+
+
+</head>
+
+<body>
+
+    <div class="wrapper">
+        <!-- Sidebar  -->
+        <nav id="sidebar">
+            <div class="sidebar-header">
+                <h3>Comselec</h3>
+                <strong>CO</strong>
+            </div>
+
+            <ul class="list-unstyled components">
+                <li>
+                    <a href="#formId" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                        <i class="fas fa-plus-square"></i>
+                        Create Election
+                    </a>
+                    <ul class="collapse list-unstyled" id="formId">
+                        {% for electionType in electionTypes %}
+                        <li>
+                            <a href="{% url 'create-form' electionType.election_name electionType.id  %}">{{ electionType.election_name }}</a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </li>
+                    
+
+                   {% for campus in campuses %}
+                <li>
+                    <a href="#{{ campus.id }}" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                        <i class="fas fa-university"></i>
+                        {{ campus.campus_name }}
+                    </a>
+                    <ul class="collapse list-unstyled" id="{{ campus.id }}">
+                        {% for college in colleges %}
+                        {% if college.2 == campus.id %}
+                        <li>
+                            <a href="#">{{ college.1 }}</a>
+                        </li>
+                        {% endif %}
+                        {% endfor %}
+                    </ul>
+                </li>
+                    {% endfor %}
+                <li>
+                    <a href="#">
+                        <i class="fas fa-paper-plane"></i>
+                        Contact Dev
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'view-utilities' %}">
+                        <i class="fas fa-cog"></i>
+                        Utilities
+                    </a>
+                </li>
+            </ul>
+
+            <ul class="list-unstyled CTAs">
+                <li>
+                    <a class="bg-light text-primary text-center" href="{% url 'view-utilities' %}" class="download">Utilities</a>
+                </li>
+                <li>
+                    <a href="https://bootstrapious.com/p/bootstrap-sidebar" class="article">Back to article</a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Page Content  -->
+        <div id="content">
+
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="container-fluid">
+
+                    <button type="button" id="sidebarCollapse" class="btn btn-info">
+                        <i class="fas fa-align-left"></i>
+                        <span>Toggle Menu</span>
+                    </button>
+                    <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="fas fa-align-justify"></i>
+                    </button>
+
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="nav navbar-nav ml-auto">
+                            <li class="nav-item active">
+                                <a class="nav-link" href="#">Active Elections</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Election SSC</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'election-home' %}">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <div class="dropdown">
+                                   <div class="btn-group">
+                                      <button type="button" class="btn btn-secondary" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Account
+                                    </button>
+                                    <div class="dropdown-menu dropdown-menu-right">
+                                        <h6 class="dropdown-header text-center">Action</h6>
+                                        <a class="dropdown-item" href="#">Change username</a>
+                                        <a class="dropdown-item" href="#">Change password</a>
+                                        <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+
+            <div class="container-fluid">
+                {% if messages  %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+                       
+                    {% endfor %}
+                {% endif %}
+                {% block content%}{% endblock %}
+            </div>
+        </div>
+    </div>
+
+    <!-- jQuery CDN - Slim version (=without AJAX) -->
+     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <!-- Popper.JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.10.1/umd/popper.min.js
+    "></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+
+    <script type="text/javascript" src="{% static 'election/js/custom.js' %}"></script>
+    <script type="text/javascript" src="{% static 'election/js/jquery.js' %}"></script> 
+    <script type="text/javascript" src="{% static 'election/js/jquery-ui.js' %}"></script>   
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar').toggleClass('active');
+            });
+        });
+
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
+</body>
+
+</html>
