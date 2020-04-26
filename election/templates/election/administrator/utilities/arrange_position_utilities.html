@@ -1,0 +1,45 @@
+<div class="d-flex align-items-center flex-column">
+	<div class="p-2">
+		<h1>Arrange Position</h1>
+	</div>
+	<div class="p-2 mb-3">
+		{% for electionType in electionTypeFilters %}
+	<h2>{{electionType.election_name}}</h2>
+	{% endfor %}
+	</div>
+	
+</div>
+
+<div class="row">
+  <div class="col-lg-7">
+  	<h3 class="pl-5">Instructions</h3>
+  	<p class="px-5 py-2">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+  </div>
+  <div class="col-lg-5 col-sm-12 col-12">
+  	<small class="text-muted">Kindly drag the positions depends on your desire</small>
+  	<ul id="sortable" class="ui-sortable list-group mt-2 text-center">
+	{% for position in positionFilters %}
+ 	{% if electionId == position.2 %}
+	<li class="list-group-item">
+	{{ position.1 }}
+	</li>
+	{% endif %}
+	{% endfor %}
+	</ul>
+  </div>
+  <div class="w-100"></div>
+  <div class="col text-center m-4">
+  	<div class="row justify-content-center">
+  		<div class="col-xl-2 col-lg-4 col-12 m-1">
+  			<button class="btn btn-primary">Save Changes</button>
+  		</div>
+  		<div class="col-xl-2 col-lg-4 col-12">
+  			<button class="btn btn-info px-5 m-1">Back</button>
+  		</div>
+  	</div>
+  	
+  	
+  </div>
+</div>
+
+
