@@ -1,21 +1,20 @@
 {% extends "election/admin_base.html" %}
 {% block content %}
+{% if action == 'edit' %}
 <div class="d-flex justify-content-center">
 	<h1>Edit Positions</h1>
 </div>
 <div class="d-flex">
 	<div class="p-2">
 	<select class="form-control col-sm-12" onchange="location = this.value;">
-		<option value="{% url 'position-edit-filter' 0 %}">
-  			All
-  		</option>
+
   		{% for election in electionTypeFilters %}
   		{% if electionTypeId == election.id %}
-  		<option value="{% url 'position-edit-filter' election.id %}" selected>
+  		<option value="{% url 'position-edit-filter' 'edit' election.id %}" selected>
   			{{ election.election_name }}
   		</option>
   		{% else %}
-  		<option value="{% url 'position-edit-filter' election.id %}">
+  		<option value="{% url 'position-edit-filter' 'edit' election.id %}">
   			{{ election.election_name }}
   		</option>
   		{% endif %}
@@ -30,8 +29,12 @@
 					href="{% url 'position-add' %}">Add Position</a>
   			</div>
   			<div class="p-2">
-  				<a id="add" class="btn btn-info text-white"
-				href="{% url 'position-add' %}">Sort Position</a>
+  			<form action="{% url 'position-arrange' 'arrange' electionTypeId %}" method="POST">
+  				{% csrf_token %}
+  				<button type="submit" id="add" class="btn btn-info"
+				>Sort Position
+				</button>
+			</form>
   			</div>
   			</div>		
 	</div>
@@ -48,6 +51,7 @@
 		</thead>
 		<tbody>
 			{% for position in positionFilters %}
+			{% if electionTypeId == position.2 %}
 			<tr class="sortable">
 				<th class="align-middle" scope="row">{{ forloop.counter }}</th>
 				<td class="align-middle">{{ position.1 }}</td>
@@ -61,6 +65,7 @@
 				</a>
 			</td>
 		</tr>
+		{% endif %}
 		{% endfor %}
 </tbody>
 </table>
@@ -127,5 +132,7 @@
 		</div>
 	</div>
 </div>
-
+{% else %}
+	{% include "election/administrator/utilities/arrange_position_utilities.html" %}
+{% endif %}
 {% endblock content %}

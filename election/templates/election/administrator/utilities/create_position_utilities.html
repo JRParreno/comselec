@@ -20,7 +20,7 @@
     </div>
     <div class="w-100"></div>
     <div class="col m-1">
-      	<a href="{% url 'position-add' %}" class="btn btn-secondary">Add Election Type</a>
+      	<a href="{% url 'election-add' %}" class="btn btn-secondary">Add Election Type</a>
       	<br>
       	<small class="form-text text-muted">Click here to add new Election Type</small>
     </div>
@@ -51,7 +51,7 @@
 	<button id="save" type="submit" class="btn btn-info m-1" disabled>Save</button>
 </form>
 <a class="btn btn-primary m-1 float-right text-white"
-href="{% url 'position-edit' %}"
+href="{% url 'position-edit' 'edit' %}"
 >Edit Position</a>
 </div>
 

@@ -268,19 +268,43 @@ def deleteUtilitiesElection(request, id=None):
 
 #views of Position
 @login_required
-def createUtilitiesPosition(request):
+def createUtilitiesPosition(request, action):
 	e_model = ElectionType.objects.all().order_by('election_name')
 	p_model = Position.objects.all().values_list()
+	queryId = None
+	for i in e_model:
+		queryId = Position.objects.all().filter(election_type_id=i.id).values_list().count()
+		if queryId > 0:
+			queryId = i.id
+		break
+
 	context = {
 		'electionTypeFilters': e_model,
 		'positionFilters': p_model,
-		'objectCount': p_model.count()
+		'objectCount': p_model.count(),
+		'electionTypeId': queryId,
+		'action': action
 	}
 	return render(request, 'election/administrator/utilities/edit_position_utilities.html'
 		, context)
 
 @login_required
-def filterUtilitiesPosition(request, id):
+def arrangeUtilitiesPosition(request, action, id):
+	
+	if request.method == 'POST':
+		e_model = ElectionType.objects.all().filter(id=id).order_by('election_name')
+		p_model = Position.objects.all().filter(election_type=id).values_list().order_by('id')
+	context = {
+		'electionTypeFilters': e_model,
+		'positionFilters': p_model,
+		'action': action,
+		'electionId': id
+	}
+	return render(request, 'election/administrator/utilities/edit_position_utilities.html'
+		, context)
+
+@login_required
+def filterUtilitiesPosition(request, action, id):
 	model = None
 	if id == 0:
 		model = Position.objects.all().values_list().order_by('id')
@@ -290,10 +314,11 @@ def filterUtilitiesPosition(request, id):
 		'electionTypeFilters': ElectionType.objects.all().order_by('id'),
 		'positionFilters': model,
 		'electionTypeId': id,
-		'objectCount': model.count()
+		'objectCount': model.count(),
+		'action': action
 	}
-	return render(request, 'election/administrator/utilities/edit_position_utilities.html'
-		, context)
+	return render(request, 
+		'election/administrator/utilities/edit_position_utilities.html', context)
 
 @login_required
 def saveUtilitiesPosition(request):
@@ -312,7 +337,7 @@ def saveUtilitiesPosition(request):
 
 				messages.success(request, customAlert.SaveAlert(positions[i]))
 		
-		return HttpResponseRedirect(reverse('position-edit'))
+		return redirect('position-edit', 'edit')
 	else:
 		
 		return render(request, 'election/administrator/utilities/create_position_utilities.html'
