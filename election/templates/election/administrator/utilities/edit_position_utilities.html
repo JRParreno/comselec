@@ -5,7 +5,7 @@
 </div>
 <div class="d-flex">
 	<div class="p-2">
-	<select class="form-control  col-sm-5" onchange="location = this.value;">
+	<select class="form-control col-sm-12" onchange="location = this.value;">
 		<option value="{% url 'position-edit-filter' 0 %}">
   			All
   		</option>
@@ -24,8 +24,16 @@
 		<small class="form-text text-muted m-1">Select election type to filter</small>
 	</div>
 	<div class="ml-auto p-2">
-		<a id="add" class="btn btn-primary text-white"
-			href="{% url 'position-add' %}">Add Position</a>
+		<div class="d-flex align-items-start flex-column" >
+  			<div class="p-2">
+  				<a id="add" class="btn btn-primary text-white"
+					href="{% url 'position-add' %}">Add Position</a>
+  			</div>
+  			<div class="p-2">
+  				<a id="add" class="btn btn-info text-white"
+				href="{% url 'position-add' %}">Sort Position</a>
+  			</div>
+  			</div>		
 	</div>
 </div>
 {% if objectCount > 0 %}
