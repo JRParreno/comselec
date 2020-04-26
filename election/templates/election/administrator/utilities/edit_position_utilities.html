@@ -1,35 +1,35 @@
 {% extends "election/admin_base.html" %}
 {% block content %}
-<div class="container">
-	<div class="col">
-		<h1 class="text-center mt-5">Edit Position</h1>
-			<div class="row p-1">
-    			<div class="col">
-					<select class="form-control  col-sm-5"
-					 onchange="location = this.value;">
-						<option value="{% url 'position-edit-filter' 0 %}">
-  								All
-  						</option>
-  						{% for election in electionTypeFilters %}
-  						{% if electionTypeId == election.id %}
-  							<option value="{% url 'position-edit-filter' election.id %}" selected>
-  								{{ election.election_name }}
-  							</option>
-  						{% else %}
-  							<option value="{% url 'position-edit-filter' election.id %}">
-  								{{ election.election_name }}
-  							</option>
-  						{% endif %}
-  						{% endfor %}
-					</select>
-					<small class="form-text text-muted m-1">Select election type to filter</small>
-    			</div>
-    			<div class="col">
-					<a id="add" class="btn btn-primary float-right text-white"
-					href="{% url 'position-add' %}">Add Position</a>
-    			</div>
-  			</div>
+<div class="d-flex justify-content-center">
+	<h1>Edit Positions</h1>
+</div>
+<div class="d-flex">
+	<div class="p-2">
+	<select class="form-control  col-sm-5" onchange="location = this.value;">
+		<option value="{% url 'position-edit-filter' 0 %}">
+  			All
+  		</option>
+  		{% for election in electionTypeFilters %}
+  		{% if electionTypeId == election.id %}
+  		<option value="{% url 'position-edit-filter' election.id %}" selected>
+  			{{ election.election_name }}
+  		</option>
+  		{% else %}
+  		<option value="{% url 'position-edit-filter' election.id %}">
+  			{{ election.election_name }}
+  		</option>
+  		{% endif %}
+  		{% endfor %}
+	</select>
+		<small class="form-text text-muted m-1">Select election type to filter</small>
 	</div>
+	<div class="ml-auto p-2">
+		<a id="add" class="btn btn-primary text-white"
+			href="{% url 'position-add' %}">Add Position</a>
+	</div>
+</div>
+{% if objectCount > 0 %}
+<div class="d-flex justify-content-center">
 	<table class="table table-hover">
 		<thead>
 			<tr>
@@ -56,7 +56,12 @@
 		{% endfor %}
 </tbody>
 </table>
-<div>
+</div>
+{% else %}
+<div class="d-flex justify-content-center">
+	<h1 class="text-muted">No Data</h1>
+</div>
+{% endif %}
 <!-- Modal edit -->
 <div class="modal fade" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
 	<div class="modal-dialog" role="document">
@@ -72,7 +77,7 @@
 				{% csrf_token %}
 				<div class="modal-body">
 					<div class="form-group">
-						<label for="exampleInputEmail1">New College Name</label>
+						<label for="exampleInputEmail1">New Position Name</label>
 						<input type="text" class="form-control" id="inputText" aria-describedby="emailHelp" placeholder="new" name="inputEdit">
 						<small id="emailHelp" class="form-text text-muted">Current Boni Avenue Branch(main).</small>
 					</div>
@@ -92,7 +97,7 @@
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="staticBackdropLabel">Edit</h5>
+				<h5 class="modal-title" id="staticBackdropLabel">Delete</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
@@ -108,7 +113,7 @@
 				<div class="modal-footer">
 					
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-					<button id="delete" type="submit" class="btn btn-primary">Save Changes</button>
+					<button id="delete" type="submit" class="btn btn-danger">Save Changes</button>
 				</form>
 			</div>
 		</div>

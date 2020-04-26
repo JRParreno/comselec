@@ -1,34 +1,35 @@
 {% extends "election/admin_base.html" %}
 {% block content %}
-<div class="container">
-	<div class="col">
-		<h1 class="text-center mt-5">Edit College</h1>
-			<div class="row p-1">
-    			<div class="col">
-					<select class="form-control  col-sm-5" name="campusId"  onchange="location = this.value;">
-						<option value="{% url 'college-edit-filter' 0 %}">
-  								All
-  						</option>
-  						{% for campus in campuses %}
-  						{% if collegeId == campus.id %}
-  							<option value="{% url 'college-edit-filter' campus.id %}" selected>
-  								{{ campus.campus_name }}
-  							</option>
-  						{% else %}
-  							<option value="{% url 'college-edit-filter' campus.id %}">
-  								{{ campus.campus_name }}
-  							</option>
-  						{% endif %}
-  						{% endfor %}
-					</select>
-					<small class="form-text text-muted m-1">Select campus to filter</small>
-    			</div>
-    			<div class="col">
-					<a id="add" class="btn btn-primary float-right text-white"
-					href="{% url 'college-add' %}">Add College</a>
-    			</div>
-  			</div>
+<div class="d-flex justify-content-center">
+	<h1>Edit Colleges</h1>
+</div>
+<div class="d-flex">
+	<div class="p-2">
+	<select class="form-control  col-sm-5" name="campusId"  onchange="location = this.value;">
+		<option value="{% url 'college-edit-filter' 0 %}">
+  			All
+  		</option>
+  		{% for campus in campuses %}
+  		{% if collegeId == campus.id %}
+  		<option value="{% url 'college-edit-filter' campus.id %}" selected>
+  			{{ campus.campus_name }}
+  		</option>
+  		{% else %}
+  		<option value="{% url 'college-edit-filter' campus.id %}">
+  			{{ campus.campus_name }}
+  		</option>
+  		{% endif %}
+  		{% endfor %}
+		</select>
+		<small class="form-text text-muted m-1">Select campus to filter</small>
 	</div>
+	<div class="ml-auto p-2">
+		<a id="add" class="btn btn-primary float-right text-white"
+			href="{% url 'college-add' %}">Add College</a>
+	</div>
+</div>
+{% if objectCount > 0 %}
+<div class="d-flex justify-content-center">
 	<table class="table table-hover">
 		<thead>
 			<tr>
@@ -55,7 +56,41 @@
 		{% endfor %}
 </tbody>
 </table>
-<div>
+</div>
+{% else %}
+<div class="d-flex justify-content-center">
+	<h1 class="text-muted">No Data</h1>
+</div>
+{% endif %}
+<!-- Modal edit -->
+<div class="modal fade" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="staticBackdropLabel">Edit</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			
+			<form id="update-modal" method="POST">
+				{% csrf_token %}
+				<div class="modal-body">
+					<div class="form-group">
+						<label for="exampleInputEmail1">New College Name</label>
+						<input type="text" class="form-control" id="inputText" aria-describedby="emailHelp" placeholder="new" name="inputEdit">
+						<small id="emailHelp" class="form-text text-muted">Current Boni Avenue Branch(main).</small>
+					</div>
+				</div>
+				<div class="modal-footer">
+					
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					<button id="save" type="submit" class="btn btn-primary">Save Changes</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
 <!-- Modal edit -->
 <div class="modal fade" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
 	<div class="modal-dialog" role="document">
@@ -91,7 +126,7 @@
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="staticBackdropLabel">Edit</h5>
+				<h5 class="modal-title" id="staticBackdropLabel">Delete</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
@@ -107,7 +142,7 @@
 				<div class="modal-footer">
 					
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-					<button id="delete" type="submit" class="btn btn-primary">Save Changes</button>
+					<button id="delete" type="submit" class="btn btn-danger">Save Changes</button>
 				</form>
 			</div>
 		</div>

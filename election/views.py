@@ -134,23 +134,26 @@ def deleteUtilitiesCampus(request, id=None):
 #views of College
 @login_required
 def createUtilitiesCollege(request):
+	model = College.objects.all().values_list()
 	context = {
-		'collegeFilter': College.objects.all().values_list()
+		'collegeFilter': model,
+		'objectCount': model.count()
 	}
 	return render(request, 'election/administrator/utilities/edit_college_utilities.html'
 		, context)
 
 @login_required
 def filterUtilitiesCollege(request, id):
-	college = None
+	model = None
 	if id == 0:
-		college = College.objects.all().values_list().order_by('id')
+		model = College.objects.all().values_list().order_by('id')
 	else:
-		college = College.objects.all().filter(campus_id=id).values_list().order_by('id')
+		model = College.objects.all().filter(campus_id=id).values_list().order_by('id')
 	
 	context = {
-		'collegeFilter': college,
-		'collegeId': id
+		'collegeFilter': model,
+		'collegeId': id,
+		'objectCount': model.count()
 	}
 
 	return render(request, 'election/administrator/utilities/edit_college_utilities.html'
@@ -209,8 +212,11 @@ def deleteUtilitiesCollege(request, id=None):
 #views of Election
 @login_required
 def createUtilitiesElection(request):
+	e_model = ElectionType.objects.all().order_by('election_name')
+	e_count = ElectionType.objects.all().count()
 	context = {
-		'elections': ElectionType.objects.all().order_by('id')
+		'elections': e_model,
+		'objectCount': e_count
 	}
 	
 	return render(request, 'election/administrator/utilities/edit_election_utilities.html', 
@@ -263,9 +269,12 @@ def deleteUtilitiesElection(request, id=None):
 #views of Position
 @login_required
 def createUtilitiesPosition(request):
+	e_model = ElectionType.objects.all().order_by('election_name')
+	p_model = Position.objects.all().values_list()
 	context = {
-		'electionTypeFilters': ElectionType.objects.all(),
-		'positionFilters': Position.objects.all().values_list()
+		'electionTypeFilters': e_model,
+		'positionFilters': p_model,
+		'objectCount': p_model.count()
 	}
 	return render(request, 'election/administrator/utilities/edit_position_utilities.html'
 		, context)
@@ -277,11 +286,11 @@ def filterUtilitiesPosition(request, id):
 		model = Position.objects.all().values_list().order_by('id')
 	else:
 		model = Position.objects.all().filter(election_type=id).values_list().order_by('id')
-	print(model)
 	context = {
 		'electionTypeFilters': ElectionType.objects.all().order_by('id'),
 		'positionFilters': model,
-		'electionTypeId': id
+		'electionTypeId': id,
+		'objectCount': model.count()
 	}
 	return render(request, 'election/administrator/utilities/edit_position_utilities.html'
 		, context)

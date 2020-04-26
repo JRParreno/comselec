@@ -1,12 +1,15 @@
 {% extends "election/admin_base.html" %}
 {% block content %}
-<div class="container">
-	<div class="col">
-		<h1 class="text-center mt-5">Edit Campus</h1>
-		<a id="add" class="btn btn-secondary m-3 float-right text-white"
+<div class="d-flex justify-content-center">
+	<h1>Edit Campuses</h1>
+</div>
+<div class="d-flex justify-content-end">
+	<a id="add" class="btn btn-secondary m-3 float-right text-white"
 		href="{% url 'campus-add' %}"
 		>Add Campus</a>
-	</div>
+</div>
+{% if objectCount > 0 %}
+<div class="d-flex justify-content-center">
 	<table class="table table-hover">
 		<thead>
 			<tr>
@@ -27,13 +30,17 @@
 					<button type="button" class="btn btn-danger mt-1 mr-1" data-toggle="modal" data-target="#staticDelete" data-whatever="{{ campus.campus_name }}" data-url="{% url 'campus-delete' campus.id %}">
 						<i class="fas fa-trash-alt"></i>
 					</button>
-				</a>
-			</td>
-		</tr>
-		{% endfor %}
-</tbody>
-</table>
-<div>
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</div>
+{% else %}
+<div class="d-flex justify-content-center">
+	<h1 class="text-muted">No Data</h1>
+</div>
+{% endif %}
 <!-- Modal edit -->
 <div class="modal fade" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
 	<div class="modal-dialog" role="document">
