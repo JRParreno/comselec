@@ -6,7 +6,7 @@ from .models import (
 	Position,
 	Party,
 	Candidate
-	)
+)
 
 class CampusForm(forms.ModelForm):
 	
@@ -30,7 +30,7 @@ class PositionForm(forms.ModelForm):
 	
 	class Meta:
 		model = Position
-		fields=['position_name', 'election_type']
+		fields=['position_name', 'election_type', 'sort_number']
 
 class PartyForm(forms.ModelForm):
 	
@@ -45,3 +45,4 @@ class CandidateForm(forms.ModelForm):
 		fields=['candidate_name', 'position', 
 			'party', 'campus',
 			'college']
+

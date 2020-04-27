@@ -10,7 +10,7 @@ from .forms import (
 	ElectionTypeForm,
 	PositionForm,
 	PartyForm,
-	CandidateForm
+	CandidateForm,
 	)
 from .models import (
 	Campus, 
@@ -270,7 +270,7 @@ def deleteUtilitiesElection(request, id=None):
 @login_required
 def createUtilitiesPosition(request, action):
 	e_model = ElectionType.objects.all().order_by('election_name')
-	p_model = Position.objects.all().values_list()
+	p_model = Position.objects.all().values_list().order_by('sort_number')
 	queryId = None
 	for i in e_model:
 		queryId = Position.objects.all().filter(election_type_id=i.id).values_list().count()
@@ -290,10 +290,8 @@ def createUtilitiesPosition(request, action):
 
 @login_required
 def arrangeUtilitiesPosition(request, action, id):
-	
-	if request.method == 'POST':
-		e_model = ElectionType.objects.all().filter(id=id).order_by('election_name')
-		p_model = Position.objects.all().filter(election_type=id).values_list().order_by('id')
+	e_model = ElectionType.objects.all().filter(id=id).order_by('election_name')
+	p_model = Position.objects.all().filter(election_type=id).values_list().order_by('sort_number')	
 	context = {
 		'electionTypeFilters': e_model,
 		'positionFilters': p_model,
@@ -302,6 +300,23 @@ def arrangeUtilitiesPosition(request, action, id):
 	}
 	return render(request, 'election/administrator/utilities/edit_position_utilities.html'
 		, context)
+
+@login_required
+def updateArrangePosition(request):
+	
+	if request.method == 'POST':
+		sorts = request.POST.getlist('sortPosition')
+		s = len(sorts)
+		for i in range(s):
+			Position.objects.filter(pk=sorts[i]).update(sort_number=i)
+			#messages.info(request, customAlert.UpdateAlert(dct['']))	
+		
+		return HttpResponseRedirect(request.META.get('HTTP_REFERER', 'utilities/position_utilities/edit/'))
+
+	else:
+		return render(request, 'election/administrator/candidates/view_ssc_form.html')
+	#return HttpResponseRedirect(request.META.get('HTTP_REFERER', 'utilities/position_utilities/edit/'))
+
 
 @login_required
 def filterUtilitiesPosition(request, action, id):
@@ -328,10 +343,19 @@ def saveUtilitiesPosition(request):
 
 	if request.method == 'POST':
 		positions = request.POST.getlist('inputName')
+		id = request.POST['electionTypeId']
 		c = len(positions)
+		num = 0
 		for i in range(c):
-			selectedElectionType = request.POST['electionTypeId']
-			form = PositionForm({'position_name': positions[i], 'election_type': selectedElectionType})
+			p_model = Position.objects.all().filter(election_type=id).values_list()
+			if p_model.count() > 0:
+				num = p_model.count() + 1
+			else :
+				num = 1
+
+			form = PositionForm({'position_name': positions[i], 
+				'election_type': id,
+				'sort_number': num})
 			if form.is_valid():
 				form.save()
 

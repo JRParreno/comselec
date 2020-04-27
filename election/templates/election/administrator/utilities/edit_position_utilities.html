@@ -51,9 +51,9 @@
 		</thead>
 		<tbody>
 			{% for position in positionFilters %}
-			{% if electionTypeId == position.2 %}
+			{% if electionTypeId == position.3 %}
 			<tr class="sortable">
-				<th class="align-middle" scope="row">{{ forloop.counter }}</th>
+				<th class="align-middle" scope="row">{{ position.2 }}</th>
 				<td class="align-middle">{{ position.1 }}</td>
 				<td>
 					<button type="button" class="btn btn-secondary mt-1 mr-1" data-toggle="modal" data-target="#staticBackdrop" data-whatever="{{ position.1 }}" data-url="{% url 'position-update' position.0 %}">

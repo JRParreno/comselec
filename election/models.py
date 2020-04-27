@@ -32,11 +32,14 @@ class ElectionType(models.Model):
 #positions accordingly to election type
 class Position(models.Model):
 	position_name = models.CharField(max_length=100)
+	sort_number = models.IntegerField()
 	election_type = models.ForeignKey(ElectionType, on_delete=models.CASCADE)
+
 
 	def __str__(self):
 		return self.position_name
 
+#election model
 class Election(models.Model):
 	election_type = models.ForeignKey(ElectionType, 
 		on_delete=models.CASCADE,
@@ -45,6 +48,7 @@ class Election(models.Model):
 	election_start = models.DateTimeField(null=True, blank=True)
 	election_end = models.DateTimeField(null=True, blank=True)
 
+#partylist of students
 class Party(models.Model):
 	party_name = models.CharField(max_length=100)
 	acronym = models.CharField(max_length=70)
@@ -57,6 +61,7 @@ class Party(models.Model):
 	def __str__(self):
 		return self.party_name
 
+#model for candidates
 class Candidate(models.Model):
 	candidate_name =  models.CharField(max_length=100)
 	position = models.ForeignKey(Position, on_delete=models.CASCADE)
@@ -66,3 +71,10 @@ class Candidate(models.Model):
 
 	def __str__(self):
 		return self.candidate_name
+
+
+
+
+
+
+
