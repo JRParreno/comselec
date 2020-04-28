@@ -66,11 +66,11 @@ def saveCandidateForm(request):
 			if c_form.is_valid():
 				c_form.save()
 				messages.success(request, customAlert.SaveAlert('TEST'))
-	context = {
+		
+		context = {
 		'candidates' : Candidates.objects.all().filter(id=p_form.id)
-	}
-	return render(request, 
-		'election/administrator/candidates/view_ssc_form.html')	
+		}
+		return render(request,'election/administrator/candidates/view_ssc_form.html', context)
 
 @login_required
 def utilities(request):
@@ -80,8 +80,10 @@ def utilities(request):
 #views of Campus
 @login_required
 def createUtilitiesCampus(request):
+	model = Campus.objects.all().order_by('id')
 	context = {
-		'campuses': Campus.objects.all().order_by('id')
+		'campuses': model,
+		'objectCount': model.count()
 	}
 	
 	return render(request, 'election/administrator/utilities/edit_campus_utilities.html', 
@@ -307,8 +309,10 @@ def updateArrangePosition(request):
 	if request.method == 'POST':
 		sorts = request.POST.getlist('sortPosition')
 		s = len(sorts)
+		num = 0
 		for i in range(s):
-			Position.objects.filter(pk=sorts[i]).update(sort_number=i)
+			num = i + 1
+			Position.objects.filter(pk=sorts[i]).update(sort_number=num)
 			#messages.info(request, customAlert.UpdateAlert(dct['']))	
 		
 		return HttpResponseRedirect(request.META.get('HTTP_REFERER', 'utilities/position_utilities/edit/'))
@@ -322,9 +326,9 @@ def updateArrangePosition(request):
 def filterUtilitiesPosition(request, action, id):
 	model = None
 	if id == 0:
-		model = Position.objects.all().values_list().order_by('id')
+		model = Position.objects.all().values_list().order_by('sort_number')
 	else:
-		model = Position.objects.all().filter(election_type=id).values_list().order_by('id')
+		model = Position.objects.all().filter(election_type=id).values_list().order_by('sort_number')
 	context = {
 		'electionTypeFilters': ElectionType.objects.all().order_by('id'),
 		'positionFilters': model,

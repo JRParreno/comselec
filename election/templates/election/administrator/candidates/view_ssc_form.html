@@ -1,12 +1,64 @@
 {% extends "election/admin_base.html" %}
 {% block content %}
-<ul id="sortable">
-  <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 1</li>
-  <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 2</li>
-  <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 3</li>
-  <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 4</li>
-  <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 5</li>
-  <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 6</li>
-  <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 7</li>
-</ul>
+<div class="container">
+  <div class="row">
+    <div class="col text-center p-5">
+      <h1 class="h1">Student Supreme Council</h1>
+    </div>
+  </div>
+  <!-- Partylist name -->
+  <div class="row">
+    <div class="col-lg-2 col-sm-4 ">
+      <p class="font-weight-bold">Partylist Name :</p> 
+    </div>
+    <div class="col">
+      <p>Liberal Partylist</p>
+    </div>
+  </div>
+  <!-- Partylist acronym -->
+  <div class="row">
+    <div class="col-lg-2 col-sm-4">
+      <p class="font-weight-bold">Acronym :</p>
+    </div>
+    <div class="col">
+      <p>LP</p>
+    </div>
+  </div>
+  <!-- add action -->
+  <div class="row">
+    <div class="col p-3">
+      <a class="btn btn-primary btn-sm float-right" href="#">Add Candidate</a>
+    </div>
+  </div>
+  <!-- Candidate Info -->
+  <div class="row">
+    <div class="col">
+     <table class="table table-hover">
+		<thead>
+			<tr>
+				<th scope="col">#</th>
+				<th scope="col">Position Name</th>
+				<th scope="col">Candidate Name</th>
+				<th scope="col">Action</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<th class="align-middle" scope="row">1</th>
+				<td class="align-middle">President</td>
+				<td class="align-middle">Juan Dela Cruz</td>
+				<td>
+					<button type="button" class="btn btn-secondary mt-1 mr-1" data-toggle="modal" data-target="#staticBackdrop">
+						<i class="fas fa-edit"></i>
+					</button>
+					<button type="button" class="btn btn-danger mt-1 mr-1" data-toggle="modal" data-target="#staticDelete">
+						<i class="fas fa-trash-alt"></i>
+					</button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+    </div>
+  </div>
+</div>
 {% endblock content %}

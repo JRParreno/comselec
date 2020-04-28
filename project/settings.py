@@ -65,6 +65,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'election.context_processors.add_variable_to_context',
+                'election.context_processors.election_notifications',
             ],
         },
     },

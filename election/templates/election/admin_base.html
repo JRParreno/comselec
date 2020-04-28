@@ -109,7 +109,14 @@
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="nav navbar-nav ml-auto">
                             <li class="nav-item active">
-                                <a class="nav-link" href="#">Active Elections</a>
+                                <a class="nav-link" href="#">Elections
+                                {% if notification %}
+                                <span class="badge badge-light">
+                                    <i class="fas fa-circle" style="color: #8050ff;"></i>
+                                </span>
+                                {% endif %}
+                                </a>
+
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="#">Election SSC</a>
@@ -118,18 +125,10 @@
                                 <a class="nav-link" href="{% url 'election-home' %}">Home</a>
                             </li>
                             <li class="nav-item">
-                                <div class="dropdown">
-                                   <div class="btn-group">
-                                      <button type="button" class="btn btn-secondary" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Account
-                                    </button>
-                                    <div class="dropdown-menu dropdown-menu-right">
-                                        <h6 class="dropdown-header text-center">Action</h6>
-                                        <a class="dropdown-item" href="#">Change username</a>
-                                        <a class="dropdown-item" href="#">Change password</a>
-                                        <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
-                                    </div>
-                                </div>
+                                <!-- Button trigger modal -->
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+                                    Account
+                                </button>
                             </li>
                         </ul>
                     </div>
@@ -152,7 +151,8 @@
             </div>
         </div>
     </div>
-
+    <!-- Modal for accounts -->
+    {% include "election/account.html" %}
     <!-- jQuery CDN - Slim version (=without AJAX) -->
      <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <!-- Popper.JS -->
