@@ -109,13 +109,13 @@
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="nav navbar-nav ml-auto">
                             <li class="nav-item active">
-                                <a class="nav-link" href="#">Elections
+                                <button class="btn btn-light" data-toggle="modal" data-target="#electionModal">Elections
                                 {% if notification %}
                                 <span class="badge badge-light">
                                     <i class="fas fa-circle" style="color: #8050ff;"></i>
                                 </span>
                                 {% endif %}
-                                </a>
+                                </button>
 
                             </li>
                             <li class="nav-item">
@@ -126,7 +126,7 @@
                             </li>
                             <li class="nav-item">
                                 <!-- Button trigger modal -->
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#accountModal">
                                     Account
                                 </button>
                             </li>
@@ -152,7 +152,7 @@
         </div>
     </div>
     <!-- Modal for accounts -->
-    {% include "election/account.html" %}
+    {% include "election/modal_navbar.html" %}
     <!-- jQuery CDN - Slim version (=without AJAX) -->
      <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <!-- Popper.JS -->

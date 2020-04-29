@@ -1,6 +1,6 @@
-<!-- Modal -->
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
+<!-- Modal account -->
+<div class="modal fade" id="accountModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLongTitle">Account</h5>
@@ -11,18 +11,58 @@
       <div class="modal-body">
        <div class="card">
   <div class="card-header">
-    {{ name }}
+    {% if user.is_authenticated %}
+      {{ user.first_name }} {{ user.last_name }}
+    {% endif %}
   </div>
   <ul class="list-group list-group-flush">
-    <li class="list-group-item">Change Username</li>
-    <li class="list-group-item">Change Password</li>
-    <li class="list-group-item">Logout</li>
+    <li class="list-group-item">
+      <a href="{% url 'profile' %}">
+        Account Settings  
+      </a>
+    </li>
+    <li class="list-group-item">
+      <a href="{% url 'logout' %}">
+      Logout
+      </a>
+    </li>
   </ul>
 </div>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal election -->
+<div class="modal fade" id="electionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Comselec Election</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+       <div class="card">
+  <div class="card-header">
+    Select Election
+  </div>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">Active Election</li>
+    <li class="list-group-item">
+      <a href="#">
+      Pending Election 
+        {% if pending > 0 %}
+        <span class="badge badge-warning" 
+        style="width: 20px;">
+         {{ pending }}
+        </span>
+        {% endif %}
+        </a>
+    </li>
+  </ul>
+</div>
       </div>
     </div>
   </div>

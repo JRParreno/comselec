@@ -158,3 +158,7 @@ function formOnchange(value, id) {
     
   } );
 
+  $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+
