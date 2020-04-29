@@ -48,20 +48,28 @@
   <div class="card-header">
     Select Election
   </div>
-  <ul class="list-group list-group-flush">
-    <li class="list-group-item">Active Election</li>
-    <li class="list-group-item">
-      <a href="#">
+  <ul class="list-group">
+  <li class="list-group-item d-flex justify-content-between align-items-center">
+    <a href="{% url 'view-election' 'active' %}">
+      Active Election 
+    </a>
+    {% if pending > 0 %}
+      <span class="badge badge-primary badge-pill">
+         {{ pending }}
+      </span>
+    {% endif %}
+  </li>
+  <li class="list-group-item d-flex justify-content-between align-items-center">
+    <a href="{% url 'view-election' 'pending' %}">
       Pending Election 
+        </a>
         {% if pending > 0 %}
-        <span class="badge badge-warning" 
-        style="width: 20px;">
+        <span class="badge badge-danger badge-pill">
          {{ pending }}
         </span>
         {% endif %}
-        </a>
     </li>
-  </ul>
+</ul>
 </div>
       </div>
     </div>

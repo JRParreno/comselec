@@ -268,6 +268,40 @@ def deleteUtilitiesElection(request, id=None):
 
 #end of views Election
 
+#Views of view election
+
+@login_required
+def viewElection(request, name):
+	text = None
+	e_dot = ElectionType.objects.all()
+	p_dot = None
+	if name == 'pending':
+		p_dot = Party.objects.all().filter(election__isnull=True)
+		text = name
+		print(e_dot)
+	else:
+		text = name
+
+	context = {
+		'partylists': p_dot[:2],
+		'electionTypes': e_dot,
+		'text': text
+	}
+	return render(request, 'election/administrator/candidates/election_view.html', 
+		context)
+
+@login_required
+def viewPartylist(request, id):
+	p_model = Party.objects.all().filter(election_type=id)
+	e_model = ElectionType.objects.all().filter(id=id)
+	context = {
+		'partylists': p_model,
+		'electionTypes': e_model
+	}
+
+	return render(request, 'election/administrator/candidates/partylist_view.html', 
+		context)
+
 #views of Position
 @login_required
 def createUtilitiesPosition(request, action):

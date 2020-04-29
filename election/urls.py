@@ -50,6 +50,13 @@ urlpatterns = [
     path('utilities/election_utilities/<int:id>/delete/',
         views.deleteUtilitiesElection, 
         name='election-delete'),
+    #View pending and active elections
+    path('view/election/<str:name>/',
+        views.viewElection, 
+        name='view-election'),
+    path('view/election/view_partylist/<int:id>',
+        views.viewPartylist, 
+        name='view-partylist'),
     #CRUD for position
     path('utilities/position_utilities/<str:action>', 
         views.createUtilitiesPosition, 
