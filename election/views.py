@@ -294,9 +294,10 @@ def viewElection(request, name):
 def viewPartylist(request, id):
 	p_model = Party.objects.all().filter(election_type=id)
 	e_model = ElectionType.objects.all().filter(id=id)
+	print(e_model)
 	context = {
 		'partylists': p_model,
-		'electionTypes': e_model
+		'electionTypeFilter': e_model
 	}
 
 	return render(request, 'election/administrator/candidates/partylist_view.html', 
