@@ -94,55 +94,70 @@ function getCookie(name) {
     return cookieValue;
 }
 var csrftoken = getCookie('csrftoken');
-    $("#sscForm").submit(function(){
-      var electionType = document.getElementById('electionTypeId').value;
-      var extra = document.getElementsByName("extras"),
-      extras  = [].map.call(extra, function( input ) {
-          return input.value;
-      });
-      var candidateName = document.getElementsByName('candidate_name'),
-      candidateNames  = [].map.call(candidateName, function( input ) {
-          return input.value;
-      });
-      var collegeId = document.getElementsByName("collegeId"),
-      collegeIds  = [].map.call(collegeId, function( input ) {
-          return input.value;
-      });
-    var getValue;
-    var jsonFormId = [];
-    $("option:selected").each(function() {
-      jsonFormId.push($(this).val())
-      //var getValue = $.parseJSON($(this).val())
-  });
-    for (i=0; i < collegeIds.length; i++) {
-        jsonFormId.push(collegeIds[i])
-    }
-    var x = candidateNames.length;
-    for (i = x - 1; i >= 0; i--) {
-      if (candidateNames[i] == '') {
-        candidateNames.splice(i, 1);
-        jsonFormId.splice(i, 1);
-      }
-    }
-    // var extras = new Object();
-    //   extras.name = $('#partyName').val();
-    //   extras.acronym = $('#partyAcronym').val();
+  //   $("#sscForm").submit(function(){
+  //     var flag = 0
+  //     var electionType = document.getElementById('electionTypeId').value;
+  //     var extra = document.getElementsByName("extras"),
+  //     extras  = [].map.call(extra, function( input ) {
+  //         return input.value;
+  //     });
+  //     var candidateName = document.getElementsByName('candidate_name'),
+  //     candidateNames  = [].map.call(candidateName, function( input ) {
+  //         return input.value;
+  //     });
+  //     var collegeId = document.getElementsByName("collegeId"),
+  //     collegeIds  = [].map.call(collegeId, function( input ) {
+  //         return input.value;
+  //     });
+   
+  
+  // var getValue;
+  //   for (var i = 0; i < candidateNames.length; i++) {
+  //     if(candidateNames[i] != ''){
+  //       flag++;
+  //       break;
+  //     }
+  //   }
 
-        $.ajax({
-        type:'POST',
-        url:'/save/',
-        data: {
-          'ElectionType': electionType,
-          'CandidateNames[]': candidateNames,
-          'Ids[]': jsonFormId,
-          'Extras[]': extras,
-          csrfmiddlewaretoken : csrftoken
-        },
-        success:function(){
-          window.location = '/save/';
-        }
-      });
-    });
+  //     var jsonFormId = [];
+  //   $("option:selected").each(function() {
+  //     jsonFormId.push($(this).val())
+  //     //var getValue = $.parseJSON($(this).val())
+  // });
+
+  //     for (i=0; i < collegeIds.length; i++) {
+  //       jsonFormId.push(collegeIds[i])
+  //   }
+  //   var x = candidateNames.length;
+  //   for (i = x - 1; i >= 0; i--) {
+  //     if (candidateNames[i] == '') {
+  //       candidateNames.splice(i, 1);
+  //       jsonFormId.splice(i, 1);
+  //     }
+  //   }
+    
+    
+  //       $.ajax({
+  //       type:'POST',
+  //       url:'/save/',
+  //       data: {
+  //         'ElectionType': electionType,
+  //         'CandidateNames[]': candidateNames,
+  //         'Ids[]': jsonFormId,
+  //         'Extras[]': extras,
+  //         csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+  //         action: 'post'
+  //       },
+  //       success:function(data){
+  //         var partyName = data.partyName;
+  //         var partyId = data.partyId;
+  //         var url = "view/election/view_partylist"
+  //         var origin_url = window.location.origin
+  //        location.href = origin_url+"/"+url+"/"+partyName+"/"+partyId;
+  //       }
+  //     });
+    
+  // });
 
 function formOnchange(value, id) {
   if ($.trim(value).length == 0) {

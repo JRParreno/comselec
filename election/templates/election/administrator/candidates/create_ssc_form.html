@@ -1,8 +1,8 @@
 {% extends "election/admin_base.html" %}
 {% block content %}
-	<form id="sscForm">
-  {% csrf_token %}	
 
+	<form id="sscForm" method="POST" action="{% url 'save-ssc-form' %}">
+{% csrf_token %}
   <h1 class="h1 text-center p-4">{{ electionTypeName }} Form</h1>
 
   <h1 class="h4 text-center p-4">Partylist</h1>
@@ -31,7 +31,7 @@
     <div class="col-sm-6">
       {% for position in positions %}
         {% if position.position_name == 'President' %}
-      <input type="text" id="{{ position.id }}" class="form-control candidate_name" name="candidate_name" onchange="formOnchange(this.value, 'PresDrop')">
+      <input type="text" class="form-control" name="candidate_name" onchange="formOnchange(this.value, 'PresDrop')">
         {% endif %}
       {% endfor %}
     </div>
@@ -40,14 +40,14 @@
   <div class="form-group row justify-content-center">
     <div class="col-sm-2 col-form-label text-muted"></div>
     <div class="col-sm-6">
-      <select id="PresDrop" class="form-control  col-sm-6" name="colDropId" 
-      required disabled="true">
+      <select id="PresDrop" class="form-control  col-sm-6" name="collegeId"  
+      value="{{default_if_none}}" required disabled="true">
               <option disabled selected value></option>
               {% for college in colleges %}
                 {% for campus in campuses %}
                   {% if college.2 == campus.id %}
                     {% for position in positions %}
-                      {% if position.position_name == 'Vice President' %}
+                      {% if position.position_name == 'President' %}
                 <option value='{"collegeId": {{ college.0 }},"campusId": {{ college.2 }}, "positionId": {{ position.id }}}'>
                   {{ college.1 }} ({{campus.campus_name}})
                 </option>
@@ -64,15 +64,18 @@
   <div class="form-group row justify-content-center">
     <label for="inputVPresident" class="col-sm-2 col-form-label">Vice President</label>
     <div class="col-sm-6">
-      
-      <input type="text" id="{{ position.id }}" class="form-control candidate_name" name="candidate_name" onchange="formOnchange(this.value, 'VPresDrop')">
+            {% for position in positions %}
+        {% if position.position_name == 'Vice President' %}
+      <input type="text" class="form-control" name="candidate_name" onchange="formOnchange(this.value, 'VPresDrop')">
+        {% endif %}
+      {% endfor %}
        
     </div>
   </div>
   <div class="form-group row justify-content-center">
     <div class="col-sm-2 col-form-label text-muted"></div>
     <div class="col-sm-6">
-      <select id="VPresDrop" class="form-control  col-sm-6" name="colDropId" value="{{default_if_none}}" required disabled="true">
+      <select id="VPresDrop" class="form-control  col-sm-6" name="collegeId" value="{{default_if_none}}" required disabled="true">
               <option disabled selected value></option>
               {% for college in colleges %}
                 {% for campus in campuses %}
@@ -113,7 +116,7 @@
   
   <div class="form-group row text-center justify-content-center">
     <div class="col-sm-12 mt-3">
-      <button type="submit" class="btn btn-primary" >Create Form</button>
+      <button type="submit" class="btn btn-primary" id="save">Create Form</button>
     </div>
   </div>
   </form>

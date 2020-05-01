@@ -54,7 +54,10 @@ urlpatterns = [
     path('view/election/<str:name>/',
         views.viewElection, 
         name='view-election'),
-    path('view/election/view_partylist/<int:id>',
+    path('view/election/view_partylist_list/<int:id>',
+        views.viewPartylistList, 
+        name='view-partylist-list'),
+    path('view/election/view_partylist/<str:partyname>/<int:partyid>/',
         views.viewPartylist, 
         name='view-partylist'),
     #CRUD for position

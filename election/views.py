@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, reverse
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 import json
@@ -39,39 +39,54 @@ def create(request, name,id):
 
 @login_required
 def saveCandidateForm(request):
-	
-	if request.is_ajax():
-		#from ajax request
-		extras = request.POST.getlist('Extras[]')
-		electionType = request.POST.get('ElectionType')
-		candidates = request.POST.getlist('CandidateNames[]')
-		ids = request.POST.getlist('Ids[]')
-		c = len(ids)
+
+	if request.method == 'POST':
+		ids = request.POST.getlist('collegeId') #
+		candidate_names = request.POST.getlist('candidate_name')
+		extras = request.POST.getlist('extras')
+		election_type = request.POST.get('electionType')
+		c_length = len(candidate_names)
+		for i in range(c_length-1, -1, -1):
+			if candidate_names[i] == '':
+				candidate_names.pop(i)
 
 		#insert extras (partylist name)
-		electioTypeId = ElectionType.objects.get(id=electionType)
+		electioTypeId = ElectionType.objects.get(id=election_type)
 		p_form = Party.objects.create(
 			party_name=extras[0],
 			acronym=extras[1],
 			election_type = electioTypeId)
 		p_form.save()
 		#loop array from the form
+		c = len(ids)
 		for i in range(c):
 			dct = json.loads(ids[i])
-			c_form = CandidateForm({'candidate_name': candidates[i],
+			c_form = CandidateForm({'candidate_name': candidate_names[i],
 				'position': dct['positionId'],
 				'party': p_form.id,
 				'campus': dct['campusId'],
 				'college': dct['collegeId']})
 			if c_form.is_valid():
 				c_form.save()
-				messages.success(request, customAlert.SaveAlert('TEST'))
-		
+				messages.success(request, customAlert.SaveAlert(candidate_names[i]))
+				p_model = Party.objects.all().filter(id=p_form.id)
+				e_model = ElectionType.objects.all().filter(id=p_model[0].election_type_id)
+				c_model = Candidate.objects.all().filter(party_id=p_form.id)
+				pos_model = Position.objects.all()
+	
 		context = {
-		'candidates' : Candidates.objects.all().filter(id=p_form.id)
+			'partylists': p_model,
+			'electionTypeFilter': e_model,
+			'candidates': c_model,
+			'positions': pos_model
 		}
-		return render(request,'election/administrator/candidates/view_ssc_form.html', context)
 
+		return render(request, 'election/administrator/candidates/view_party_form.html', 
+			context)
+
+
+	return render(request, 'election/administrator/candidates/create_ssc_form.html')
+				
 @login_required
 def utilities(request):
 	return render(request, 'election/administrator/utilities/view_utilities.html')
@@ -291,7 +306,7 @@ def viewElection(request, name):
 		context)
 
 @login_required
-def viewPartylist(request, id):
+def viewPartylistList(request, id):
 	p_model = Party.objects.all().filter(election_type=id)
 	e_model = ElectionType.objects.all().filter(id=id)
 	print(e_model)
@@ -303,6 +318,25 @@ def viewPartylist(request, id):
 	return render(request, 'election/administrator/candidates/partylist_view.html', 
 		context)
 
+@login_required
+def viewPartylist(request, partyname, partyid):
+	
+	p_model = Party.objects.all().filter(id=partyid)
+	e_model = ElectionType.objects.all().filter(id=p_model[0].election_type_id)
+	c_model = Candidate.objects.all().filter(party_id=partyid)
+	pos_model = Position.objects.all()
+	
+	context = {
+		'partylists': p_model,
+		'electionTypeFilter': e_model,
+		'candidates': c_model,
+		'positions': pos_model
+	}
+
+	return render(request, 'election/administrator/candidates/view_party_form.html', 
+		context)
+
+#end views of partylist and candidates
 #views of Position
 @login_required
 def createUtilitiesPosition(request, action):
@@ -435,5 +469,5 @@ def deleteUtilitiesPosition(request, id=None):
 
 @login_required
 def saveDesign(request):
-	return render(request, 'election/administrator/candidates/view_ssc_form.html')
+	return render(request, 'election/administrator/candidates/view_party_form.html')
 
