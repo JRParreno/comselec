@@ -69,20 +69,8 @@ def saveCandidateForm(request):
 			if c_form.is_valid():
 				c_form.save()
 				messages.success(request, customAlert.SaveAlert(candidate_names[i]))
-				p_model = Party.objects.all().filter(id=p_form.id)
-				e_model = ElectionType.objects.all().filter(id=p_model[0].election_type_id)
-				c_model = Candidate.objects.all().filter(party_id=p_form.id)
-				pos_model = Position.objects.all()
-	
-		context = {
-			'partylists': p_model,
-			'electionTypeFilter': e_model,
-			'candidates': c_model,
-			'positions': pos_model
-		}
 
-		return render(request, 'election/administrator/candidates/view_party_form.html', 
-			context)
+		return redirect('view-partylist', extras[1], p_form.id)
 
 
 	return render(request, 'election/administrator/candidates/create_ssc_form.html')
@@ -321,16 +309,25 @@ def viewPartylistList(request, id):
 @login_required
 def viewPartylist(request, partyname, partyid):
 	
-	p_model = Party.objects.all().filter(id=partyid)
-	e_model = ElectionType.objects.all().filter(id=p_model[0].election_type_id)
+	p_model = Party.objects.all().get(id=partyid)
+	e_model = ElectionType.objects.all().filter(id=p_model.election_type_id)
 	c_model = Candidate.objects.all().filter(party_id=partyid)
 	pos_model = Position.objects.all()
+	data_set = []
+	for candidate in c_model:
+		item = {"candidate_name": candidate.candidate_name}
+		for position in pos_model:
+			if position.id == candidate.position_id:
+				item['position'] = position.position_name
+		data_set.append(item)
+				
 	
 	context = {
 		'partylists': p_model,
 		'electionTypeFilter': e_model,
 		'candidates': c_model,
-		'positions': pos_model
+		'positions': pos_model,
+		'party_candidate': data_set
 	}
 
 	return render(request, 'election/administrator/candidates/view_party_form.html', 
