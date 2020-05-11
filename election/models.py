@@ -72,6 +72,36 @@ class Candidate(models.Model):
 	def __str__(self):
 		return self.candidate_name
 
+#for ssc tables
+class MajorPosition(models.Model):
+	candidate_name =  models.CharField(max_length=100)
+	position = models.ForeignKey(Position, on_delete=models.CASCADE)
+	party = models.ForeignKey(Party, on_delete=models.CASCADE)
+	date_candidacy = models.DateTimeField(default=datetime.now)
+	
+	def __str__(self):
+		return self.candidate_name
+
+class BoardMember(models.Model):
+	candidate_name =  models.CharField(max_length=100)
+	position = models.ForeignKey(Position, on_delete=models.CASCADE)
+	campus = models.ForeignKey(Campus, on_delete=models.CASCADE)
+	college = models.ForeignKey(College, on_delete=models.CASCADE)
+	date_candidacy = models.DateTimeField(default=datetime.now)
+	
+	def __str__(self):
+		return self.candidate_name
+#end ssc tables
+
+class CiscVoter(models.Model):
+	voter_name =  models.CharField(max_length=100)
+	position = models.ForeignKey(Position, on_delete=models.CASCADE)
+	college = models.ForeignKey(College, on_delete=models.CASCADE)
+	vote_date = models.DateTimeField(null=True, blank=True)
+	vote = models.BooleanField(default=False)
+	
+	def __str__(self):
+		return self.voter_name
 
 
 

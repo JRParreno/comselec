@@ -140,4 +140,4 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'jhonrhayparreno22@gmail.com'
 EMAIL_HOST_PASSWORD = 'Joselleferolino@10'
 
-ALLOWED_HOSTS = ['192.168.1.8', 'localhost']
+ALLOWED_HOSTS = ['192.168.1.4', 'localhost']

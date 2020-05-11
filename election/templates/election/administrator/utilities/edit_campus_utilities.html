@@ -36,6 +36,11 @@
 		</tbody>
 	</table>
 </div>
+<div class="d-flex justify-content-end m-3">
+	<div class="p-2">
+		<a href="javascript:history.back()" class="btn btn-secondary">Back</a>
+	</div>
+</div>
 {% else %}
 <div class="d-flex justify-content-center">
 	<h1 class="text-muted">No Data</h1>
@@ -64,7 +69,8 @@
 				<div class="modal-footer">
 					
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-					<button id="save" type="submit" class="btn btn-primary">Save Changes</button>
+					<button id="saveBtn" type="submit" class="btn btn-primary save"
+					onclick="this.disabled=true;this.value='Sending, please wait...';this.form.submit();">Save Changes</button>
 				</form>
 			</div>
 		</div>
@@ -92,7 +98,8 @@
 				<div class="modal-footer">
 					
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-					<button id="delete" type="submit" class="btn btn-primary">Save Changes</button>
+					<button id="delete" type="submit" class="btn btn-primary"
+					onclick="this.disabled=true;this.value='Sending, please wait...';this.form.submit();">Save Changes</button>
 				</form>
 			</div>
 		</div>

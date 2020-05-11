@@ -69,8 +69,8 @@ span {
 }
 
 #sidebar.active {
-    min-width: 80px;
-    max-width: 80px;
+    min-width: 90px;
+    max-width: 90px;
     text-align: center;
 }
 
@@ -125,7 +125,7 @@ span {
 
 #sidebar ul.components {
     padding: 20px 0;
-    border-bottom: 1px solid #47748b;
+    border-bottom: 1px solid #ffffff;
 }
 
 #sidebar ul li a {
@@ -190,6 +190,28 @@ a.article:hover {
     color: #fff !important;
 }
 
+
+/* election type styles */
+#sidebar .sidebar-header-election {
+    padding: 15px;
+    background: #6d7fcc;
+}
+
+#sidebar .sidebar-header-election strong {
+    display: none;
+    font-size: 1.5em;
+}
+
+#sidebar.active .sidebar-header-election h5,
+#sidebar.active .CTAs {
+    display: none;
+}
+
+#sidebar.active .sidebar-header-election strong {
+    display: block;
+}
+
+
 /* ---------------------------------------------------
     CONTENT STYLE
 ----------------------------------------------------- */
@@ -228,6 +250,13 @@ a.article:hover {
         display: none;
     }
     #sidebar .sidebar-header strong {
+        display: block;
+    }
+        #sidebar .sidebar-header-election h5,
+    #sidebar .CTAs {
+        display: none;
+    }
+    #sidebar .sidebar-header-election strong {
         display: block;
     }
     #sidebar ul li a {

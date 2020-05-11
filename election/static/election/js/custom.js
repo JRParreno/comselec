@@ -15,21 +15,158 @@ $(document).ready(function(){
     html += 'aria-describedby="campusInputs" placeholder="Enter name" required>';
     html += '</div></td>';
     html += '<td>';
-    html += '<a href="#" id="remove" class="btn btn-danger" data-toggle="tooltip" data-placement="bottom" title="Delete">';
-    html += '<i class="fas fa-trash-alt"></i></a>';
+    html += '<button id="remove" class="btn btn-danger" data-toggle="tooltip" data-placement="bottom" title="Delete">';
+    html += '<i class="fas fa-trash-alt"></i></button>';
     html += '</td></tr>';
     inputFields.push(numInput)
-    document.getElementById("save").disabled=false;
+    document.getElementById("saveBtn").disabled=false;
     $('#add-table').append(html);
   });
 
   $(document).on('click', '#remove', function(){
     $(this).closest('tr').remove();
     if (inputFields.length) {
-      document.getElementById("save").disabled=true;
+      document.getElementById("saveBtn").disabled=true;
     }
   });
 });
+
+
+let boardFields= [];
+var boardInput = 0
+let dropDownCollege = [];
+$( "#boardMember" )
+  .change(function() {
+    var html = "";
+    $( "#boardMember option:selected" ).each(function() {
+      if($( this ).text() != '') {
+        boardInput++;
+        collegeName = 
+        collegeVal = "'"+$( this ).filter(":selected").val()+"'"
+        html += '<tr>';
+        html += '<td class="align-middle">';
+        html += '<div class="form-group">';
+        html += '<input type="text" class="form-control" name="inputName" ';
+        html += 'aria-describedby="campusInputs" placeholder="Enter name" required>';
+        html += '</div></td>';
+        html += '<td>'+ $( this ).text()
+        html += '<input type="hidden" name="collegeId" value='+collegeVal+'>';
+        html += '</td>'
+        html += '<td>';
+        html += '<button href="#" id="remove" class="btn btn-danger" data-toggle="tooltip" data-placement="bottom" title="Delete" ';
+        html += '>'
+        html += '<i class="fas fa-trash-alt"></i></button>';
+        html += '</td></tr>';
+        document.getElementById("saveBtn").disabled=false;
+        $('select').val('');
+        $('#add-table').append(html);
+      }
+    });
+    
+  })
+  .trigger( "change" );
+
+
+var ciscInput = 0
+$( "#addVoter" )
+  .change(function() {
+    var html = "";
+    $( "#addVoter option:selected" ).each(function() {
+      if($( this ).text() != '') {
+        collegeName = 
+        collegeVal = "'"+$( this ).filter(":selected").val()+"'"
+        var obj = JSON.parse($(this).val())
+        positionId = "'" + obj["id"]+ "'"
+        html += '<tr>';
+        html += '<td class="align-middle">';
+        html += '<div class="form-group">';
+        html += '<input type="text" class="form-control" name="voterInputs" ';
+        html += 'aria-describedby="voterInputs" placeholder="Enter name" required>';
+        html += '</div></td>';
+        html += '<td>'+ $( this ).text()
+        html += '<input type="hidden" name="positionId" value="'+obj["id"]+'">';
+        html += '</td>'
+        html += '<td>';
+        html += '<button href="#" id="removePosition" class="btn btn-danger" data-toggle="tooltip" data-placement="bottom" title="Delete" ';
+        html += 'onclick="getPosition('+positionId+')">'
+        html += '<i class="fas fa-trash-alt"></i></button>';
+        html += '</td></tr>';
+        setOptionPosition($( this ).text());
+        document.getElementById("saveBtn").disabled=false;
+        $('#addVoter').val(''); 
+        $( this ).remove(); 
+        $('#add-table').append(html);
+      }
+    });
+    
+  })
+  .trigger( "change" );
+
+
+let tempPosition = [];
+let basePosition = [];
+
+  function setOptionPosition(positionName){
+  
+  //get the selected option
+  $('#addVoter option').each(function(){
+    if($(this).text() != ""){
+      var setJson = JSON.stringify($(this).val());
+      var text = $(this).val();
+      var obj = JSON.parse(text);
+        if (positionName == obj["name"]) {
+          tempPosition.push($(this).val());
+      }
+    }
+  });
+}
+  
+//remove specific position input
+  $(document).on('click', '#removePosition', function(){
+    $(this).closest('tr').remove();
+    if (tempPosition.length == 0) {
+      document.getElementById("saveBtn").disabled=true;
+    }
+  });
+
+//update option select dropdown
+function getPosition(id){
+   $('#addVoter').empty()  
+  //remove temp positions
+  for (var i = 0; i < tempPosition.length; i++) {
+      var obj = JSON.parse(tempPosition[i])
+      console.log(obj["id"])
+      if (obj["id"] == id) {
+        tempPosition.splice(i, 1);
+        break;
+    }
+  }
+
+  $('#addVoter').append($('<option>', {
+      text: ""
+    }));
+
+  for (var i =  0; i < basePosition.length ; i++) {
+    if(jQuery.inArray(basePosition[i], tempPosition) == -1){
+      var obj = JSON.parse(basePosition[i]);
+    $('#addVoter').append($('<option>', {
+      value: basePosition[i],
+      text: obj["name"]
+    }));
+    }
+  }
+}
+
+
+$(document).ready(function(){
+  $('#addVoter option').each(function(){
+    if($(this).text() != ""){
+      basePosition.push($(this).val());
+    }
+  });
+});
+
+
 
 $('#staticBackdrop').on('show.bs.modal', function (event) {
   var button = $(event.relatedTarget) // Button that triggered the modal
@@ -55,14 +192,43 @@ $('#staticDelete').on('show.bs.modal', function (event) {
   modal.find('.modal-body p').text(recipient)
 });     
 
+$('#staticEditPartylist').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget) // Button that triggered the modal
+  var recipient = button.data('whatever') // Extract info from data-* attributes
+  var url = button.data('url')
+  var setJson = JSON.stringify(recipient);
+  var obj = JSON.parse(setJson)
+  console.log(obj.first)
+  // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+  // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+  var modal = $(this)
+  modal.find('#update-modal-partylist').attr('action', url)
+  modal.find('#partyName').attr('value', obj.first)
+  modal.find('#acronym').attr('value', obj.second)
+  modal.find('#first').text('Current party: '+ obj.first)
+  modal.find('#second').text('Current acronym: '+ obj.second)
+}); 
+
+$('#staticDeletePartylist').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget) // Button that triggered the modal
+  var recipient = button.data('whatever') // Extract info from data-* attributes
+  var url = button.data('url')
+  // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+  // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+  var modal = $(this)
+  modal.find('#delete-modal-partylist').attr('action', url)
+  modal.find('.modal-body p').text(recipient)
+});     
+
+
 $(document).ready(function () {
 var unsaved = false;
- $('#save').click(function() {
+ $('.save').click(function() {
     unsaved = false;
 });
 
 var unsaved = false;
- $('#delete').click(function() {
+ $('.delete').click(function() {
     unsaved = false;
 });
 

@@ -3,9 +3,28 @@ from . import views
 
 urlpatterns = [
     path('', views.home, name='election-home'),
-    #create ssc elections
-    path('create/<str:name>/<int:id>/', views.create, name='create-form'),
-    path('save/', views.saveCandidateForm, name='save-ssc-form'),
+    #CRUD ssc elections
+    path('create/<str:name>/<int:id>/', views.createSSCForm, name='create-ssc-form'),
+    path('save/<str:type>', views.saveSSCForm, name='save-ssc-form'),
+    path('delete/<str:type>/<int:id>/<int:election_id>/', views.deletePartylist, name='delete-partylist'),
+    path('add/election/candidate/<str:type>/<int:partyid>/<int:election_id>/',
+        views.addCandidate, 
+        name='add-candidate'),
+    path('update/<str:type>/<int:id>/<int:election_id>/', views.updatePartylist, name='update-partylist'),
+    path('view/<str:type>/<int:id>/', views.viewSSCForm, name='view-ssc-form'),
+    path('filter/<str:type>/<int:id>/<int:election_id>/', views.filterSSCForm, name='filter-ssc-form'),
+    path('delete/election/candidate/<int:id>/<str:type>/delete/',
+        views.deleteCandidate, 
+        name='candidate-delete'),
+    path('save/election/candidate/<int:id>/<str:type>/update/',
+        views.updateCandidate, 
+        name='candidate-update'),
+    #view and add voters
+    path('add/voter/college/<int:id>', views.addSSCVoter, name='add-ssc-voter'),
+    path('view/voter/college/', views.viewSSCVoter, name='view-ssc-voter'),
+    path('view/voter/college/filter/<int:id>/', views.filterSSCVoter, name='filter-ssc-voter'),
+    path('view/voter/college/update/<int:id>/', views.updateSSCVoter, name='update-ssc-voter'),
+    path('view/voter/college/delete/<int:id>/', views.deleteSSCVoter, name='delete-ssc-voter'),
     #view of list utilities
     path('utilities/', views.utilities, name='view-utilities'),
     #CRUD for Campus
@@ -50,16 +69,10 @@ urlpatterns = [
     path('utilities/election_utilities/<int:id>/delete/',
         views.deleteUtilitiesElection, 
         name='election-delete'),
-    #View pending and active elections
+    #View pending and active elections CRUD
     path('view/election/<str:name>/',
         views.viewElection, 
         name='view-election'),
-    path('view/election/view_partylist_list/<int:id>',
-        views.viewPartylistList, 
-        name='view-partylist-list'),
-    path('view/election/view_partylist/<str:partyname>/<int:partyid>/',
-        views.viewPartylist, 
-        name='view-partylist'),
     #CRUD for position
     path('utilities/position_utilities/<str:action>', 
         views.createUtilitiesPosition, 
@@ -83,5 +96,5 @@ urlpatterns = [
         views.deleteUtilitiesPosition, 
         name='position-delete'),
     path('test/', views.saveDesign, 
-    	name='create-utilities-position'),
+    	name='test'),
 ]

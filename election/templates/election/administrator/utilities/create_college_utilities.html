@@ -48,7 +48,8 @@
 
 		</tbody>
 	</table>
-	<button id="save" type="submit" class="btn btn-info m-1" disabled>Save</button>
+	<button id="saveBtn" type="submit" class="btn btn-info m-1 save" disabled
+	onclick="this.disabled=true;this.value='Sending, please wait...';this.form.submit();">Save</button>
 </form>
 <a class="btn btn-primary m-1 float-right text-white"
 href="{% url 'college-edit' %}"

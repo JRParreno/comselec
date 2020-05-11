@@ -27,7 +27,7 @@
   		</div>
 	</div>
 	<div class="row">
-			<div class="col">
+			<div class="col">	
 				<button id="add" class="btn btn-secondary text-white float-right m-1">Add Action</button>
 	    	</div>
 	</div>
@@ -48,7 +48,8 @@
 
 		</tbody>
 	</table>
-	<button id="save" type="submit" class="btn btn-info m-1" disabled>Save</button>
+	<button id="saveBtn" type="submit" class="btn btn-info m-1 save" disabled
+	onclick="this.disabled=true;this.value='Sending, please wait...';this.form.submit();">Save</button>
 </form>
 <a class="btn btn-primary m-1 float-right text-white"
 href="{% url 'position-edit' 'edit' %}"

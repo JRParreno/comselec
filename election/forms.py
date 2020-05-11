@@ -5,7 +5,10 @@ from .models import (
 	ElectionType,
 	Position,
 	Party,
-	Candidate
+	Candidate,
+	BoardMember,
+	MajorPosition,
+	CiscVoter
 )
 
 class CampusForm(forms.ModelForm):
@@ -46,3 +49,22 @@ class CandidateForm(forms.ModelForm):
 			'party', 'campus',
 			'college']
 
+class BoardMemberForm(forms.ModelForm):
+	
+	class Meta:
+		model = BoardMember
+		fields=['candidate_name', 'position', 'campus',
+			'college']
+
+class MajorPositionForm(forms.ModelForm):
+	
+	class Meta:
+		model = MajorPosition
+		fields=['candidate_name', 'position', 'party']
+
+
+class CiscVoterForm(forms.ModelForm):
+	
+	class Meta:
+		model = CiscVoter
+		fields=['voter_name', 'position', 'college']

@@ -30,29 +30,79 @@
     <div class="wrapper">
         <!-- Sidebar  -->
         <nav id="sidebar">
-            <div class="sidebar-header">
+            <div class="sidebar-header text-center">
                 <h3>Comselec</h3>
                 <strong>CO</strong>
             </div>
-
+            <div class="sidebar-header-election text-center">
+                <h5>Supreme Student Council</h5>
+                <strong>SSC</strong>
+            </div>
             <ul class="list-unstyled components">
+            <li>
+                <a href="#sscForm" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                    <i class="fas fa-plus-square"></i>
+                    File Candidacy
+                </a>
+                <ul class="collapse list-unstyled" id="sscForm">    
+                    {% for electionType in electionTypes %}
+                    {% if electionType.election_name == 'Supreme Student Council' %}    
+                    <li>
+                        <a href="{% url 'create-ssc-form' 'Major Position' electionType.id  %}">President & Vice President</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'create-ssc-form' 'Baord Member' electionType.id  %}">Board Member</a>
+                    </li>
+                    {% endif %}
+                    {% endfor %}
+                </ul>
+            </li>
+            <li>
+                <a href="#formId" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                    <i class="fas fa-list-alt"></i>
+                    View Candidacy
+                </a>
+                    <ul class="collapse list-unstyled" id="formId"> 
+                        <li>
+                            <a href="{% url 'view-ssc-form' 'Major Position' 1  %}">Partylist</a>
+                        </li> 
+                        <li>
+                            <a href="{% url 'view-ssc-form' 'Baord Member' 1  %}">Board Members</a>
+                        </li>
+                    </ul>
+            </li>
+            <li>
+                <a href="#voterForm" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                    <i class="fas fa-list-alt"></i>
+                    Voters
+                </a>
+                <ul class="collapse list-unstyled" id="voterForm"> 
+                        <li>
+                            <a href="#" data-toggle="modal" data-target="#addVoterModal">Add Voter</a>
+                        </li> 
+                        <li>
+                            <a href="{% url 'view-ssc-voter' %}">View Voter</a>
+                        </li>
+                    </ul>
+            </li>
+            </ul>
+            <ul class="list-unstyled components pt-1">
+                <div class="sidebar-header-election text-center">
+                    <h5>Central/College and Institute Student Council</h5>
+                    <strong>CISC</strong>
+                 </div>
                 <li>
                     <a href="#formId" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
                         <i class="fas fa-plus-square"></i>
                         Create Election
                     </a>
-                    <ul class="collapse list-unstyled" id="formId">
-                        {% for electionType in electionTypes %}
-                        <li>
-                            <a href="{% url 'create-form' electionType.election_name electionType.id  %}">{{ electionType.election_name }}</a>
-                        </li>
-                        {% endfor %}
-                    </ul>
+                    
                 </li>
                     
 
                    {% for campus in campuses %}
                 <li>
+
                     <a href="#{{ campus.id }}" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
                         <i class="fas fa-university"></i>
                         {{ campus.campus_name }}
@@ -168,6 +218,11 @@
     <script type="text/javascript" src="{% static 'election/js/jquery-ui.js' %}"></script>   
     <script type="text/javascript" src="{% static 'election/js/jquery-ui.min.js' %}"></script>   
     <script type="text/javascript" src="{% static 'election/js/jquery.ui.touch-punch.min.js' %}"></script> 
+    <script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.5/lib/darkmode-js.min.js"></script>
+<script>
+ // new Darkmode().showWidget();
+
+</script>
 
     <script type="text/javascript">
         $(document).ready(function () {
