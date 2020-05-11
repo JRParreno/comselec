@@ -1,0 +1,128 @@
+{% extends "election/admin_base.html" %}
+{% block content %}
+<div class="d-flex justify-content-center">
+  <h1 class="h1 text-center">View SSC Voter Form</h1>
+</div>
+<div class="d-flex align-items-start flex-column">
+  <div class="p-2">
+    <div class="form-group">
+        <select class="form-control  col" value="{{default_if_none}}"
+        onchange="location=this.value;" style="width: 80%;">
+          <option disabled selected value></option>
+        {% for campus in campuses %}
+        <option disabled value class="active bg-dark text-white">{{ campus.campus_name }}</option>
+        {% for college in colleges %}
+        {% if college.2 == campus.id %}
+        {% if college.0 == college_id %}
+        <option selected value="{% url 'filter-ssc-voter'  college.0 %}"
+        data-content>
+          {{ college.1 }}
+        </option>
+        {% else %}
+        <option value="{% url 'filter-ssc-voter'  college.0 %}">
+          {{ college.1 }}
+        </option>
+        {% endif %}
+        {% endif %}
+        {% endfor %}
+        {% endfor %}
+          </select>
+          <small class="form-text text-muted m-1">Select college to filter</small>
+    </div>
+  </div>
+  <div class="p-1">
+    <h5>{{ campus.campus_name }}</h5>
+  </div>
+</div>
+<div class="d-flex justify-content-center m-1">
+    <table class="table table-hover">
+      <caption>List of voters according to campus and college</caption>
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Voter Name</th>
+          <th scope="col">Position Name</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+
+      <tbody id="add-table">
+        {% for voter in models %}
+        <tr class="sortable">
+          <th class="align-middle" scope="row">{{ forloop.counter }}</th>
+          <td class="align-middle">{{ voter.voter_name }}</td>
+          <td class="align-middle">{{ voter.position.position_name }}</td>
+          <td>
+            <button type="button" class="btn btn-secondary mt-1 mr-1" data-toggle="modal" data-target="#staticBackdrop" data-whatever="{{  voter.voter_name }}" data-url="{% url 'update-ssc-voter'  voter.id %}">
+              <i class="fas fa-edit"></i>
+            </button>
+            <button type="button" class="btn btn-danger mt-1 mr-1" data-toggle="modal" data-target="#staticDelete" data-whatever="{{  voter.voter_name }}" data-url="{% url 'delete-ssc-voter'  voter.id %}">
+              <i class="fas fa-trash-alt"></i>
+            </button>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+</div>
+
+<!-- Modal edit -->
+<div class="modal fade" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Edit</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      
+      <form id="update-modal" method="POST">
+        {% csrf_token %}
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="exampleInputEmail1">New voter name</label>
+            <input type="text" class="form-control" id="inputText" aria-describedby="emailHelp" placeholder="new" name="inputEdit">
+            <small id="emailHelp" class="form-text text-muted">Current Boni Avenue Branch(main).</small>
+          </div>
+        </div>
+        <div class="modal-footer">
+          
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button id="saveBtn" type="submit" class="btn btn-primary save"
+          onclick="this.disabled=true;this.value='Sending, please wait...';this.form.submit();">Save Changes</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Delete already added campus -->
+<div class="modal fade" id="staticDelete" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Delete</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      
+      <form id="delete-modal" method="POST">
+        {% csrf_token %}
+        <div class="modal-body">
+          Are you sure you want to delete this voter?
+          <br>
+          <p class="text-dark"></p>
+        </div>
+        <div class="modal-footer">
+          
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button id="delete" type="submit" class="btn btn-danger"
+          onclick="this.disabled=true;this.value='Sending, please wait...';this.form.submit();">Save Changes</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}

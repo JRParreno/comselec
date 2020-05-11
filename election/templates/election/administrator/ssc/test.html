@@ -1,0 +1,9 @@
+{% extends "election/admin_base.html" %}
+{% block content %}
+<h1>TEST DateTime</h1>
+{% for x in times %}
+<p>{{ x }}</p>
+<p>{{ x.college_id }}/{{ x.campus_id }}</p>
+<p>{{ x.date_candidacy }}</p>
+{% endfor %}
+{% endblock content %}

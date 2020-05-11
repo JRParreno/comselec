@@ -1,0 +1,63 @@
+{% extends "election/admin_base.html" %}
+{% block content %}
+<form id="sscForm" method="POST" action="{% url 'add-candidate' types partylists.id electionType %}">
+{% csrf_token %}
+	<div class="container">
+  <div class="row">
+    <div class="col text-center p-5">
+      <h1 class="h1">Add Candidate Form {{ check_board }}</h1>
+    </div>
+  </div>
+  <!-- Partylist name -->
+  <div class="row">
+    <div class="col-lg-2 col-sm-4 ">
+      <p class="font-weight-bold">Partylist :</p> 
+    </div>
+    <div class="col">
+      <p>{{ partylists.party_name }}</p>
+      <input type="hidden" name="partyName" value="{{ partylists.party_name }}">
+    </div>
+  </div>
+  <!-- Partylist acronym -->
+  <div class="row">
+    <div class="col-lg-2 col-sm-4">
+      <p class="font-weight-bold">Acronym :</p>
+    </div>
+    <div class="col">
+      <p>{{ partylists.acronym }}</p>
+    </div>
+  </div>
+
+  <!-- Candidate Info -->
+  <div class="row">
+    <div class="col">
+     <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Candidate Name</th>
+        <th scope="col">Position Name</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for available in available_positions %}
+      <tr>
+        <th class="align-middle" scope="row">{{ forloop.counter }}</th>
+        <td class="align-middle">
+          <input type="text" id="partyName" class="form-control" name="major_name">
+          <input type="hidden" name="position" value="{{ available.id }}">
+        </td>
+        <td class="align-middle">
+          {{ available.position_name }}
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+    </div>
+  </div>
+  <a id="save" type="submit" class="btn btn-secondary float-left px-3 mx-3" href="{% url 'filter-ssc-form' types partylists.id electionType %}">Back</a>
+  <button type="submit" class="btn btn-primary float-right px-3 save">Add Candidate</button>
+</div>
+</form>
+{% endblock content %}

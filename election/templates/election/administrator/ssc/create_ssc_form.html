@@ -1,0 +1,122 @@
+{% extends "election/admin_base.html" %}
+{% block content %}
+<h1 class="h1 text-center p-4">Supreme Student Council Form</h1>
+{% if PositionName == 'Major Position' %}
+	<form id="sscForm" method="POST" action="{% url 'save-ssc-form' 'Major Position' %}">
+    <input type="hidden" name="electionType" value="{{electionTypeId}}">
+
+{% csrf_token %}
+
+  <h1 class="h4 text-center p-4">Partylist</h1>
+  <div class="form-group row justify-content-center">
+      <label for="inputPartyName" class="col-sm-2 col-form-label">Party Name</label>
+        <div class="col-sm-6">
+              <input type="text" id="partyName" class="form-control" name="extras" required>
+        </div>
+  </div>
+    <div class="form-group row justify-content-center">
+      <label for="inputPresident" class="col-sm-2 col-form-label">Party Acronym</label>
+        <div class="col-sm-6">
+              <input type="text" id="partyAcronym" class="form-control" name="extras" required>
+        </div>
+  </div>
+
+  <h1 class="h4 text-center p-4">Major Position</h1>
+  <input type="hidden" id="electionTypeId" name="electionType" value="{{ electionTypeId }}">
+  <!--<small class="text-muted mb-1">Notes</small>*/
+  <br>
+  <small class="text-muted mb-1">* Must be a full name</small>
+  <br>
+  <small class="text-muted mb-1">* Leave Blank will not be save</small>-->
+  <div class="form-group row justify-content-center">
+    <label for="inputPresident" class="col-sm-2 col-form-label">President</label>
+    <div class="col-sm-6">
+      {% for position in positions %}
+        {% if position.position_name == 'President' %}
+      <input type="text" class="form-control" name="major_name">
+      <input type="hidden" name="position" value="{{ position.id }}">
+        {% endif %}
+      {% endfor %}
+    </div>
+   </div>       
+  
+  <div class="form-group row justify-content-center">
+    <label for="inputVPresident" class="col-sm-2 col-form-label">Vice President</label>
+    <div class="col-sm-6">
+            {% for position in positions %}
+        {% if position.position_name == 'Vice President' %}
+      <input type="text" class="form-control" name="major_name">
+      <input type="hidden" name="position" value="{{ position.id }}">
+        {% endif %}
+      {% endfor %}
+       
+    </div>
+  </div>
+  
+  <div class="form-group row text-center justify-content-center">
+    <div class="col-sm-12 mt-3">
+      <button type="submit" class="btn btn-primary save" 
+      onclick="this.disabled=true;this.value='Sending, please wait...';this.form.submit();">Create Form</button>
+    </div>
+  </div>
+  </form>
+{% else %}
+
+<!-- Board Member -->
+
+<div class="container">
+<form id="sscForm" method="POST" action="{% url 'save-ssc-form' 'Board Position' %}">
+<input type="hidden" name="electionType" value="{{electionTypeId}}">
+
+{% csrf_token %}
+<div class="col">
+  <h1 class="text-center m-5">Board Member</h1>
+  <div class="container">
+
+  <div class="row">
+        <div class="form-group row justify-content-center">
+    <div class="col">
+      <select id="boardMember" class="form-control  col"
+      value="{{default_if_none}}" style="width: 50%;">
+              <option disabled selected value></option>
+              {% for college in colleges %}
+                {% for campus in campuses %}
+                  {% if college.2 == campus.id %}
+                    {% for position in positions %}
+                      {% if position.position_name == 'Board Member' %}
+                <option id="{{ college.0 }}" value='{"collegeId": {{ college.0 }},"campusId": {{ college.2 }}, "positionId": {{ position.id }}}'>{{ college.1 }}/{{campus.campus_name}}</option>
+                      {% endif %}
+                    {% endfor %}
+                  {% endif %}
+                {% endfor %}
+              {% endfor %}
+          </select>
+          <small class="form-text text-muted m-1">Select college to add</small>
+    </div>
+  </div>
+  
+  </div>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">Board Member Name</th>
+        <th scope="col">Campus & College</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+
+    <tbody id="add-table">
+
+    </tbody>
+  </table>
+<a class="btn btn-secondary m-1 text-white"
+href="javascript:history.back()"
+>Back</a>
+  <button id="saveBtn" type="submit" class="btn btn-info m-1 save float-right" disabled
+  onclick="this.disabled=true;this.value='Sending, please wait...';this.form.submit();">Save</button>
+</div>
+
+</form>
+
+{% endif %}
+{% endblock content %}
