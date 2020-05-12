@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'election.apps.ElectionConfig',
     'users.apps.UsersConfig',
+    'polls.apps.PollsConfig',
     'crispy_forms',
     'django.contrib.admin',
     'django.contrib.auth',

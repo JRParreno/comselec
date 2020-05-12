@@ -67,7 +67,7 @@ def saveSSCForm(request, type):
 					'party': p_form.id})
 					if form.is_valid():
 						form.save()
-						return redirect('filter-ssc-form', type, p_form.id, electionType)
+			return redirect('filter-ssc-form', type, p_form.id, electionType)
 
 	else:
 		if request.method == 'POST':
@@ -86,7 +86,7 @@ def saveSSCForm(request, type):
 				if form.is_valid():
 					form.save()
 
-					return redirect('filter-ssc-form', type, college_id, electionType)
+			return redirect('filter-ssc-form', type, college_id, electionType)
 
 	return redirect(request.META['HTTP_REFERER'])
 
