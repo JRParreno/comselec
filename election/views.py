@@ -100,6 +100,7 @@ def viewSSCForm(request, type, id):
 	model = None
 	check_count = 0
 	available_pos = None
+	c_name = None
 	if type == 'Major Position':
 		first_model = Party.objects.filter(election_type=id).order_by('party_name').first()
 		model = Party.objects.all().filter(election_type=id)
@@ -120,6 +121,7 @@ def viewSSCForm(request, type, id):
 			colleges = College.objects.all().values_list('id', 'college_name', 'campus_id').order_by('id')
 			campuses = Campus.objects.all()
 			p_model = BoardMember.objects.all()
+			c_name = Campus.objects.get(id=board.campus_id)
 			check_count = p_model.count()
 			candidate_model = BoardMember.objects.all().filter(college_id=board.college.id)
 			model = []
@@ -129,6 +131,7 @@ def viewSSCForm(request, type, id):
 					if college[2] == campus.id:
 						item['college_name'] = college[1]
 						item['campus_name'] = campus.campus_name
+						item['campus_id'] = campus.id
 						model.append(item)
 
 	context = {
@@ -139,7 +142,8 @@ def viewSSCForm(request, type, id):
 		'objectCount': check_count,
 		'electionType': id,
 		'recent_id': recent,
-		'check_position':available_pos
+		'check_position':available_pos,
+		'campus_name': c_name
 	}
 	
 	return render(request,'election/administrator/ssc/view_ssc.html', context)
@@ -151,6 +155,7 @@ def filterSSCForm(request, type, id, election_id):
 	candidate_model = None
 	p_model = None
 	available_pos = None
+	c_name = None
 	if type == 'Major Position':
 		get_election_type = Party.objects.get(id=id)
 		model = Party.objects.all().filter(election_type_id=get_election_type.election_type_id)
@@ -166,6 +171,8 @@ def filterSSCForm(request, type, id, election_id):
 		p_model = BoardMember.objects.all()
 		check_count = p_model.count()
 		candidate_model = BoardMember.objects.all().filter(college_id=id)
+		get_name = Campus.objects.all().filter(id=College.objects.all().filter(id=id).values_list('campus_id')[:1])
+		c_name = get_name[0]
 		model = []
 		for college in colleges:
 			item = {"id": college[0]}
@@ -173,6 +180,7 @@ def filterSSCForm(request, type, id, election_id):
 				if college[2] == campus.id:
 					item['college_name'] = college[1]
 					item['campus_name'] = campus.campus_name
+					item['campus_id'] = campus.id
 					model.append(item)
 
 	context = {
@@ -183,7 +191,8 @@ def filterSSCForm(request, type, id, election_id):
 		'electionType': election_id,
 		'positions': p_model,
 		'objectCount': check_count,
-		'check_position':available_pos
+		'check_position':available_pos,
+		'campus_name': c_name
 	}
 	
 	return render(request,'election/administrator/ssc/view_ssc.html', context)
