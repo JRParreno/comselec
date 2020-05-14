@@ -51,6 +51,16 @@ span {
     display: inline-block;
 }
 
+.ui-datepicker-calendar {
+   display: none;
+}
+.ui-datepicker-month {
+   display: none;
+}
+.ui-datepicker-next,.ui-datepicker-prev {
+  display:none;
+}
+
 /* ---------------------------------------------------
     SIDEBAR STYLE
 ----------------------------------------------------- */

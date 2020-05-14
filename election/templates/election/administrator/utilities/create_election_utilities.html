@@ -5,7 +5,7 @@
 	<h1 class="text-center mt-5">Add New Election</h1>
 	<a id="add" href="#" class="btn btn-secondary my-3 text-white float-right">Add Action</a>
 </div>
-<form method="POST" action="{% url 'election-add' %}">
+<form method="POST" action="{% url 'election-add' %}" onsubmit="return checkForm(this);">
 	{% csrf_token %}
 	<table class="table table-hover">
 		<thead>
@@ -20,7 +20,7 @@
 		</tbody>
 	</table>
 	<button id="saveBtn" type="submit" class="btn btn-info my-3 save" disabled
-	onclick="this.disabled=true;this.value='Sending, please wait...';this.form.submit();">Save</button>
+	name="checkBtn">Save</button>
 </form>
 <a class="btn btn-primary my-3 float-right text-white"
 href="{% url 'election-edit' %}"

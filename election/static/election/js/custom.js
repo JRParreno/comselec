@@ -66,7 +66,6 @@ $( "#boardMember" )
   })
   .trigger( "change" );
 
-
 var ciscInput = 0
 $( "#addVoter" )
   .change(function() {
@@ -83,7 +82,8 @@ $( "#addVoter" )
         html += '<input type="text" class="form-control" name="voterInputs" ';
         html += 'aria-describedby="voterInputs" placeholder="Enter name" required>';
         html += '</div></td>';
-        html += '<td>'+ $( this ).text()
+        html += '<td><input type="text" class="form-control" pattern="[0-9]{4}[-][0-9]{6}" title="student number format 2015-XXXXXX" required/></td>';
+        html += '<td>'+ $( this ).text();
         html += '<input type="hidden" name="positionId" value="'+obj["id"]+'">';
         html += '</td>'
         html += '<td>';
@@ -101,6 +101,21 @@ $( "#addVoter" )
     
   })
   .trigger( "change" );
+
+//check button click if twice
+function checkForm(form) // Submit button clicked
+  {
+    //
+    // check form input values
+    //
+
+    form.checkBtn.disabled = true;
+    form.checkBtn.value = "Please wait...";
+    form.submit();
+    return true;
+  }
+
+//
 
 
 let tempPosition = [];

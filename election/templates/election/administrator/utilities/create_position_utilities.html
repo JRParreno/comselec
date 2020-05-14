@@ -1,7 +1,7 @@
 {% extends "election/admin_base.html" %}
 {% block content %}
 <div class="container">
-<form method="POST" action="{% url 'position-add' %}">
+<form method="POST" action="{% url 'position-add' %}" onsubmit="return checkForm(this);">
 {% csrf_token %}
 <div class="col">
 	<h1 class="text-center m-5">Add New Position</h1>
@@ -49,7 +49,7 @@
 		</tbody>
 	</table>
 	<button id="saveBtn" type="submit" class="btn btn-info m-1 save" disabled
-	onclick="this.disabled=true;this.value='Sending, please wait...';this.form.submit();">Save</button>
+	name="checkBtn">Save</button>
 </form>
 <a class="btn btn-primary m-1 float-right text-white"
 href="{% url 'position-edit' 'edit' %}"
