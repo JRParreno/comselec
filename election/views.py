@@ -262,11 +262,13 @@ def addSSCVoter(request, id):
 		voter_names = request.POST.getlist('voterInputs')
 		college_id = request.POST.get('collegeId')
 		position_id = request.POST.getlist('positionId')
+		student_id = request.POST.getlist('studentNumber')
 		c = len(voter_names)
 		for i in range(c):
 			form = CiscVoterForm({'voter_name': voter_names[i],
 				'position': position_id[i],
-				'college': college_id})
+				'college': college_id,
+				'student_number': student_id[i]})
 
 			if form.is_valid():
 				messages.success(request, customAlert.SaveAlert(voter_names[i]))
@@ -310,7 +312,8 @@ def viewSSCVoter(request):
 	get_first_college = CiscVoter.objects.all().order_by('college').first()
 	c_model = Campus.objects.get(id=College.objects.all().filter(id=get_first_college.college_id).values_list('campus_id')[:1])
 	v_model = CiscVoter.objects.all().select_related('position').filter(college=get_first_college.college_id).order_by('position')
-
+	for i in v_model:
+		print(i.student_number)
 	context = {
 		'models': v_model,
 		'college_id': get_first_college.college_id,
@@ -336,9 +339,13 @@ def filterSSCVoter(request, id):
 def updateSSCVoter(request, id):
 		 
 	if request.method == 'POST':
-		newName = request.POST.get('inputEdit')
-		CiscVoter.objects.filter(pk=id).update(voter_name=newName)
-		messages.success(request, customAlert.UpdateAlert(newName))
+		student_name = request.POST.get('student_name')
+		student_number = request.POST.get('student_number')
+		second_name = request.POST.get('secondInput')
+		CiscVoter.objects.all().filter(id=id).update(voter_name=student_name)
+		CiscVoter.objects.all().filter(id=id).update(student_number=student_number)
+		messages.success(request, customAlert.UpdateAlert(student_name))
+		messages.success(request, customAlert.UpdateAlert(student_number))
 
 	return redirect(request.META['HTTP_REFERER'])
 

@@ -82,7 +82,7 @@ $( "#addVoter" )
         html += '<input type="text" class="form-control" name="voterInputs" ';
         html += 'aria-describedby="voterInputs" placeholder="Enter name" required>';
         html += '</div></td>';
-        html += '<td><input type="text" class="form-control" pattern="[0-9]{4}[-][0-9]{6}" title="student number format 2015-XXXXXX" required/></td>';
+        html += '<td><input type="text" name="studentNumber" class="form-control" pattern="[0-9]{4}[-][0-9]{6}" title="student number format 2015-XXXXXX" required/></td>';
         html += '<td>'+ $( this ).text();
         html += '<input type="hidden" name="positionId" value="'+obj["id"]+'">';
         html += '</td>'
@@ -206,6 +206,25 @@ $('#staticDelete').on('show.bs.modal', function (event) {
   modal.find('#delete-modal').attr('action', url)
   modal.find('.modal-body p').text(recipient)
 });     
+
+
+$('#staticBackdropVoter').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget) // Button that triggered the modal
+  var recipient = button.data('whatever') // Extract info from data-* attributes
+  var url = button.data('url')
+  var setJson = JSON.stringify(recipient);
+  var obj = JSON.parse(setJson)
+  console.log(obj.first)
+  // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+  // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+  var modal = $(this)
+  modal.find('#update-modal-partylist').attr('action', url)
+  modal.find('#partyName').attr('value', obj.first)
+  modal.find('#acronym').attr('value', obj.second)
+  modal.find('#first').text('Current name: '+ obj.first)
+  modal.find('#second').text('Current student #: '+ obj.second)
+}); 
+
 
 $('#staticEditPartylist').on('show.bs.modal', function (event) {
   var button = $(event.relatedTarget) // Button that triggered the modal

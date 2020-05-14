@@ -55,7 +55,8 @@
           <td class="align-middle">{{ voter.student_number }}</td>
           <td class="align-middle">{{ voter.position.position_name }}</td>
           <td>
-            <button type="button" class="btn btn-secondary mt-1 mr-1" data-toggle="modal" data-target="#staticBackdrop" data-whatever="{{  voter.voter_name }}" data-url="{% url 'update-ssc-voter'  voter.id %}">
+            <button type="button" class="btn btn-secondary mt-1 mr-1" data-toggle="modal" data-target="#staticBackdropVoter" 
+            data-whatever='{"first": "{{voter.voter_name}}","second": "{{ voter.student_number }}"}' data-url="{% url 'update-ssc-voter'  voter.id %}">
               <i class="fas fa-edit"></i>
             </button>
             <button type="button" class="btn btn-danger mt-1 mr-1" data-toggle="modal" data-target="#staticDelete" data-whatever="{{  voter.voter_name }}" data-url="{% url 'delete-ssc-voter'  voter.id %}">
@@ -69,7 +70,7 @@
 </div>
 
 <!-- Modal edit -->
-<div class="modal fade" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="staticBackdropVoter" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -79,20 +80,22 @@
         </button>
       </div>
       
-      <form id="update-modal" method="POST" onsubmit="return checkForm(this);">
+      <form id="update-modal-partylist" method="POST" onsubmit="return checkForm(this);">
         {% csrf_token %}
         <div class="modal-body">
           <div class="form-group">
-            <label for="exampleInputEmail1">New voter name</label>
-            <input type="text" class="form-control" id="inputText" aria-describedby="emailHelp" placeholder="new" name="inputEdit"
-            required>
-            <small id="emailHelp" class="form-text text-muted">Current Boni Avenue Branch(main).</small>
+            <label for="exampleInputEmail1">Enter new information</label>
+            <input type="text" id="partyName" class="form-control my-2" aria-describedby="partylistName" placeholder="new" name="student_name" required>
+            
+            <input type="text" id="acronym" class="form-control my-2" aria-describedby="partylistAcronym" placeholder="new" name="student_number" pattern="[0-9]{4}[-][0-9]{6}" title="Student number didn't match ex. 2015-123456" required>
+            <small id="first" class="form-text text-muted">Current Boni Avenue Branch(main).</small>
+            <small id="second" class="form-text text-muted">Current Boni Avenue Branch(main).</small>
           </div>
         </div>
         <div class="modal-footer">
           
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button id="saveBtn" type="submit" name="checkBtn" class="btn btn-primary save">Save Changes</button>
+          <button type="submit" name="checkBtn" class="btn btn-primary save">Save Changes</button>
         </form>
       </div>
     </div>
