@@ -43,7 +43,7 @@ urlpatterns = [
             template_name='users/password_reset_complete.html'
         ), 
         name='password_reset_complete'),
-    path('election/', poll_views.viewPoll,
-            name='poll-home'),
+    
+    path('election/', include('polls.urls')),
     path('', include('election.urls')),
 ]

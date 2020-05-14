@@ -1,0 +1,61 @@
+{% extends "users/login_base_new.html" %}
+{% load static %}
+{% block content %}
+<div class="container">
+    <!-- Outer Row -->
+    <div class="row justify-content-center">
+
+      <div class="col-xl-10 col-lg-12 col-md-9">
+
+        <div class="card o-hidden border-0 shadow-lg my-5">
+          <div class="card-body p-3">
+            <!-- Nested Row within Card Body -->
+            <div class="row">
+              <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
+              <div class="col-lg-6 border-left border-dark">
+                <div class="p-5">
+                  <div class="text-center">
+                    <h1 class="h4 text-gray-900 mb-4">Voter's Login</h1>
+                  </div>
+                  <form class="user" onsubmit="return checkForm(this);">
+                    {% csrf_token %}
+                    <div class="form-group">
+                      <input type="text" class="form-control" id="inputStudentNumber" placeholder="Enter Student Number" name="student_number" pattern="[0-9]{4}[-][0-9]{6}" title="Student Number didn't match ex. 2015-123456" required>
+                    </div>
+                    <div class="form-group">
+                      <input type="text" class="form-control" id="inputName" aria-describedby="studentNameHelp" placeholder="Enter Student Name" name="username" required>
+                    </div>
+                    <div class="form-group">
+                      <select name="dataTable_length" aria-controls="dataTable" class="custom-select custom-select-sm form-control form-control-sm" title="Please select CISC" oninvalid="this.setCustomValidity('Please select first CISC before proceed')" oninput="setCustomValidity('')" required>
+                        <option disabled selected value><span class="text-center">-- Select CICS --</span></option>
+                        <option value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <select name="dataTable_length" aria-controls="dataTable" class="custom-select custom-select-sm form-control form-control-sm" title="Please select position" oninvalid="this.setCustomValidity('Please select first position before proceed')" oninput="setCustomValidity('')" required>
+                        <option disabled selected value>-- Select Position --</option>
+                        {% for position in positions %}
+                        <option value="10">{{ position.position_name }}</option>
+                        {% endfor %}
+                      </select>
+                    </div>
+                    <hr>
+                    <button type="submit" id="saveBtn" class="btn btn-primary btn-user btn-block save">
+                      Login
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+  {% endblock content %}
