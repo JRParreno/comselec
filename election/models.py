@@ -95,6 +95,7 @@ class BoardMember(models.Model):
 
 class CiscVoter(models.Model):
 	voter_name =  models.CharField(max_length=100)
+	student_number = models.CharField(max_length=100)
 	position = models.ForeignKey(Position, on_delete=models.CASCADE)
 	college = models.ForeignKey(College, on_delete=models.CASCADE)
 	vote_date = models.DateTimeField(null=True, blank=True)
