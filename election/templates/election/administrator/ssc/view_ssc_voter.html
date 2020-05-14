@@ -41,6 +41,7 @@
         <tr>
           <th scope="col">#</th>
           <th scope="col">Voter Name</th>
+          <th scope="col">Student Number</th>
           <th scope="col">Position Name</th>
           <th scope="col">Action</th>
         </tr>
@@ -51,6 +52,7 @@
         <tr class="sortable">
           <th class="align-middle" scope="row">{{ forloop.counter }}</th>
           <td class="align-middle">{{ voter.voter_name }}</td>
+          <td class="align-middle">{{ voter.student_number }}</td>
           <td class="align-middle">{{ voter.position.position_name }}</td>
           <td>
             <button type="button" class="btn btn-secondary mt-1 mr-1" data-toggle="modal" data-target="#staticBackdrop" data-whatever="{{  voter.voter_name }}" data-url="{% url 'update-ssc-voter'  voter.id %}">
@@ -77,20 +79,20 @@
         </button>
       </div>
       
-      <form id="update-modal" method="POST">
+      <form id="update-modal" method="POST" onsubmit="return checkForm(this);">
         {% csrf_token %}
         <div class="modal-body">
           <div class="form-group">
             <label for="exampleInputEmail1">New voter name</label>
-            <input type="text" class="form-control" id="inputText" aria-describedby="emailHelp" placeholder="new" name="inputEdit">
+            <input type="text" class="form-control" id="inputText" aria-describedby="emailHelp" placeholder="new" name="inputEdit"
+            required>
             <small id="emailHelp" class="form-text text-muted">Current Boni Avenue Branch(main).</small>
           </div>
         </div>
         <div class="modal-footer">
           
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button id="saveBtn" type="submit" class="btn btn-primary save"
-          onclick="this.disabled=true;this.value='Sending, please wait...';this.form.submit();">Save Changes</button>
+          <button id="saveBtn" type="submit" name="checkBtn" class="btn btn-primary save">Save Changes</button>
         </form>
       </div>
     </div>
@@ -108,7 +110,7 @@
         </button>
       </div>
       
-      <form id="delete-modal" method="POST">
+      <form id="delete-modal" method="POST" onsubmit="return checkForm(this);">
         {% csrf_token %}
         <div class="modal-body">
           Are you sure you want to delete this voter?
@@ -118,8 +120,7 @@
         <div class="modal-footer">
           
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button id="delete" type="submit" class="btn btn-danger"
-          onclick="this.disabled=true;this.value='Sending, please wait...';this.form.submit();">Save Changes</button>
+          <button id="delete" type="submit" name="checkBtn" class="btn btn-danger">Save Changes</button>
         </form>
       </div>
     </div>
