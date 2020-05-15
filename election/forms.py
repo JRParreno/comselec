@@ -67,4 +67,4 @@ class CiscVoterForm(forms.ModelForm):
 	
 	class Meta:
 		model = CiscVoter
-		fields=['voter_name', 'position', 'college']
+		fields=['voter_name', 'position', 'college', 'student_number']
