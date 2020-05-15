@@ -3,6 +3,7 @@
 <div class="d-flex justify-content-center">
   <h1 class="h1 text-center">View SSC Voter Form</h1>
 </div>
+{% if check_voter > 0 %}
 <div class="d-flex align-items-start flex-column">
   <div class="p-2">
     <div class="form-group">
@@ -68,7 +69,10 @@
       </tbody>
     </table>
 </div>
-
+{% else %}
+<div class="d-flex justify-content-center">
+  <h1 class="text-muted">No data</h1>
+</div>{% endif %}
 <!-- Modal edit -->
 <div class="modal fade" id="staticBackdropVoter" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">

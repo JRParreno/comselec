@@ -310,15 +310,22 @@ def addSSCVoter(request, id):
 @login_required
 def viewSSCVoter(request):
 	get_first_college = CiscVoter.objects.all().order_by('college').first()
-	c_model = Campus.objects.get(id=College.objects.all().filter(id=get_first_college.college_id).values_list('campus_id')[:1])
-	v_model = CiscVoter.objects.all().select_related('position').filter(college=get_first_college.college_id).order_by('position')
-	for i in v_model:
-		print(i.student_number)
-	context = {
-		'models': v_model,
-		'college_id': get_first_college.college_id,
-		'campus': c_model
-	}
+	
+	#check if have college
+	if get_first_college:
+		c_model = Campus.objects.get(id=College.objects.all().filter(id=get_first_college.college_id).values_list('campus_id')[:1])
+		v_model = CiscVoter.objects.all().select_related('position').filter(college=get_first_college.college_id).order_by('position')
+		context = {
+			'models': v_model,
+			'college_id': get_first_college.college_id,
+			'campus': c_model,
+			'check_voter':get_first_college.count()
+		}
+	else:
+		context = {
+			'check_voter': 0
+		}
+	
 	return render(request, 'election/administrator/ssc/view_ssc_voter.html',
 		context)
 
@@ -561,19 +568,20 @@ def viewElection(request, name):
 	text = None
 	e_dot = ElectionType.objects.all()
 	p_dot = None
+	
 	if name == 'pending':
 		p_dot = Party.objects.all().filter(election__isnull=True)
 		text = name
-		print(e_dot)
 	else:
 		text = name
 
 	context = {
 		'partylists': p_dot[:2],
 		'electionTypes': e_dot,
-		'text': text
+		'text': text,
+		'checkElection': e_dot.count()
 	}
-	return render(request, 'election/administrator/candidates/election_view.html', 
+	return render(request, 'election/elections_list.html', 
 		context)
 
 @login_required
