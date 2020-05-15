@@ -21,8 +21,15 @@ def add_variable_to_context(request):
 
 def election_notifications(request):
     e_dot = Party.objects.all().filter(election__isnull=True)
-        
+    election = ElectionType.objects.all()
+    p_model = Party.objects.all().filter(election__isnull=True)
+    b_model  = BoardMember.objects.all().filter(election__isnull=True)
+    check = 0
+    if p_model or b_model:
+        check = 1
+
     return {
         'notification': e_dot,
         'pending': e_dot.count(),
+        'checkElection': check
     }

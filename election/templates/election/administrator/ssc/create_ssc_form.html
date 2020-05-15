@@ -2,7 +2,7 @@
 {% block content %}
 <h1 class="h1 text-center p-4">Supreme Student Council Form</h1>
 {% if PositionName == 'Major Position' %}
-	<form id="sscForm" method="POST" action="{% url 'save-ssc-form' 'Major Position' %}">
+	<form id="sscForm" method="POST" action="{% url 'save-ssc-form' 'Major Position' %}" onsubmit="return checkForm(this);">
     <input type="hidden" name="electionType" value="{{electionTypeId}}">
 
 {% csrf_token %}
@@ -55,8 +55,7 @@
   
   <div class="form-group row text-center justify-content-center">
     <div class="col-sm-12 mt-3">
-      <button type="submit" class="btn btn-primary save" 
-      onclick="this.disabled=true;this.value='Sending, please wait...';this.form.submit();">Create Form</button>
+      <button type="submit" name="checBtn" class="btn btn-primary save">Create Form</button>
     </div>
   </div>
   </form>
@@ -65,7 +64,7 @@
 <!-- Board Member -->
 
 <div class="container">
-<form id="sscForm" method="POST" action="{% url 'save-ssc-form' 'Board Position' %}">
+<form id="sscForm" method="POST" action="{% url 'save-ssc-form' 'Board Position' %}" onsubmit="return checkForm(this);">
 <input type="hidden" name="electionType" value="{{electionTypeId}}">
 
 {% csrf_token %}
@@ -112,8 +111,7 @@
 <a class="btn btn-secondary m-1 text-white"
 href="javascript:history.back()"
 >Back</a>
-  <button id="saveBtn" type="submit" class="btn btn-info m-1 save float-right" disabled
-  onclick="this.disabled=true;this.value='Sending, please wait...';this.form.submit();">Save</button>
+  <button id="saveBtn" type="submit" name="checkBtn" class="btn btn-info m-1 save float-right" disabled>Save</button>
 </div>
 
 </form>

@@ -1,6 +1,6 @@
 {% extends "election/admin_base.html" %}
 {% block content %}
-<form id="sscForm" method="POST" action="{% url 'add-candidate' types partylists.id electionType %}">
+<form id="sscForm" method="POST" action="{% url 'add-candidate' types partylists.id electionType %}" onsubmit="return checkForm(this);">
 {% csrf_token %}
 	<div class="container">
   <div class="row">
@@ -57,7 +57,7 @@
     </div>
   </div>
   <a id="save" type="submit" class="btn btn-secondary float-left px-3 mx-3" href="{% url 'filter-ssc-form' types partylists.id electionType %}">Back</a>
-  <button type="submit" class="btn btn-primary float-right px-3 save">Add Candidate</button>
+  <button type="submit" name="checkBtn" class="btn btn-primary float-right px-3 save">Add Candidate</button>
 </div>
 </form>
 {% endblock content %}

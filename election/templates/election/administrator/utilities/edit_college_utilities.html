@@ -78,12 +78,12 @@
 				</button>
 			</div>
 			
-			<form id="update-modal" method="POST">
+			<form id="update-modal" method="POST" onsubmit="return checkForm(this);">
 				{% csrf_token %}
 				<div class="modal-body">
 					<div class="form-group">
-						<label for="exampleInputEmail1">New College Name</label>
-						<input type="text" class="form-control" id="inputText" aria-describedby="emailHelp" placeholder="new" name="inputEdit">
+						<label for="inputEditCollege">New College Name</label>
+						<input type="text" class="form-control" id="inputText" aria-describedby="emailHelp" placeholder="new" name="inputEdit" required>
 						<small id="emailHelp" class="form-text text-muted">Current Boni Avenue Branch(main).</small>
 					</div>
 				</div>
@@ -91,7 +91,7 @@
 					
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 					<button id="saveBtn" type="submit" class="btn btn-primary save"
-					onclick="this.disabled=true;this.value='Sending, please wait...';this.form.submit();">Save Changes</button>
+					name="checkBtn">Save Changes</button>
 				</form>
 			</div>
 		</div>

@@ -1,0 +1,28 @@
+{% extends "users/login_base_new.html" %}
+{% load static %}
+{% block content %}
+<div class="container">
+    <!-- Outer Row -->
+    <div class="row justify-content-center align-items-center ">
+
+      <div class="col-xl-10 col-lg-12 col-md-9">
+
+        <div class="card border-0 shadow-lg bg-danger text-white my-5">
+          <div class="card-body">
+            <!-- Nested Row within Card Body -->
+            <div class="card-header bg-danger">
+                <span class="font-weight-bold">ATTENTION!</span>
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">No election found</h5>
+                <p class="card-text">Please contact comselec if you got these errors</p>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>
+  {% endblock content %}
