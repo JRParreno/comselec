@@ -3,7 +3,6 @@
 <div class="d-flex justify-content-center">
   <h1 class="h1 text-center">View SSC Voter Form</h1>
 </div>
-{% if check_voter > 0 %}
 <div class="d-flex align-items-start flex-column">
   <div class="p-2">
     <div class="form-group">
@@ -32,9 +31,10 @@
     </div>
   </div>
   <div class="p-1">
-    <h5>{{ campus.campus_name }}</h5>
+    <h5><span class="text-muted">Campus:</span> {{ campus.campus_name }}</h5>
   </div>
 </div>
+{% if check_voter > 0 %}
 <div class="d-flex justify-content-center m-1">
     <table class="table table-hover">
       <caption>List of voters according to campus and college</caption>
@@ -84,14 +84,15 @@
         </button>
       </div>
       
-      <form id="update-modal-partylist" method="POST" onsubmit="return checkForm(this);">
+      <form id="sscVoter" method="POST" onsubmit="return checkStudentNumber(this)">
         {% csrf_token %}
         <div class="modal-body">
           <div class="form-group">
             <label for="exampleInputEmail1">Enter new information</label>
-            <input type="text" id="partyName" class="form-control my-2" aria-describedby="partylistName" placeholder="new" name="student_name" required>
+            <input type="text" id="studentName" class="form-control my-2" aria-describedby="partylistName" placeholder="new" name="student_name" required>
             
-            <input type="text" id="acronym" class="form-control my-2" aria-describedby="partylistAcronym" placeholder="new" name="student_number" pattern="[0-9]{4}[-][0-9]{6}" title="Student number didn't match ex. 2015-123456" required>
+            <input type="text" id="studentNumber" class="form-control my-2" aria-describedby="partylistAcronym" placeholder="new" name="student_number" pattern="[0-9]{4}[-][0-9]{6}" title="Student number didn't match ex. 2015-123456" required>
+            <small id="error" class="form-text text-danger" hidden>student number already exists!</small>
             <small id="first" class="form-text text-muted">Current Boni Avenue Branch(main).</small>
             <small id="second" class="form-text text-muted">Current Boni Avenue Branch(main).</small>
           </div>

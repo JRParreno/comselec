@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, reverse
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.contrib.auth.decorators import login_required
+from django.core import serializers
 from django.contrib import messages
 import json
 from . import customAlert
@@ -252,6 +253,23 @@ def updatePartylist(request, type, id, election_id):
 	
 	return redirect(request.META['HTTP_REFERER'])
 
+
+@login_required
+def validateStudentNumber(request):
+	if request.method == 'POST':
+		student = CiscVoter.objects.all()
+	post_serialized = serializers.serialize('json', student)
+	return JsonResponse(post_serialized, safe=False)
+
+@login_required
+def checkStudentNumber(request):
+	if request.method == 'POST':
+		student_number = request.POST.get('studentNumber')
+		data= {
+			'is_taken': CiscVoter.objects.filter(student_number=student_number).exists()
+		}
+	return JsonResponse(data)
+
 @login_required
 def addSSCVoter(request, id):
 	p_model = None
@@ -319,7 +337,7 @@ def viewSSCVoter(request):
 			'models': v_model,
 			'college_id': get_first_college.college_id,
 			'campus': c_model,
-			'check_voter':get_first_college.count()
+			'check_voter': 1
 		}
 	else:
 		context = {
@@ -337,7 +355,8 @@ def filterSSCVoter(request, id):
 	context = {
 		'models': v_model,
 		'college_id': id,
-		'campus': c_model
+		'campus': c_model,
+		'check_voter':v_model.count() 
 	}
 	return render(request, 'election/administrator/ssc/view_ssc_voter.html',
 		context)

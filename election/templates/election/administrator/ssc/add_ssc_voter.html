@@ -11,8 +11,8 @@
 {% endfor %}
 
 {% for college in getCollege %}
-<form method="POST" action="{% url 'add-ssc-voter' college.0 %}" onsubmit="return checkForm(this);">
-<input type="hidden" name="collegeId" value="{{college.0}}">
+<form method="POST" action="{% url 'add-ssc-voter' college.0 %}">
+<input type="hidden" id="college" name="collegeId" value="{{college.0}}">
 {% endfor %}
 {% csrf_token %}
 <div class="col">
@@ -52,7 +52,7 @@
   </table>
   <div class="col">
   <a class="btn btn-secondary m-1 text-white" href="javascript:history.back()" >Back</a>
-  <button id="saveBtn" name="checkBtn" type="submit" class="btn btn-info m-1 save float-right" disabled>Add Voter</button>
+  <button id="saveVoter" name="checkBtn" type="submit" class="btn btn-info m-1 save float-right" disabled>Add Voter</button>
   </div>
 </div>
 </div>
