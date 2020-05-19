@@ -25,6 +25,8 @@ urlpatterns = [
     path('view/voter/college/filter/<int:id>/', views.filterSSCVoter, name='filter-ssc-voter'),
     path('view/voter/college/update/<int:id>/', views.updateSSCVoter, name='update-ssc-voter'),
     path('view/voter/college/delete/<int:id>/', views.deleteSSCVoter, name='delete-ssc-voter'),
+    path('validate/voter/', views.validateStudentNumber, name='validate-ssc-voter'),
+    path('check/student_number/voter/', views.checkStudentNumber, name='check-ssc-voter'),
     #view of list utilities
     path('utilities/', views.utilities, name='view-utilities'),
     #CRUD for Campus
