@@ -588,13 +588,21 @@ def viewElection(request, name):
 	p_dot = None
 	
 	if name == 'pending':
-		p_dot = Party.objects.all().filter(election__isnull=True)
+		e_model = []
+		e_temp = ElectionType.objects.all()
+		p_model = Party.objects.all().filter(election__isnull=True).values('election_type').distinct()
 		text = name
+		for p in p_model:
+			for e in e_temp:
+				if e.id == p['election_type']:
+					e_case = {"id": e.id}
+					e_case["election_name"] = e.election_name
+					e_model.append(e_case)
 	else:
 		text = name
 
 	context = {
-		'partylists': p_dot[:2],
+		'partylists': e_model,
 		'electionTypes': e_dot,
 		'text': text,
 		'checkElection': e_dot.count()
