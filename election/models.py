@@ -94,6 +94,27 @@ class BoardMember(models.Model):
 	
 	def __str__(self):
 		return self.candidate_name
+
+class Disqualify(models.Model):
+	candidate_name =  models.CharField(max_length=100)
+	party = models.ForeignKey(Party, on_delete=models.CASCADE,
+		null=True, blank=True)
+	position = models.ForeignKey(Position, on_delete=models.CASCADE)
+	campus = models.ForeignKey(Campus, on_delete=models.CASCADE,
+		null=True, blank=True)
+	college = models.ForeignKey(College, on_delete=models.CASCADE,
+		null=True, blank=True)
+	date_candidacy = models.DateTimeField(default=datetime.now)
+	election_type = models.ForeignKey(ElectionType, 
+		on_delete=models.CASCADE,
+		null=True, blank=True)
+	election = models.ForeignKey(Election, 
+		on_delete=models.CASCADE,
+		null=True, blank=True)
+	
+	def __str__(self):
+		return self.candidate_name
+
 #end ssc tables
 
 class CiscVoter(models.Model):

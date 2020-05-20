@@ -346,7 +346,47 @@ $('#staticDelete').on('show.bs.modal', function (event) {
   // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
   var modal = $(this)
   modal.find('#delete-modal').attr('action', url)
-  modal.find('.modal-body p').text(recipient)
+  modal.find('.text-name').text('Candidate Name: ' + recipient)
+}); 
+
+
+$('#staticDeleteDisqualify').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget) // Button that triggered the modal
+  var recipient = button.data('whatever') // Extract info from data-* attributes
+  var url = button.data('url')
+  // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+  // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+  var modal = $(this)
+  modal.find('#delete-dis-modal').attr('action', url)
+  modal.find('.text-name').text('Candidate Name: ' + recipient)
+}); 
+
+$('#staticDisqualify').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget) // Button that triggered the modal
+  var recipient = button.data('whatever') // Extract info from data-* attributes
+  var url = button.data('url')
+  // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+  // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+  var modal = $(this)
+  modal.find('#disqualify-modal').attr('action', url)
+  modal.find('.text-name').text('Candidate Name: ' + recipient)
+}); 
+
+$('#staticUndisqualify').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget) // Button that triggered the modal
+  var recipient = button.data('whatever') // Extract info from data-* attributes
+  var url = button.data('url')
+  var setJson = JSON.stringify(recipient);
+  var obj = JSON.parse(setJson)
+  // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+  // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+  var modal = $(this)
+  modal.find('#undisqualify-modal').attr('action', url)
+  modal.find('#delete-modal').attr('action', url)
+  modal.find('#disqualify_name').attr('value', obj.name)
+  modal.find('#disqualify_position').attr('value', obj.position)
+  modal.find('#disqualify_id').attr('value', obj.id)
+  modal.find('.text-name').text('Candidate Name: ' + obj.name)
 });     
 
 
@@ -391,7 +431,7 @@ $('#staticDeletePartylist').on('show.bs.modal', function (event) {
   // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
   var modal = $(this)
   modal.find('#delete-modal-partylist').attr('action', url)
-  modal.find('.modal-body p').text(recipient)
+  modal.find('.modal-body p').text('Party Name: ' + recipient)
 });     
 
 

@@ -29,7 +29,7 @@
       {% for party in models %}
       {% for election in electionTypes %}
       {% if election.id == party.election_type_id and party.id == recent_id%}
-      <button type="button" class="btn btn-danger mt-1 mr-1 float-right" data-toggle="modal" data-target="#staticDeletePartylist" data-whatever="{{ party.party_name }}" data-url="{% url 'delete-partylist' types party.id electionType %}">
+      <button type="button" class="btn btn-danger mt-1 mr-1 float-right" data-toggle="modal" data-target="#staticDeletePartylist" data-whatever="{{ party.party_name }}" data-url="{% url 'delete-partylist' types party.id electionType %}" title="Delete party">
       Delete partylist
       </button>
       {% endif %}
@@ -57,7 +57,7 @@
         <td class="align-middle">{{ party.acronym }}</td>
         <td>
           <button type="button" class="btn btn-secondary mt-1 mr-1" data-toggle="modal" data-target="#staticEditPartylist" 
-          data-whatever='{"first": "{{party.party_name}}","second": "{{ party.acronym }}"}' data-url="{% url 'update-partylist' types party.id electionType %}">
+          data-whatever='{"first": "{{party.party_name}}","second": "{{ party.acronym }}"}' data-url="{% url 'update-partylist' types party.id electionType %}" title="Edit party">
             <i class="fas fa-edit"></i>
           </button>
         </a>
@@ -80,7 +80,7 @@
       {% for election in electionTypes %}
       {% if election.id == party.election_type_id and party.id == recent_id%}
       <a id="add" class="btn btn-primary text-white"
-      href="{% url 'add-candidate' types party.id electionType %}">Add Candidate</a>  
+      href="{% url 'add-candidate' types party.id electionType %}" title="Add candidate">Add Candidate</a>  
       {% endif %}
       {% endfor %}
       {% endfor %}
@@ -106,12 +106,54 @@
         <td class="align-middle">{{ candidate.candidate_name }}</td>
         <td class="align-middle">{{ candidate.position.position_name }}</td>
         <td>
-          <button type="button" class="btn btn-secondary mt-1 mr-1" data-toggle="modal" data-target="#staticBackdrop" data-whatever="{{candidate.candidate_name}}" data-url="{% url 'candidate-update' candidate.id types %}">
+          <button type="button" class="btn btn-secondary mt-1 mr-1" data-toggle="modal" data-target="#staticBackdrop" data-whatever="{{candidate.candidate_name}}" data-url="{% url 'candidate-update' candidate.id types %}" title="Edit candidate">
             <i class="fas fa-edit"></i>
           </button>
-          <button type="button" class="btn btn-danger mt-1 mr-1" data-toggle="modal" data-target="#staticDelete" data-whatever="{{candidate.candidate_name}}" data-url="{% url 'candidate-delete' candidate.id types %}">
+          <button type="button" class="btn btn-danger mt-1 mr-1" data-toggle="modal" data-target="#staticDelete" data-whatever="{{candidate.candidate_name}}" data-url="{% url 'candidate-delete' candidate.id types %}" title="Delete candidate">
             <i class="fas fa-trash-alt"></i>
           </button>
+          <button type="button" class="btn btn-danger mt-1 mr-1" data-toggle="modal" data-target="#staticDisqualify" data-whatever="{{candidate.candidate_name}}" data-url="{% url 'candidate-disqualify' candidate.id types %}" title="Disqualify candidate">
+              <i class="fas fa-user-slash"></i>
+          </button>
+        </a>
+      </td>
+    </tr>
+    {% endfor %}
+</tbody>
+</table>
+</div>
+<div class="d-flex bd-highlight mb-3">
+  <div class="p-1">
+    <h3>Disqualification Section</h3>
+  </div>
+</div>
+<!-- disqualify section -->
+<div class="d-flex justify-content-center my-3">
+  <table class="table table-hover">
+    <caption>List of disqualify candidates</caption>
+    <thead>
+      <tr>
+        <th style="width: 10%">#</th>
+        <th style="width: 40%">Candidate Name</th>
+        <th style="width: 30%">Position Name</th>
+        <th style="width: 20%">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for disqualify in disqualified %}
+      <tr class="sortable">
+        <th class="align-middle" scope="row">{{ forloop.counter }}</th>
+        <td class="align-middle">{{ disqualify.candidate_name }}</td>
+        <td class="align-middle">{{ disqualify.position.position_name }}</td>
+        <td>
+          <button type="button" class="btn btn-danger mt-1 mr-1" data-toggle="modal" data-target="#staticUndisqualify" data-whatever='{"name": "{{disqualify.candidate_name}}", "position": {{disqualify.position.id}}, "id": {{disqualify.id}}}' data-url="{% url 'add-candidate' types recent_id electionType %}" title="Remove candidate from disqualify">
+            <i class="fas fa-user-minus"></i>
+          </button>
+          <button type="button" class="btn btn-danger mt-1 mr-1" data-toggle="modal" data-target="#staticDeleteDisqualify" data-whatever="{{disqualify.candidate_name}}" data-url="{% url 'disqualify-delete' disqualify.id %}" title="Delete candidate">
+            <i class="fas fa-trash-alt"></i>
+          </button>
+
+          
         </a>
       </td>
     </tr>
