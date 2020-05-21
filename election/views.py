@@ -14,7 +14,8 @@ from .forms import (
 	CandidateForm,
 	BoardMemberForm,
 	MajorPositionForm,
-	CiscVoterForm
+	CiscVoterForm,
+	DisqualifyForm
 	)
 from .models import (
 	Campus, 
@@ -26,7 +27,8 @@ from .models import (
 	Candidate,
 	BoardMember,
 	MajorPosition,
-	CiscVoter
+	CiscVoter,
+	Disqualify
 	)
 from django.shortcuts import get_list_or_404, get_object_or_404
 
@@ -75,16 +77,25 @@ def saveSSCForm(request, type):
 			ids = request.POST.getlist('collegeId')
 			names = request.POST.getlist('inputName')
 			electionType = request.POST.get('electionType')
+			disqualify_id = request.POST.get('dis_id')
 			c = len(ids)
 			college_id = None
 			for i in range(c):
+				name = None
 				dct = json.loads(ids[i])
+				candidate = names[i]
 				form = BoardMemberForm({'candidate_name': names[i],
 					'position': dct['positionId'],
 					'campus': dct['campusId'],
-					'college': dct['collegeId']})
+					'college': dct['collegeId'],
+					'election_type': electionType})
 				college_id = dct['collegeId']
 				if form.is_valid():
+					if disqualify_id != None:
+						Disqualify.objects.filter(pk=disqualify_id).delete()
+						messages.warning(request, customAlert.DisqualifyAlert(candidate))
+					else:
+						messages.success(request, customAlert.SaveAlert(candidate))
 					form.save()
 
 			return redirect('filter-ssc-form', type, college_id, electionType)
@@ -102,6 +113,7 @@ def viewSSCForm(request, type, id):
 	check_count = 0
 	available_pos = None
 	c_name = None
+	disqualify_model = None
 	if type == 'Major Position':
 		first_model = Party.objects.filter(election_type=id).order_by('party_name').first()
 		model = Party.objects.all().filter(election_type=id)
@@ -112,8 +124,11 @@ def viewSSCForm(request, type, id):
 			candidate_model = MajorPosition.objects.select_related('position').filter(party_id=first_model.id)
 			check_count = model.count()
 			exclude_candidate = candidate_model.values_list().values('position_id')
-			set_pos = Position.objects.exclude(id__in=exclude_candidate)
-			available_pos = set_pos.exclude(position_name="Board Member").count()
+			disqualify_model = Disqualify.objects.select_related('position').filter(party_id=first_model.id)
+			exclude_disqualify = disqualify_model.values_list().values('position_id')
+			set_pos = Position.objects.exclude(id__in=exclude_candidate).filter(election_type=id)
+			remove_disqualify = set_pos.exclude(id__in=exclude_disqualify)
+			available_pos = remove_disqualify.exclude(position_name="Board Member").count()
 	else:
 		
 		board = BoardMember.objects.select_related('college', 'campus').first()
@@ -125,6 +140,12 @@ def viewSSCForm(request, type, id):
 			c_name = Campus.objects.get(id=board.campus_id)
 			check_count = p_model.count()
 			candidate_model = BoardMember.objects.all().filter(college_id=board.college.id)
+			
+			disqualify_model = Disqualify.objects.all().select_related('position').filter(position_id=board.position.id, college_id=board.college.id)
+			# exclude_disqualify = disqualify_model.values_list().values('position_id')
+			# set_pos = Position.objects.exclude(id__in=exclude_candidate).filter(election_type=id)
+			# remove_disqualify = set_pos.exclude(id__in=exclude_disqualify)
+			# available_pos = remove_disqualify.exclude(position_name="Board Member").count()
 			model = []
 			for college in colleges:
 				item = {"id": college[0]}
@@ -144,7 +165,8 @@ def viewSSCForm(request, type, id):
 		'electionType': id,
 		'recent_id': recent,
 		'check_position':available_pos,
-		'campus_name': c_name
+		'campus_name': c_name,
+		'disqualified': disqualify_model
 	}
 	
 	return render(request,'election/administrator/ssc/view_ssc.html', context)
@@ -164,17 +186,25 @@ def filterSSCForm(request, type, id, election_id):
 		candidate_model = MajorPosition.objects.select_related('position').filter(party_id=id)
 		check_count = model.count()
 		exclude_candidate = candidate_model.values_list().values('position_id')
-		set_pos = Position.objects.exclude(id__in=exclude_candidate)
-		available_pos = set_pos.exclude(position_name="Board Member").count()
+		disqualify_model = Disqualify.objects.select_related('position').filter(party_id=id)
+		exclude_disqualify = disqualify_model.values_list().values('position_id')
+		set_pos = Position.objects.exclude(id__in=exclude_candidate).filter(election_type=get_election_type.election_type_id)
+		remove_disqualify = set_pos.exclude(id__in=exclude_disqualify)
+		available_pos = remove_disqualify.exclude(position_name="Board Member").count()
+	
 	else:
+		disqualify_model = None
 		colleges = College.objects.all().values_list('id', 'college_name', 'campus_id').order_by('id')
 		campuses = Campus.objects.all()
 		p_model = BoardMember.objects.all()
 		check_count = p_model.count()
 		candidate_model = BoardMember.objects.all().filter(college_id=id)
 		get_name = Campus.objects.all().filter(id=College.objects.all().filter(id=id).values_list('campus_id')[:1])
+		
 		c_name = get_name[0]
 		model = []
+		if p_model:
+			disqualify_model = Disqualify.objects.all().filter(position=p_model[0].position_id)
 		for college in colleges:
 			item = {"id": college[0]}
 			for campus in campuses:
@@ -193,7 +223,8 @@ def filterSSCForm(request, type, id, election_id):
 		'positions': p_model,
 		'objectCount': check_count,
 		'check_position':available_pos,
-		'campus_name': c_name
+		'campus_name': c_name,
+		'disqualified': disqualify_model
 	}
 	
 	return render(request,'election/administrator/ssc/view_ssc.html', context)
@@ -226,6 +257,57 @@ def deleteCandidate(request, id, type):
 			BoardMember.objects.all().filter(pk=id).delete()
 		
 		messages.warning(request, customAlert.DeleteAlert())
+
+	return redirect(request.META['HTTP_REFERER'])
+
+@login_required
+def deleteDisqualify(request, id):
+	if request.method == 'POST':
+		Disqualify.objects.all().filter(pk=id).delete()
+		#Candidate.objects.all().filter(id=id).delete()
+		messages.warning(request, customAlert.DeleteAlert())
+
+	return redirect(request.META['HTTP_REFERER'])
+
+@login_required
+def disqualifyCandidate(request, id, type):
+	election = None
+	if request.method == 'POST':
+		if type == 'Major Position':
+			query = MajorPosition.objects.get(pk=id) #get specific major candidate
+			party = Party.objects.get(pk=query.party.id)
+			if party.election != None:
+				election = party.election.id
+			form = DisqualifyForm({'candidate_name': query.candidate_name,
+				'party': query.party.id,
+				'position': query.position_id,
+				'campus': None,
+				'college': None,
+				'date_candidacy': query.date_candidacy,
+				'election': election,
+				'election_type': party.election_type.id})
+			if form.is_valid():
+				form.save()
+				messages.warning(request, customAlert.DisqualifyAlert(query.candidate_name))
+				query.delete() #delete user from major db
+				return redirect(request.META['HTTP_REFERER'])
+		else:
+			query = BoardMember.objects.get(pk=id)
+			if query.election != None:
+				election = query.election.id
+			form = DisqualifyForm({'candidate_name': query.candidate_name,
+				'party': None,
+				'position': query.position_id,
+				'campus': query.campus_id,
+				'college': query.college_id,
+				'date_candidacy': query.date_candidacy,
+				'election': election,
+				'election_type': query.election_type.id})
+			if form.is_valid():
+				form.save()
+				query.delete()
+				messages.warning(request, customAlert.DeleteAlert())
+				return redirect(request.META['HTTP_REFERER'])
 
 	return redirect(request.META['HTTP_REFERER'])
 
@@ -615,7 +697,9 @@ def addCandidate(request, type, partyid, election_id):
 	if request.method == 'POST':
 		major_names = request.POST.getlist('major_name')
 		positions = request.POST.getlist('position')
+		disqualify_id = request.POST.get('dis_id')
 		names = len(major_names)
+		print(major_names)
 		val = 0
 		for i in range(names):
 			if major_names[i] != '':
@@ -628,10 +712,12 @@ def addCandidate(request, type, partyid, election_id):
 					'position': positions[i],
 					'party': partyid})
 					if form.is_valid():
+						if disqualify_id != None:
+							Disqualify.objects.filter(pk=disqualify_id).delete()
 						form.save()
 					messages.success(request, customAlert.SaveAlert(major_names[i]))
 
-					return redirect('filter-ssc-form', type, partyid, election_id)
+			return redirect('filter-ssc-form', type, partyid, election_id)
 		else:
 			messages.success(request, customAlert.InfoAlertInput())
 
@@ -642,7 +728,10 @@ def addCandidate(request, type, partyid, election_id):
 		c_model = MajorPosition.objects.all().filter(party_id=partyid)
 		exclude_candidate = c_model.values_list().values('position_id')
 		set_pos = Position.objects.exclude(id__in=exclude_candidate)
-		available_pos = set_pos.exclude(position_name="Board Member").filter(election_type_id=party.election_type_id)
+		disqualify_model = Disqualify.objects.select_related('position').filter(party_id=party.id)
+		exclude_disqualify = disqualify_model.values_list().values('position_id')
+		remove_disqualify = set_pos.exclude(id__in=exclude_disqualify)
+		available_pos = remove_disqualify.exclude(position_name="Board Member").filter(election_type_id=party.election_type_id)
 		position =  Position.objects.all()
 		check_val = 0
 		#check if board member is available

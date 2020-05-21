@@ -58,7 +58,7 @@
         <div class="modal-body">
           Are you sure you want to delete this?
           <br>
-          <p class="text-dark"></p>
+          <p class="text-name font-weight-bold text-dark"></p>
         </div>
         <div class="modal-footer">
           
@@ -122,12 +122,131 @@
           Are you sure you want to delete this?
           Deleting this party will also delete the candidates.
           <br>
-          <p class="text-dark"></p>
+          <p class="text-name font-weight-bold text-dark"></p>
         </div>
         <div class="modal-footer">
           
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
           <button  type="submit" name="checkBtn" class="btn btn-danger delete">Delete</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Undisqualify -->
+<div class="modal fade" id="staticUndisqualify" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Disqualification</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      
+      <form id="undisqualify-modal" method="POST" onsubmit="return checkForm(this);">
+        {% csrf_token %}
+        <div class="modal-body">
+          Are you sure you want to undisqualify this candidate?
+          <br>
+          <p class="text-name"></p>
+          <input type="hidden" id="disqualify_name" name="major_name">
+          <input type="hidden" id="disqualify_position" name="position">
+          <input type="hidden" id="disqualify_id" name="dis_id">
+        </div>
+        <div class="modal-footer">
+          
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" name="checkBtn" class="btn btn-danger delete">Save changes</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Undisqualify board members-->
+<div class="modal fade" id="staticUndisqualifyBoard" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Disqualification</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      
+      <form id="undisqualify-modal-board" method="POST" onsubmit="return checkForm(this);">
+        {% csrf_token %}
+        <div class="modal-body">
+          Are you sure you want to undisqualify this candidate?
+          <br>
+          <p class="text-name"></p>
+          <input type="hidden" id="disqualify_board" name="inputName">
+          <input type="hidden" id="disqualify_college" name="collegeId">
+          <input type="hidden" id="disqualify_id_board" name="dis_id">
+          <input type="hidden" name="electionType" value="{{electionType}}">
+        </div>
+        <div class="modal-footer">
+          
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" name="checkBtn" class="btn btn-danger delete">Save changes</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal disqualify -->
+<div class="modal fade" id="staticDisqualify" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Disqualification</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      
+      <form id="disqualify-modal" method="POST" onsubmit="return checkForm(this);">
+        {% csrf_token %}
+        <div class="modal-body">
+          Are you sure you want to disqualify this candidate?
+          <br>
+          <p class="text-name"></p>
+        </div>
+        <div class="modal-footer">
+          
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" name="checkBtn" class="btn btn-danger delete">Save changes</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Delete -->
+<div class="modal fade" id="staticDeleteDisqualify" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Delete</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      
+      <form id="delete-dis-modal" method="POST" onsubmit="return checkForm(this);">
+        {% csrf_token %}
+        <div class="modal-body">
+          Are you sure you want to delete this?
+          <br>
+          <p class="text-name font-weight-bold text-dark"></p>
+        </div>
+        <div class="modal-footer">
+          
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" name="checkBtn" class="btn btn-danger delete">Delete this</button>
         </form>
       </div>
     </div>

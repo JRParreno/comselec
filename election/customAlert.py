@@ -9,3 +9,6 @@ def DeleteAlert():
 
 def InfoAlertInput():
 	return "Please input one of the fields"
+
+def DisqualifyAlert(Text):
+	return "Successfully disqualify candidate %s" % Text

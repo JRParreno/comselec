@@ -8,7 +8,8 @@ from .models import (
 	Candidate,
 	BoardMember,
 	MajorPosition,
-	CiscVoter
+	CiscVoter,
+	Disqualify
 )
 
 class CampusForm(forms.ModelForm):
@@ -54,7 +55,7 @@ class BoardMemberForm(forms.ModelForm):
 	class Meta:
 		model = BoardMember
 		fields=['candidate_name', 'position', 'campus',
-			'college']
+			'college', 'election_type']
 
 class MajorPositionForm(forms.ModelForm):
 	
@@ -68,3 +69,10 @@ class CiscVoterForm(forms.ModelForm):
 	class Meta:
 		model = CiscVoter
 		fields=['voter_name', 'position', 'college', 'student_number']
+
+class DisqualifyForm(forms.ModelForm):
+	
+	class Meta:
+		model = Disqualify
+		fields=['candidate_name', 'party', 'position', 'campus',
+		'college', 'date_candidacy', 'election', 'election_type']
