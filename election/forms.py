@@ -55,7 +55,7 @@ class BoardMemberForm(forms.ModelForm):
 	class Meta:
 		model = BoardMember
 		fields=['candidate_name', 'position', 'campus',
-			'college']
+			'college', 'election_type']
 
 class MajorPositionForm(forms.ModelForm):
 	

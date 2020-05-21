@@ -109,11 +109,11 @@
           <button type="button" class="btn btn-secondary mt-1 mr-1" data-toggle="modal" data-target="#staticBackdrop" data-whatever="{{candidate.candidate_name}}" data-url="{% url 'candidate-update' candidate.id types %}" title="Edit candidate">
             <i class="fas fa-edit"></i>
           </button>
-          <button type="button" class="btn btn-danger mt-1 mr-1" data-toggle="modal" data-target="#staticDelete" data-whatever="{{candidate.candidate_name}}" data-url="{% url 'candidate-delete' candidate.id types %}" title="Delete candidate">
-            <i class="fas fa-trash-alt"></i>
-          </button>
           <button type="button" class="btn btn-danger mt-1 mr-1" data-toggle="modal" data-target="#staticDisqualify" data-whatever="{{candidate.candidate_name}}" data-url="{% url 'candidate-disqualify' candidate.id types %}" title="Disqualify candidate">
               <i class="fas fa-user-slash"></i>
+          </button>
+          <button type="button" class="btn btn-danger mt-1 mr-1" data-toggle="modal" data-target="#staticDelete" data-whatever="{{candidate.candidate_name}}" data-url="{% url 'candidate-delete' candidate.id types %}" title="Delete candidate">
+            <i class="fas fa-trash-alt"></i>
           </button>
         </a>
       </td>

@@ -389,6 +389,23 @@ $('#staticUndisqualify').on('show.bs.modal', function (event) {
   modal.find('.text-name').text('Candidate Name: ' + obj.name)
 });     
 
+$('#staticUndisqualifyBoard').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget) // Button that triggered the modal
+  var recipient = button.data('whatever') // Extract info from data-* attributes
+  var url = button.data('url')
+  var setJson = JSON.stringify(recipient);
+  var obj = JSON.parse(setJson)
+  // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+  // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+  var modal = $(this)
+  modal.find('#undisqualify-modal-board').attr('action', url)
+  modal.find('#delete-modal').attr('action', url)
+  modal.find('#disqualify_board').attr('value', obj.name)
+  modal.find('#disqualify_college').attr('value', setJson)
+  modal.find('#disqualify_id_board').attr('value', obj.id)
+  modal.find('.text-name').text('Candidate Name: ' + obj.name)
+});     
+
 
 $('#staticBackdropVoter').on('show.bs.modal', function (event) {
   var button = $(event.relatedTarget) // Button that triggered the modal

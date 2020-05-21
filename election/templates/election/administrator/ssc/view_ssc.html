@@ -165,6 +165,38 @@
   </div>
 </div>
 
+<!-- Modal Undisqualify board members-->
+<div class="modal fade" id="staticUndisqualifyBoard" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Disqualification</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      
+      <form id="undisqualify-modal-board" method="POST" onsubmit="return checkForm(this);">
+        {% csrf_token %}
+        <div class="modal-body">
+          Are you sure you want to undisqualify this candidate?
+          <br>
+          <p class="text-name"></p>
+          <input type="hidden" id="disqualify_board" name="inputName">
+          <input type="hidden" id="disqualify_college" name="collegeId">
+          <input type="hidden" id="disqualify_id_board" name="dis_id">
+          <input type="hidden" name="electionType" value="{{electionType}}">
+        </div>
+        <div class="modal-footer">
+          
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" name="checkBtn" class="btn btn-danger delete">Save changes</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- Modal disqualify -->
 <div class="modal fade" id="staticDisqualify" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">

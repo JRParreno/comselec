@@ -88,6 +88,8 @@ class BoardMember(models.Model):
 	campus = models.ForeignKey(Campus, on_delete=models.CASCADE)
 	college = models.ForeignKey(College, on_delete=models.CASCADE)
 	date_candidacy = models.DateTimeField(default=datetime.now)
+	election_type = models.ForeignKey(ElectionType, 
+		on_delete=models.CASCADE)
 	election = models.ForeignKey(Election, 
 		on_delete=models.CASCADE,
 		null=True, blank=True)

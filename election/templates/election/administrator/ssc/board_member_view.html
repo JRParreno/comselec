@@ -39,10 +39,10 @@
   <table class="table table-hover">
     <thead>
       <tr>
-        <th scope="col">#</th>
-        <th scope="col">Candidate Name</th>
-        <th scope="col">Position Name</th>
-        <th scope="col">Action</th>
+        <th style="width: 10%">#</th>
+        <th style="width: 40%">Candidate Name</th>
+        <th style="width: 30%">Position Name</th>
+        <th style="width: 20%">Action</th>
       </tr>
     </thead>
     <tbody>
@@ -58,6 +58,49 @@
           <button type="button" class="btn btn-danger mt-1 mr-1" data-toggle="modal" data-target="#staticDelete" data-whatever="{{candidate.candidate_name}}" data-url="{% url 'candidate-delete' candidate.id types %}">
             <i class="fas fa-trash-alt"></i>
           </button>
+          <button type="button" class="btn btn-danger mt-1 mr-1" data-toggle="modal" data-target="#staticDisqualify" data-whatever="{{candidate.candidate_name}}" data-url="{% url 'candidate-disqualify' candidate.id types %}" title="Disqualify candidate">
+              <i class="fas fa-user-slash"></i>
+          </button>
+        </a>
+      </td>
+    </tr>
+    {% endfor %}
+</tbody>
+</table>
+</div>
+
+<div class="d-flex bd-highlight mb-3">
+  <div class="p-1">
+    <h3>Disqualification Section</h3>
+  </div>
+</div>
+<!-- disqualify section -->
+<div class="d-flex justify-content-center my-3">
+  <table class="table table-hover">
+    <caption>List of disqualify candidates</caption>
+    <thead>
+      <tr>
+        <th style="width: 10%">#</th>
+        <th style="width: 40%">Candidate Name</th>
+        <th style="width: 30%">Position Name</th>
+        <th style="width: 20%">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for disqualify in disqualified %}
+      <tr class="sortable">
+        <th class="align-middle" scope="row">{{ forloop.counter }}</th>
+        <td class="align-middle">{{ disqualify.candidate_name }}</td>
+        <td class="align-middle">{{ disqualify.position.position_name }}</td>
+        <td>
+          <button type="button" class="btn btn-danger mt-1 mr-1" data-toggle="modal" data-target="#staticUndisqualifyBoard" data-whatever='{"name": "{{disqualify.candidate_name}}", "collegeId": {{disqualify.college.id}}, "campusId": {{disqualify.campus.id}}, "positionId": {{disqualify.position.id}},"id": {{disqualify.id}}}' data-url="{% url 'save-ssc-form' types %}" title="Remove candidate from disqualify">
+            <i class="fas fa-user-minus"></i>
+          </button>
+          <button type="button" class="btn btn-danger mt-1 mr-1" data-toggle="modal" data-target="#staticDeleteDisqualify" data-whatever="{{disqualify.candidate_name}}" data-url="{% url 'disqualify-delete' disqualify.id %}" title="Delete candidate">
+            <i class="fas fa-trash-alt"></i>
+          </button>
+
+          
         </a>
       </td>
     </tr>
