@@ -58,10 +58,10 @@
           <td>
             <button type="button" class="btn btn-secondary mt-1 mr-1" data-toggle="modal" data-target="#staticBackdropVoter" 
             data-whatever='{"first": "{{voter.voter_name}}","second": "{{ voter.student_number }}"}' data-url="{% url 'update-ssc-voter'  voter.id %}">
-              <i class="fas fa-edit"></i>
+              <i class="fas fa-edit fa-fw"></i>
             </button>
             <button type="button" class="btn btn-danger mt-1 mr-1" data-toggle="modal" data-target="#staticDelete" data-whatever="{{  voter.voter_name }}" data-url="{% url 'delete-ssc-voter'  voter.id %}">
-              <i class="fas fa-trash-alt"></i>
+              <i class="fas fa-trash-alt fa-fw"></i>
             </button>
           </td>
         </tr>

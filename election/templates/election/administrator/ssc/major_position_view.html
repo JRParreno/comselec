@@ -58,7 +58,7 @@
         <td>
           <button type="button" class="btn btn-secondary mt-1 mr-1" data-toggle="modal" data-target="#staticEditPartylist" 
           data-whatever='{"first": "{{party.party_name}}","second": "{{ party.acronym }}"}' data-url="{% url 'update-partylist' types party.id electionType %}" title="Edit party">
-            <i class="fas fa-edit"></i>
+            <i class="fas fa-edit fa-fw"></i>
           </button>
         </a>
       </td>
@@ -100,6 +100,7 @@
       </tr>
     </thead>
     <tbody>
+      {% if candidates %}
       {% for candidate in candidates %}
       <tr class="sortable">
         <th class="align-middle" scope="row">{{ forloop.counter }}</th>
@@ -107,18 +108,23 @@
         <td class="align-middle">{{ candidate.position.position_name }}</td>
         <td>
           <button type="button" class="btn btn-secondary mt-1 mr-1" data-toggle="modal" data-target="#staticBackdrop" data-whatever="{{candidate.candidate_name}}" data-url="{% url 'candidate-update' candidate.id types %}" title="Edit candidate">
-            <i class="fas fa-edit"></i>
+            <i class="fas fa-edit fa-fw"></i>
           </button>
-          <button type="button" class="btn btn-danger mt-1 mr-1" data-toggle="modal" data-target="#staticDisqualify" data-whatever="{{candidate.candidate_name}}" data-url="{% url 'candidate-disqualify' candidate.id types %}" title="Disqualify candidate">
-              <i class="fas fa-user-slash"></i>
+          <button type="button" class="btn btn-dark mt-1 mr-1" data-toggle="modal" data-target="#staticDisqualify" data-whatever="{{candidate.candidate_name}}" data-url="{% url 'candidate-disqualify' candidate.id types %}" title="Disqualify candidate">
+              <i class="fas fa-user-slash fa-fw"></i>
           </button>
           <button type="button" class="btn btn-danger mt-1 mr-1" data-toggle="modal" data-target="#staticDelete" data-whatever="{{candidate.candidate_name}}" data-url="{% url 'candidate-delete' candidate.id types %}" title="Delete candidate">
-            <i class="fas fa-trash-alt"></i>
+            <i class="fas fa-trash-alt fa-fw"></i>
           </button>
         </a>
       </td>
     </tr>
     {% endfor %}
+    {% else %}
+    <tr class="sortable">
+      <td class="align-middle text-center text-muted" colspan="4">No candidates</td>
+    </tr>
+    {% endif %}
 </tbody>
 </table>
 </div>
@@ -140,17 +146,18 @@
       </tr>
     </thead>
     <tbody>
+      {% if disqualified %}
       {% for disqualify in disqualified %}
       <tr class="sortable">
         <th class="align-middle" scope="row">{{ forloop.counter }}</th>
         <td class="align-middle">{{ disqualify.candidate_name }}</td>
         <td class="align-middle">{{ disqualify.position.position_name }}</td>
         <td>
-          <button type="button" class="btn btn-danger mt-1 mr-1" data-toggle="modal" data-target="#staticUndisqualify" data-whatever='{"name": "{{disqualify.candidate_name}}", "position": {{disqualify.position.id}}, "id": {{disqualify.id}}}' data-url="{% url 'add-candidate' types recent_id electionType %}" title="Remove candidate from disqualify">
-            <i class="fas fa-user-minus"></i>
+          <button type="button" class="btn btn-dark mt-1 mr-1" data-toggle="modal" data-target="#staticUndisqualify" data-whatever='{"name": "{{disqualify.candidate_name}}", "position": {{disqualify.position.id}}, "id": {{disqualify.id}}}' data-url="{% url 'add-candidate' types recent_id electionType %}" title="Remove candidate from disqualify">
+            <i class="fas fa-user-minus fa-fw"></i>
           </button>
           <button type="button" class="btn btn-danger mt-1 mr-1" data-toggle="modal" data-target="#staticDeleteDisqualify" data-whatever="{{disqualify.candidate_name}}" data-url="{% url 'disqualify-delete' disqualify.id %}" title="Delete candidate">
-            <i class="fas fa-trash-alt"></i>
+            <i class="fas fa-trash-alt fa-fw"></i>
           </button>
 
           
@@ -158,6 +165,11 @@
       </td>
     </tr>
     {% endfor %}
+    {% else %}
+    <tr class="sortable">
+      <td class="align-middle text-center text-muted" colspan="4">No disqualify candidates</td>
+    </tr>
+    {% endif %}
 </tbody>
 </table>
 </div>
