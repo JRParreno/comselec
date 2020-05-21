@@ -16,7 +16,7 @@ $(document).ready(function(){
     html += '</div></td>';
     html += '<td>';
     html += '<button id="remove" class="btn btn-danger" data-toggle="tooltip" data-placement="bottom" title="Delete">';
-    html += '<i class="fas fa-trash-alt"></i></button>';
+    html += '<i class="fas fa-trash-alt fa-fw"></i></button>';
     html += '</td></tr>';
     inputFields.push(numInput)
     document.getElementById("saveBtn").disabled=false;
@@ -55,7 +55,7 @@ $( "#boardMember" )
         html += '<td>';
         html += '<button href="#" id="remove" class="btn btn-danger" data-toggle="tooltip" data-placement="bottom" title="Delete" ';
         html += '>'
-        html += '<i class="fas fa-trash-alt"></i></button>';
+        html += '<i class="fas fa-trash-alt fa-fw"></i></button>';
         html += '</td></tr>';
         document.getElementById("saveBtn").disabled=false;
         $('select').val('');
@@ -90,7 +90,7 @@ $( "#addVoter" )
         html += '<td>';
         html += '<button href="#" id="removePosition" class="btn btn-danger" data-toggle="tooltip" data-placement="bottom" title="Delete" ';
         html += 'onclick="getPosition('+positionId+')">'
-        html += '<i class="fas fa-trash-alt"></i></button>';
+        html += '<i class="fas fa-trash-alt fa-fw"></i></button>';
         html += '</td></tr>';
         setOptionPosition($( this ).text());
         document.getElementById("saveVoter").disabled=false;

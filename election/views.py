@@ -93,9 +93,7 @@ def saveSSCForm(request, type):
 				if form.is_valid():
 					if disqualify_id != None:
 						Disqualify.objects.filter(pk=disqualify_id).delete()
-						messages.warning(request, customAlert.DisqualifyAlert(candidate))
-					else:
-						messages.success(request, customAlert.SaveAlert(candidate))
+					messages.success(request, customAlert.SaveAlert(candidate))
 					form.save()
 
 			return redirect('filter-ssc-form', type, college_id, electionType)
@@ -306,8 +304,8 @@ def disqualifyCandidate(request, id, type):
 				'election_type': query.election_type.id})
 			if form.is_valid():
 				form.save()
+				messages.warning(request, customAlert.DisqualifyAlert(query.candidate_name))
 				query.delete()
-				messages.warning(request, customAlert.DeleteAlert())
 				return redirect(request.META['HTTP_REFERER'])
 
 	return redirect(request.META['HTTP_REFERER'])

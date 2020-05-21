@@ -1,61 +1,69 @@
 {% extends "election/admin_base.html" %}
 {% block content %}
-<h1 class="h1 text-center">Add Voter Form</h1>
-<div class="container">
-{% for campus in campuses %}
-{% for college in getCollege %}
-{% if campus.id == college.2 %}
-<h4 class="text-center">For {{ college.1 }}, {{ campus.campus_name }}</h4>
-{% endif %}
-{% endfor %}
-{% endfor %}
-
-{% for college in getCollege %}
-<form method="POST" action="{% url 'add-ssc-voter' college.0 %}">
-<input type="hidden" id="college" name="collegeId" value="{{college.0}}">
-{% endfor %}
-{% csrf_token %}
-<div class="col">
-<div class="container">
-<div class="row">
-  <div class="form-group row justify-content-center">
-    <div class="col">
-      <select id="addVoter" class="form-control  col"
-      value="{{default_if_none}}">
-        <option disabled selected value></option>
-        {% for position in positions %}
-        {% if position.position_name != 'Councilor' %}
-        <option value='{"id":{{position.id}}, "name": "{{position.position_name}}"}'>{{ position.position_name }}</option>
-        {% endif %}
-        {% endfor %}
-        {% for councilor in councilors %}
-        <option value='{"id":{{councilor.id}}, "name": "{{ councilor.college_name }} #{{ forloop.counter }}"}'>{{ councilor.college_name }} #{{ forloop.counter }}</option>
-        {% endfor %}
-        </select>
-        <small class="form-text text-muted m-1">Select position to add inputs</small>
+<div class="d-flex flex-column">
+  <div class="p-2">
+    <h1 class="h1 text-center">Add Voter Form</h1>
+  </div>
+  <div class="p-2">
+    {% for campus in campuses %}
+    {% for college in getCollege %}
+    {% if campus.id == college.2 %}
+    <h4 class="text-center">For {{ college.1 }}, {{ campus.campus_name }}</h4>
+    {% endif %}
+    {% endfor %}
+    {% endfor %}
+  </div>
+</div>
+  {% for college in getCollege %}
+  <form method="POST" action="{% url 'add-ssc-voter' college.0 %}">
+  <input type="hidden" id="college" name="collegeId" value="{{college.0}}">
+  {% endfor %}
+  {% csrf_token %}
+<div class="d-flex">
+  <div class="p-2">
+    <div class="form-group row justify-content-center">
+      <div class="col">
+        <select id="addVoter" class="form-control  col"
+        value="{{default_if_none}}">
+          <option disabled selected value></option>
+          {% for position in positions %}
+          {% if position.position_name != 'Councilor' %}
+          <option value='{"id":{{position.id}}, "name": "{{position.position_name}}"}'>{{ position.position_name }}</option>
+          {% endif %}
+          {% endfor %}
+          {% for councilor in councilors %}
+          <option value='{"id":{{councilor.id}}, "name": "{{ councilor.college_name }} #{{ forloop.counter }}"}'>{{ councilor.college_name }} #{{ forloop.counter }}</option>
+          {% endfor %}
+          </select>
+          <small class="form-text text-muted m-1">Select position to add inputs</small>
+      </div>
     </div>
   </div>
 </div>
-  <table class="table table-hover">
-    <thead>
-      <tr>
-        <th scope="col">Voter Name</th>
-        <th scope="col">Student Number</th>
-        <th scope="col">Position Name</th>
-        <th scope="col">Action</th>
-      </tr>
-    </thead>
+<div class="d-flex flex-column">
+  <div class="p-2">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">Voter Name</th>
+          <th scope="col">Student Number</th>
+          <th scope="col">Position Name</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
 
-    <tbody id="add-table">
+      <tbody id="add-table">
 
-    </tbody>
-  </table>
-  <div class="col">
-  <a class="btn btn-secondary m-1 text-white" href="javascript:history.back()" >Back</a>
-  <button id="saveVoter" name="checkBtn" type="submit" class="btn btn-info m-1 save float-right" disabled>Add Voter</button>
+      </tbody>
+    </table>
+  </div>
+  <div class="p-2">
+    <a class="btn btn-secondary m-1 text-white" href="javascript:history.back()" >Back</a>
+    <button id="saveVoter" name="checkBtn" type="submit" class="btn btn-info m-1 save float-right" disabled>Add Voter</button>
   </div>
 </div>
-</div>
 </form>
+
+
 
 {% endblock content %}
