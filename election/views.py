@@ -693,8 +693,21 @@ def viewElection(request, name):
 
 @login_required
 def previewElectionBallot(request, election):
+	e_model = ElectionType.objects.get(election_name=election)
+	p_model = Party.objects.all().filter(election_type=e_model.id)
+	m_model = MajorPosition.objects.select_related('position', 'party')
+	c_model = College.objects.all().filter(boardmember__isnull=False).first()
+	b_model = BoardMember.objects.all().filter(college=c_model.id)
+	positions = Position.objects.all().filter(election_type=e_model.id).order_by('sort_number')
+	#positions = Position.objects.all().exclude(id=b_model[0].position_id).filter(election_type=e_model.id)
+	for x in b_model:
+		print(x)
 	context = {
-		'election': election
+		'election': election,
+		'positions': positions,
+		'partylists': p_model,
+		'major_candidates': m_model,
+		'board_members': b_model
 	}
 	return render(request, 'election/preview_ballot.html', 
 		context)

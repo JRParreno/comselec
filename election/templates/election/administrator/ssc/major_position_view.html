@@ -6,7 +6,7 @@
       {% for party in models %}
       {% if election.id == party.election_type_id %}
       {% if party.id == recent_id %}
-      <option value="{% url 'filter-ssc-form' types party.id electionType %}" selected>
+      <option class="border-0" value="{% url 'filter-ssc-form' types party.id electionType %}" selected>
         {{ party.party_name }}
       </option>
       {% else %}
