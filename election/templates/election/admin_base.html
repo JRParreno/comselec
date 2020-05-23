@@ -8,12 +8,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
     <title>Student Election</title>
-    <link rel="icon" type="image/png" href="{% static 'users/css/images/comselec.jpg' %}" sizes="128x128" />
+    <link rel="icon" type="image/png" href="{% static 'users/css/images/comselec.png' %}" sizes="128x128" />
 
     <!-- Bootstrap CSS CDN -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
     <!-- Our Custom CSS -->
     <link rel="stylesheet" href="{% static 'election/css/sidebar.css' %}">
+    <link rel="stylesheet" href="{% static 'election/css/style.css' %}">
     <link rel="stylesheet" href="{% static 'election/css/jquery-ui.css' %}">
     <link rel="stylesheet" href="{% static 'election/css/jquery-ui.structure.css' %}">
     <link rel="stylesheet" href="{% static 'election/css/jquery-ui.theme.css' %}">
@@ -43,7 +44,7 @@
             <li>
                 <a href="#sscForm" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
                     <i class="fas fa-plus-square"></i>
-                    File Candidacy
+                    File
                 </a>
                 <ul class="collapse list-unstyled" id="sscForm">    
                     {% for electionType in electionTypes %}
@@ -61,7 +62,7 @@
             <li>
                 <a href="#formId" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
                     <i class="fas fa-list-alt"></i>
-                    View Candidacy
+                    View
                 </a>
                     <ul class="collapse list-unstyled" id="formId"> 
                         <li>

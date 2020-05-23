@@ -1,0 +1,28 @@
+{% extends "election/admin_base.html" %}
+{% load static %}
+{% block content %}
+<div class="d-flex flex-column justify-content-center border">
+	<!-- header section -->
+	<div class="p-0">
+		<div class="d-flex justify-content-between">
+			<div class="p-2 align-self-center ballot-img">
+				<img src="{% static 'election/images/rtulogov2.png' %}" class="img-fluid" alt="rtu logo">
+			</div>
+			<div class="p-2 text-center align-self-center">
+				<h1 class="font-weight-bold ballot-header">Rizal Technological University</h1>
+				<h3 class="ballot-sub-text">Cities of Mandaluyong and Pasig</h3>
+				<h5 class="ballot-sub-text">COMMISSION ON STUDENT ELECTION</h5>
+			</div>
+			<div class="p-2 align-self-center  ballot-img">
+				<img src="{% static 'users/css/images/imageedit_2_4577194142.jpg' %}" class="img-fluid" alt="comselec logo">
+			</div>
+		</div>
+	</div>
+	<div class="p-0 border">
+		<div class="d-flex justify-content-center">
+			
+		</div>
+		
+	</div>
+</div>
+{% endblock content %}

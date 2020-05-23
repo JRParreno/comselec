@@ -82,6 +82,9 @@ urlpatterns = [
     path('view/election/<str:name>/',
         views.viewElection, 
         name='view-election'),
+    path('preview/election/ballot/<str:election>',
+        views.previewElectionBallot, 
+        name='preview-ballot'),
     #CRUD for position
     path('utilities/position_utilities/<str:action>', 
         views.createUtilitiesPosition, 

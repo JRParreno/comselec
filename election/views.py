@@ -692,6 +692,14 @@ def viewElection(request, name):
 		context)
 
 @login_required
+def previewElectionBallot(request, election):
+	context = {
+		'election': election
+	}
+	return render(request, 'election/preview_ballot.html', 
+		context)
+
+@login_required
 def addCandidate(request, type, partyid, election_id):
 	if request.method == 'POST':
 		major_names = request.POST.getlist('major_name')
