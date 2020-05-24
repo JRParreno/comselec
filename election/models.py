@@ -47,6 +47,7 @@ class Election(models.Model):
 	election_year = models.DateField(default=datetime.today)
 	election_start = models.DateTimeField(null=True, blank=True)
 	election_end = models.DateTimeField(null=True, blank=True)
+	voter_type = models.IntegerField(null=True, blank=True)
 
 #partylist of students
 class Party(models.Model):
