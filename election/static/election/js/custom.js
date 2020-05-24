@@ -574,3 +574,30 @@ function formOnchange(value, id) {
   $('[data-toggle="tooltip"]').tooltip()
 })
 
+//uncheck radio buttons
+$('label').on('mouseup', function(e){
+  var radio = $(this).find('input[type=radio]');
+  
+  if( radio.is(':checked') ){
+    radio.prop('checked', false);
+    
+  } else {
+    radio.prop('checked', true);
+    
+  }
+  
+});
+
+$('label').click(function(e){
+  e.preventDefault();
+});
+// end uncheck radio buttons
+
+function checkVoteForm(form){
+  if(document.querySelector('input[type="radio"]:checked') != null){
+    return true;
+  } else {
+    alert("Please select of the candidates")
+    return false;
+  }
+}

@@ -16,6 +16,10 @@ body {
     color: #999;
 }*/
 
+.dropdown-toggle {
+    white-space: normal;
+}
+
 a,
 a:hover,
 a:focus {

@@ -5,6 +5,15 @@
     outline: none !important;
 }
 
+
+.ballot-instructions {
+	width: 100%;
+}
+
+.ballot-info {
+	width: 25%;
+}
+
 @media (max-width: 768px) {
 	.ballot-header {
 		font-size: 1rem;
@@ -18,7 +27,7 @@
 	}
 
 	.ballot-img {
-		width: 25%;
+		width: 35%;
 	}
 
 	.ballot-img img{
@@ -29,4 +38,13 @@
 	.card-width {
 		width: 100%;
 	}
+
+	.ballot-instructions {
+		width: 100%;
+	}
+
+	.ballot-info {
+		width: 100%;
+	}
+
 }
