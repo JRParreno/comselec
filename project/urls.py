@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
 from users import views as user_views
+from polls import views as poll_views
 urlpatterns = [
     path('admin/', admin.site.urls),\
     path('login', auth_views.LoginView.as_view(template_name='users/login_new.html'), name='login'),
@@ -42,5 +43,7 @@ urlpatterns = [
             template_name='users/password_reset_complete.html'
         ), 
         name='password_reset_complete'),
+    
+    path('election/', include('polls.urls')),
     path('', include('election.urls')),
 ]

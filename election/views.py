@@ -250,10 +250,9 @@ def deleteCandidate(request, id, type):
 		if type == 'Major Position':
 			MajorPosition.objects.all().filter(pk=id).delete()
 			#Candidate.objects.all().filter(id=id).delete()
-			return redirect(request.META['HTTP_REFERER'])
+			
 		else:
 			BoardMember.objects.all().filter(pk=id).delete()
-			return redirect(request.META['HTTP_REFERER'])
 		
 		messages.warning(request, customAlert.DeleteAlert())
 
