@@ -1,7 +1,9 @@
 {% extends "election/admin_base.html" %}
 {% block content %}
-<div class="d-flex text-center my-5">
-  <h1>Supreme Student Council</h1>
+<div class="d-flex justify-content-center my-5">
+  <div class="p-2 text-center">
+    <h1>Supreme Student Council</h1>
+  </div>
 </div>
 <input type="hidden" name="electionType" value="{{ electionType }}">
 {% if types == 'Major Position' %}
@@ -12,6 +14,37 @@
 <!-- view for board member -->
 {% include "election/administrator/ssc/board_member_view.html" %}
 {% endif %}
+
+<!-- Modal dynamic -->
+<div class="modal fade" id="staticModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <!-- modal title -->
+        <h5 class="modal-title" id="staticModalLabel"></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      
+      <!-- modal form -->
+      <form id="modal-form" method="POST" onsubmit="return checkForm(this);">
+        {% csrf_token %}
+        <div class="modal-body">
+          <div class="form-group">
+            <label id="labelName" for="inputLabel"></label>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="closeModal" class="btn btn-secondary" data-dismiss="modal"></button>
+          <button  type="submit" id="submitModal" name="checkBtn" class="btn btn-primary save"></button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- end dynamic -->
+
 <!-- Modal edit -->
 <div class="modal fade" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">

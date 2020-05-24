@@ -3,7 +3,8 @@
 {% if text == 'pending' %}
 
 <div class="d-flex flex-column justify-content-center">
-	<ul class="list-group">
+	<div class="p-2">
+		<ul class="list-group">
 		<li class="list-group-item active">
 			<h5 class="text-uppercase">Pending Section</h5>
 		</li>
@@ -21,11 +22,12 @@
 
 			<hr>
 			<a href="#" class="btn btn-primary">Start Election</a>
-			<a href="#" class="btn btn-secondary">Preview Ballot</a>
+			<a href="{% url 'preview-ballot' i.election_name %}" target="blank" class="btn btn-secondary">Preview Ballot</a>
 		</li>
 		{% endfor %}
 		</div>
 	</ul>
+	</div>
 </div>
 
 {% else %}
