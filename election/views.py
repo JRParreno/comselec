@@ -15,7 +15,8 @@ from .forms import (
 	BoardMemberForm,
 	MajorPositionForm,
 	CiscVoterForm,
-	DisqualifyForm
+	DisqualifyForm,
+	CourseForm
 	)
 from .models import (
 	Campus, 
@@ -28,7 +29,8 @@ from .models import (
 	BoardMember,
 	MajorPosition,
 	CiscVoter,
-	Disqualify
+	Disqualify,
+	Course
 	)
 from django.shortcuts import get_list_or_404, get_object_or_404
 
@@ -891,7 +893,6 @@ def updateUtilitiesPosition(request, id=None):
 def deleteUtilitiesPosition(request, id=None):
 	if request.method == 'POST':
 		Position.objects.filter(pk=id).delete()
-		Position.objects.all().filter(id=id).delete()
 		messages.warning(request, customAlert.DeleteAlert())
 		
 	else:
@@ -899,8 +900,64 @@ def deleteUtilitiesPosition(request, id=None):
 
 	return HttpResponseRedirect(request.META.get('HTTP_REFERER', 'utilities/position_utilities/edit/'))
 
-#end of views Colleges
+#end of views positions
 
+#views of course
+@login_required
+def createUtilitiesCourse(request):
+	college_model = College.objects.all().order_by('college_name')
+	course_model = Course.objects.all().select_related('college').order_by('course_name')
+	queryId = None
+	for i in college_model:
+		queryId = Course.objects.all().filter(college=i.id).count()
+		if queryId > 0:
+			queryId = i.id
+			break
+	context = {
+		'courses': course_model,
+		'college_id': queryId,
+		'objectCount': course_model.count()	
+	}
+	return render(request, 'election/administrator/utilities/edit_course_utilities.html'
+		, context)
+
+@login_required
+def saveUtilitiesCourse(request):
+
+	if request.method == 'POST':
+		course = request.POST.getlist('inputName')
+		c = len(course)
+		for i in range(c):
+			college = request.POST['collegeId']
+			form = CourseForm({'course_name': course[i],
+				'college': college})
+			if form.is_valid():
+				form.save()
+				messages.success(request, customAlert.SaveAlert(course[i]))
+		
+		return HttpResponseRedirect(reverse('course-edit'))
+	else:
+		
+		return render(request, 'election/administrator/utilities/create_course_utilities.html')
+
+@login_required
+def updateUtilitiesCourse(request, id=None):
+	newName = request.POST.get('inputEdit')
+
+	if request.method == 'POST':
+		Course.objects.filter(pk=id).update(course_name=newName)
+		messages.info(request, customAlert.UpdateAlert(newName))
+		
+	return redirect('course-edit')
+
+@login_required
+def deleteUtilitiesCourse(request, id=None):
+	if request.method == 'POST':
+		Course.objects.filter(pk=id).delete()
+		messages.warning(request, customAlert.DeleteAlert())
+		
+	return redirect('course-edit')
+#end views of course
 @login_required
 def saveDesign(request):
 	model = BoardMember.objects.all()

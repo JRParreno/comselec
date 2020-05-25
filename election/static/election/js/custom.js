@@ -25,7 +25,8 @@ $(document).ready(function(){
 
   $(document).on('click', '#remove', function(){
     $(this).closest('tr').remove();
-    if (inputFields.length) {
+    inputFields.pop()
+    if (inputFields.length == 0) {
       document.getElementById("saveBtn").disabled=true;
     }
   });
@@ -58,6 +59,7 @@ $( "#boardMember" )
         html += '<i class="fas fa-trash-alt fa-fw"></i></button>';
         html += '</td></tr>';
         document.getElementById("saveBtn").disabled=false;
+        inputFields.push(boardInput)
         $('select').val('');
         $('#add-table').append(html);
       }
@@ -346,7 +348,7 @@ $('#staticDelete').on('show.bs.modal', function (event) {
   // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
   var modal = $(this)
   modal.find('#delete-modal').attr('action', url)
-  modal.find('.text-name').text('Candidate Name: ' + recipient)
+  modal.find('.text-name').text(recipient)
 }); 
 
 

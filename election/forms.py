@@ -9,7 +9,8 @@ from .models import (
 	BoardMember,
 	MajorPosition,
 	CiscVoter,
-	Disqualify
+	Disqualify,
+	Course
 )
 
 class CampusForm(forms.ModelForm):
@@ -76,3 +77,9 @@ class DisqualifyForm(forms.ModelForm):
 		model = Disqualify
 		fields=['candidate_name', 'party', 'position', 'campus',
 		'college', 'date_candidacy', 'election', 'election_type']
+
+class CourseForm(forms.ModelForm):
+
+	class Meta:
+		model = Course
+		fields=['course_name', 'college']

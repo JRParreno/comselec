@@ -1,45 +1,38 @@
 {% extends "election/admin_base.html" %}
 {% block content %}
-{% if action == 'edit' %}
 <div class="d-flex justify-content-center">
-	<h1>Edit Positions</h1>
+	<h1>Edit Course</h1>
 </div>
+{% if objectCount > 0 %}
 <div class="d-flex">
 	<div class="p-2">
 	<select class="form-control col-sm-12" onchange="location = this.value;">
 
-  		{% for election in electionTypeFilters %}
-  		{% if electionTypeId == election.id %}
-  		<option value="{% url 'position-edit-filter' 'edit' election.id %}" selected>
-  			{{ election.election_name }}
+  		{% for college in colleges %}
+  		{% if college_id == college.id %}
+  		<option value="" selected>
+  			{{ college.college_name }}
   		</option>
   		{% else %}
-  		<option value="{% url 'position-edit-filter' 'edit' election.id %}">
-  			{{ election.election_name }}
+  		<option value="">
+  			{{ college.college_name }}
   		</option>
   		{% endif %}
   		{% endfor %}
 	</select>
-		<small class="form-text text-muted m-1">Select election type to filter</small>
+		<small class="form-text text-muted m-1">Select college to filter</small>
 	</div>
 	<div class="ml-auto p-2">
 		<div class="d-flex align-items-start flex-column" >
   			<div class="p-2">
   				<a id="add" class="btn btn-primary text-white"
-					href="{% url 'position-add' %}">Add Position</a>
+					href="{% url 'course-add' %}">Add Course</a>
   			</div>
-  			<div class="p-2">
-  			<form action="{% url 'position-arrange' 'arrange' electionTypeId %}" method="POST">
-  				{% csrf_token %}
-  				<button type="submit" id="add" class="btn btn-info"
-				>Sort Position
-				</button>
-			</form>
-  			</div>
-  			</div>		
+  			
+  		</div>		
 	</div>
 </div>
-{% if objectCount > 0 %}
+
 <div class="d-flex justify-content-center">
 	<table class="table table-hover">
 		<thead>
@@ -50,16 +43,16 @@
 			</tr>
 		</thead>
 		<tbody>
-			{% for position in positionFilters %}
-			{% if electionTypeId == position.3 %}
+			{% for course in courses %}
+			{% if college_id == course.college.id %}
 			<tr class="sortable">
-				<th class="align-middle" scope="row">{{ position.2 }}</th>
-				<td class="align-middle">{{ position.1 }}</td>
+				<th class="align-middle" scope="row">{{ forloop.counter }}</th>
+				<td class="align-middle">{{ course }}</td>
 				<td>
-					<button type="button" class="btn btn-secondary mt-1 mr-1" data-toggle="modal" data-target="#staticBackdrop" data-whatever="{{ position.1 }}" data-url="{% url 'position-update' position.0 %}">
+					<button type="button" class="btn btn-secondary mt-1 mr-1" data-toggle="modal" data-target="#staticBackdrop" data-whatever="{{ course.course_name }}" data-url="{% url 'course-update' course.id %}">
 						<i class="fas fa-edit fa-fw"></i>
 					</button>
-					<button type="button" class="btn btn-danger mt-1 mr-1" data-toggle="modal" data-target="#staticDelete" data-whatever="{{ position.1 }}" data-url="{% url 'position-delete' position.0 %}">
+					<button type="button" class="btn btn-danger mt-1 mr-1" data-toggle="modal" data-target="#staticDelete" data-whatever="{{ course.course_name }}" data-url="{% url 'course-delete' course.id %}">
 						<i class="fas fa-trash-alt fa-fw"></i>
 					</button>
 			</td>
@@ -75,16 +68,26 @@
 	</div>
 </div>
 {% else %}
-<div class="d-flex justify-content-center">
-	<h1 class="text-muted">No Data</h1>
+<div class="d-flex align-items-start flex-column" >
+  			
+  			
+ </div>
+<div class="d-flex flex-column">
+  	<div class="p-2 align-self-center">
+  		<h1 class="text-muted">No Data for course</h1>
+  	</div>
+  	<div class="p-2 align-self-center">
+  		<a id="add" class="btn btn-primary text-white" href="{% url 'course-add' %}">Click here to add Course</a>
+  	</div>
 </div>
+
 {% endif %}
 <!-- Modal edit -->
 <div class="modal fade" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="staticBackdropLabel">Edit</h5>
+				<h5 class="modal-title" id="staticBackdropLabel">Edit Course</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
@@ -94,7 +97,7 @@
 				{% csrf_token %}
 				<div class="modal-body">
 					<div class="form-group">
-						<label for="inputPositionEdit">New Position Name</label>
+						<label for="inputPositionEdit">New Course Name</label>
 						<input type="text" class="form-control" id="inputText" aria-describedby="editInput" placeholder="new" name="inputEdit" required>
 						<small id="emailHelp" class="form-text text-muted">Current Boni Avenue Branch(main).</small>
 					</div>
@@ -115,7 +118,7 @@
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="staticBackdropLabel">Delete</h5>
+				<h5 class="modal-title" id="staticBackdropLabel">Delete Course</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
@@ -138,8 +141,4 @@
 		</div>
 	</div>
 </div>
-
-{% else %}
-	{% include "election/administrator/utilities/arrange_position_utilities.html" %}
-{% endif %}
 {% endblock content %}

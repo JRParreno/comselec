@@ -10,7 +10,8 @@ from .models import (
 	MajorPosition,
 	BoardMember,
 	CiscVoter,
-	Disqualify
+	Disqualify,
+	Course
 	)
 
 admin.site.register(College)
@@ -24,4 +25,5 @@ admin.site.register(MajorPosition)
 admin.site.register(BoardMember)
 admin.site.register(CiscVoter)
 admin.site.register(Disqualify)
+admin.site.register(Course)
 

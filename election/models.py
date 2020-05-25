@@ -22,6 +22,15 @@ class College(models.Model):
 	def __str__(self):
 		return self.college_name
 
+#course Model
+class Course(models.Model):
+	course_name = models.CharField(max_length=100)
+	college = models.ForeignKey(College, on_delete=models.CASCADE)
+
+	def __str__(self):
+		return self.course_name
+	
+
 #Election type: Org or Scc election
 class ElectionType(models.Model):
 	election_name = models.CharField(max_length=100)
