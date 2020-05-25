@@ -109,4 +109,17 @@ urlpatterns = [
         name='position-delete'),
     path('test/', views.saveDesign, 
     	name='test'),
+    #CRUD for course
+    path('utilities/course_utilities/', 
+        views.createUtilitiesCourse, 
+        name='course-edit'),
+    path('utilities/course_utilities/add/', 
+        views.saveUtilitiesCourse, 
+        name='course-add'),
+    path('utilities/course_utilities/<int:id>/update/',
+        views.updateUtilitiesCourse, 
+        name='course-update'),
+    path('utilities/course_utilities/<int:id>/delete/',
+        views.deleteUtilitiesCourse, 
+        name='course-delete'),
 ]

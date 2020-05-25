@@ -1,0 +1,65 @@
+{% extends "election/admin_base.html" %}
+{% block content %}
+<div class="container">
+<form method="POST" action="{% url 'course-add' %}" onsubmit="return checkForm(this);">
+{% csrf_token %}
+<div class="col">
+	<h1 class="text-center m-5">Add New Course</h1>
+	<div class="container">
+  		<div class="row my-1">
+    		<div class="col">
+      			<select class="form-control  col-sm-3" name="collegeId" required>
+  					{% for campus in campuses %}
+  					<option disabled>{{ campus.campus_name }}</option>
+  					{% for college in colleges %}
+  					{% if campus.id == college.2 %}
+  					<option value="{{ campus.id }}" >{{ college.1 }}</option>
+  					{% endif %}
+  					{% endfor %}
+  					{% endfor %}
+				</select>
+    		</div>
+    <div class="w-100"></div>
+    <div class="col">
+    	<small class="form-text text-muted">Select college to register course</small>
+    </div>
+    <div class="w-100"></div>
+    <div class="col m-1">
+      	<a href="{% url 'college-add' %}" class="btn btn-secondary">Add College</a>
+      	<br>
+      	<small class="form-text text-muted">Click here to add new college</small>
+    </div>
+  		</div>
+	</div>
+	<div class="row">
+			<div class="col">
+				<button id="add" class="btn btn-secondary text-white float-right m-1">Add Action</button>
+	    	</div>
+	</div>
+	<div class="row">
+	    	<div class="col">
+				<small class="form-text text-muted float-right m-1">Click to add input</small>
+	    	</div>
+	    </div>
+	<table class="table table-hover">
+		<thead>
+			<tr>
+				<th scope="col">Colleges Name</th>
+				<th scope="col">Action</th>
+			</tr>
+		</thead>
+
+		<tbody id="add-table">
+
+		</tbody>
+	</table>
+	<button id="saveBtn" type="submit" class="btn btn-info m-1 save" disabled
+	name="checkBtn">Save</button>
+</form>
+<a class="btn btn-primary m-1 float-right text-white"
+href="{% url 'college-edit' %}"
+>Edit Colleges</a>
+</div>
+
+
+{% endblock content %}
