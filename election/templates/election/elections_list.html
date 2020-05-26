@@ -8,6 +8,7 @@
 		<li class="list-group-item active">
 			<h5 class="text-uppercase">Pending Section</h5>
 		</li>
+		{% if partylists %}
 		{% for i in partylists %}
 		<li class="list-group-item">
 			<div class="d-flex w-100 justify-content-between">
@@ -21,10 +22,16 @@
 			<small class="text-muted">Tip: always preview ballot before start the election</small>
 
 			<hr>
-			<a href="#" class="btn btn-primary">Start Election</a>
+			<a href="#" class="btn btn-primary">Start Election for Student</a>
+			<a href="#" class="btn btn-primary">Start Election for CISC</a>
 			<a href="{% url 'preview-ballot' i.election_name %}" target="blank" class="btn btn-secondary">Preview Ballot</a>
 		</li>
 		{% endfor %}
+		{% else %}
+		<li class="list-group-item text-center">
+			<p class="text-muted font-weight-bold">no pending election</p>
+		</li>
+		{% endif %}
 		</div>
 	</ul>
 	</div>

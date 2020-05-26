@@ -49,31 +49,31 @@
     Select Election
   </div>
   <ul class="list-group">
-  {% if checkElection > 0 %}
-  <li class="list-group-item d-flex justify-content-between align-items-center">
-    <a href="{% url 'view-election' 'active' %}">
-      Active Election 
-    </a>
-    {% if pending > 0 %}
-      <span class="badge badge-primary badge-pill">
-         {{ pending }}
-      </span>
-    {% endif %}
-  </li>
-  <li class="list-group-item d-flex justify-content-between align-items-center">
-    <a href="{% url 'view-election' 'pending' %}">
-      Pending Election 
+    {% if check_election > 0 %}
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        <a href="{% url 'view-election' 'active' %}">
+          Active Election 
         </a>
         {% if pending > 0 %}
+        <span class="badge badge-primary badge-pill">
+           {{ pending }}
+        </span>
+        {% endif %}
+      </li>
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        <a href="{% url 'view-election' 'pending' %}">
+          Pending Election 
+        </a>
+        {% if pending_notification > 0 %}
         <span class="badge badge-danger badge-pill">
-         {{ pending }}
+         {{ pending_notification }}
         </span>
         {% endif %}
     </li>
     {% else %}
-    <li class="list-group-item d-flex justify-content-between align-items-center">
-      <span class="text-muted">No Election</span>
-    </li>
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        <span class="text-muted">No Election</span>
+      </li>
     {% endif %}
 </ul>
 </div>
