@@ -4,7 +4,9 @@ from .models import (
 	Campus,
 	ElectionType,
     Party,
-    BoardMember
+    BoardMember,
+    MajorPosition,
+    Election
 	)
 
 def add_variable_to_context(request):
@@ -20,16 +22,26 @@ def add_variable_to_context(request):
     }
 
 def election_notifications(request):
-    e_dot = Party.objects.all().filter(election__isnull=True)
-    election = ElectionType.objects.all()
-    p_model = Party.objects.all().filter(election__isnull=True)
-    b_model  = BoardMember.objects.all().filter(election__isnull=True)
-    check = 0
-    if p_model or b_model:
-        check = 1
+    election = Election.objects.all()
+    election_type = ElectionType.objects.all()
+    ssc_dot_active = 0
+    ssc_dot_pending = 0
 
+    #for ssc election
+    #check if the party not started
+    
+    major_pending = (i.party_id for i in MajorPosition.objects.all())
+    party =  Party.objects.all().filter(id__in=major_pending)
+    ssc_dot_pending = party.filter(election__isnull=True).values('election_type').distinct().count()
+    ssc_dot_active = party.filter(election__isnull=False).values('election_type').distinct().count()
+   
+    #end ssc election
+    
+    total_notification = ssc_dot_active + ssc_dot_pending
+    print(ssc_dot_pending)
     return {
-        'notification': e_dot,
-        'pending': e_dot.count(),
-        'checkElection': check
+        'pending_notification': ssc_dot_pending,
+        'active_notification': ssc_dot_active,
+        'total_notification': total_notification,
+        'check_election': election_type.count()
     }

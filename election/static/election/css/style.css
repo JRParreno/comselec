@@ -5,6 +5,13 @@
     outline: none !important;
 }
 
+.animate-first {
+	width: 65%;
+}
+
+.animate-second {
+	width: 35%;
+}
 
 @media (max-width: 768px) {
 	.ballot-header {
@@ -30,4 +37,14 @@
 	.card-width {
 		width: 100%;
 	}
+
+	
+.animate-first {
+	width: 100%;
+}
+
+.animate-second {
+	width: 100%;
+}
+
 }

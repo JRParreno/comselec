@@ -682,7 +682,7 @@ def viewElection(request, name):
 					e_model.append(e_case)
 	else:
 		text = name
-
+		#active election here
 	context = {
 		'partylists': e_model,
 		'electionTypes': e_dot,
