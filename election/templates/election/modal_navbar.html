@@ -54,9 +54,9 @@
         <a href="{% url 'view-election' 'active' %}">
           Active Election 
         </a>
-        {% if pending > 0 %}
+        {% if active_notification > 0 %}
         <span class="badge badge-primary badge-pill">
-           {{ pending }}
+           {{ active_notification }}
         </span>
         {% endif %}
       </li>
