@@ -38,7 +38,6 @@ def election_notifications(request):
     #end ssc election
     
     total_notification = ssc_dot_active + ssc_dot_pending
-    print(ssc_dot_pending)
     return {
         'pending_notification': ssc_dot_pending,
         'active_notification': ssc_dot_active,

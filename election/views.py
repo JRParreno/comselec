@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, reverse
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.core import serializers
+from datetime import datetime
 from django.contrib import messages
 import json
 from . import customAlert
@@ -16,7 +17,8 @@ from .forms import (
 	MajorPositionForm,
 	CiscVoterForm,
 	DisqualifyForm,
-	CourseForm
+	CourseForm,
+	ElectionForm
 	)
 from .models import (
 	Campus, 
@@ -30,7 +32,8 @@ from .models import (
 	MajorPosition,
 	CiscVoter,
 	Disqualify,
-	Course
+	Course,
+	Election
 	)
 from django.shortcuts import get_list_or_404, get_object_or_404
 
@@ -665,29 +668,30 @@ def deleteUtilitiesElection(request, id=None):
 
 @login_required
 def viewElection(request, name):
-	text = None
-	e_dot = ElectionType.objects.all()
-	p_dot = None
-	
+	e_type = ElectionType.objects.all()
+	e_model = []
+	election_date = None
 	if name == 'pending':
-		e_model = []
-		e_temp = ElectionType.objects.all()
 		p_model = Party.objects.all().filter(election__isnull=True).values('election_type').distinct()
-		text = name
-		for p in p_model:
-			for e in e_temp:
-				if e.id == p['election_type']:
-					e_case = {"id": e.id}
-					e_case["election_name"] = e.election_name
-					e_model.append(e_case)
+	
 	else:
-		text = name
 		#active election here
+		model = Party.objects.all().filter(election__isnull=False)
+		p_model = model.values('election_type').distinct()
+		election_date = Party.objects.select_related('election').distinct()
+	for p in p_model:
+		for e in e_type:
+			if e.id == p['election_type']:
+				e_case = {"id": e.id}
+				e_case["election_name"] = e.election_name
+				e_model.append(e_case)
+		
 	context = {
 		'partylists': e_model,
-		'electionTypes': e_dot,
-		'text': text,
-		'checkElection': e_dot.count()
+		'electionTypes': e_type,
+		'text': name,
+		'checkElection': e_type.count(),
+		'electionDate': election_date
 	}
 	return render(request, 'election/elections_list.html', 
 		context)
@@ -701,8 +705,6 @@ def previewElectionBallot(request, election):
 	b_model = BoardMember.objects.all().filter(college=c_model.id)
 	positions = Position.objects.all().filter(election_type=e_model.id).order_by('sort_number')
 	#positions = Position.objects.all().exclude(id=b_model[0].position_id).filter(election_type=e_model.id)
-	for x in b_model:
-		print(x)
 	context = {
 		'election': election,
 		'positions': positions,
@@ -713,6 +715,21 @@ def previewElectionBallot(request, election):
 	return render(request, 'election/preview_ballot.html', 
 		context)
 
+#for ssc only
+@login_required
+def startElection(request, type, voter):
+
+	form = ElectionForm({'election_type': type,
+		'election_start': datetime.now(),
+		'voter_type': voter})
+	if form.is_valid():
+		set_id = form.save()
+		Party.objects.filter(election_type=type).update(election_id=set_id.id)
+		BoardMember.objects.filter(election_type=type).update(election_id=set_id.id)
+
+	return redirect(request.META['HTTP_REFERER'])
+#end of ssc start election
+
 @login_required
 def addCandidate(request, type, partyid, election_id):
 	if request.method == 'POST':
@@ -720,7 +737,6 @@ def addCandidate(request, type, partyid, election_id):
 		positions = request.POST.getlist('position')
 		disqualify_id = request.POST.get('dis_id')
 		names = len(major_names)
-		print(major_names)
 		val = 0
 		for i in range(names):
 			if major_names[i] != '':

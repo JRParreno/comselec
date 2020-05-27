@@ -65,7 +65,7 @@ urlpatterns = [
     path('utilities/college_utilities/<int:id>/delete/',
         views.deleteUtilitiesCollege, 
         name='college-delete'),
-    #CRUD for Election
+    #CRUD for Election types
     path('utilities/election_utilities/edit/', 
         views.createUtilitiesElection, 
         name='election-edit'),
@@ -122,4 +122,8 @@ urlpatterns = [
     path('utilities/course_utilities/<int:id>/delete/',
         views.deleteUtilitiesCourse, 
         name='course-delete'),
+    #elections
+    path('election/start/<int:type>/<int:voter>/',
+        views.startElection, 
+        name='election-start'),
 ]

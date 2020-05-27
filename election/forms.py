@@ -1,5 +1,6 @@
 from django import forms
 from .models import (
+	Election,
 	Campus, 
 	College,
 	ElectionType,
@@ -12,6 +13,8 @@ from .models import (
 	Disqualify,
 	Course
 )
+
+
 
 class CampusForm(forms.ModelForm):
 	
@@ -83,3 +86,9 @@ class CourseForm(forms.ModelForm):
 	class Meta:
 		model = Course
 		fields=['course_name', 'college']
+
+class ElectionForm(forms.ModelForm):
+
+	class Meta:
+		model = Election
+		fields=['election_type', 'election_start', 'voter_type']
