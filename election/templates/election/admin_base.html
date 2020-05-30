@@ -65,12 +65,17 @@
                     View Candidacy
                 </a>
                     <ul class="collapse list-unstyled" id="formId"> 
-                        <li>
-                            <a href="{% url 'view-ssc-form' 'Major Position' 1  %}">Partylist</a>
-                        </li> 
-                        <li>
-                            <a href="{% url 'view-ssc-form' 'Baord Member' 1  %}">Board Members</a>
-                        </li>
+                    {% for electionType in electionTypes %}
+                    {% if electionType.election_name == 'Supreme Student Council' %}    
+                    <li>
+                        <a href="{% url 'view-ssc-form' 'Major Position' electionType.id  %}">Partylist</a>
+                    </li> 
+                    <li>
+                        <a href="{% url 'view-ssc-form' 'Baord Member' electionType.id %}">Board Members</a>
+                    </li>
+                    {% endif %}
+                    {% endfor %}
+                        
                     </ul>
             </li>
             <li>

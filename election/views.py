@@ -33,7 +33,9 @@ from .models import (
 	CiscVoter,
 	Disqualify,
 	Course,
-	Election
+	Election,
+	SummaryVotes,
+	StudentVoter
 	)
 from django.shortcuts import get_list_or_404, get_object_or_404
 
@@ -338,12 +340,35 @@ def updatePartylist(request, type, id, election_id):
 	return redirect(request.META['HTTP_REFERER'])
 
 
-@login_required
-def validateStudentNumber(request):
+
+def validateStudentNumber(request, type, voter):
+	student = None
 	if request.method == 'POST':
-		student = CiscVoter.objects.all()
-	post_serialized = serializers.serialize('json', student)
-	return JsonResponse(post_serialized, safe=False)
+		if voter == 'cisc':
+			if type == 'add':
+				student = CiscVoter.objects.all()
+				post_serialized = serializers.serialize('json', student)
+				return JsonResponse(post_serialized, safe=False)
+			else:
+				student_number = request.POST.get('student_number')
+				college_id = request.POST.get('college_id')
+				voter_name = request.POST.get('voter_name')
+				election = request.POST.get('election_id')
+				check_student = CiscVoter.objects.filter(student_number=student_number, college=college_id)
+				voted_student = SummaryVotes.objects.filter(student_number=student_number, election=election).distinct()
+	
+				check = list(check_student.values())
+				vote = list(voted_student.values())
+				data = {
+					'check': check,
+					'vote': vote
+				}
+				#get student information
+				return JsonResponse(data, safe=False)
+				
+		else:
+			student = CiscVoter.objects.all()
+	
 
 @login_required
 def checkStudentNumber(request):
@@ -718,10 +743,16 @@ def previewElectionBallot(request, election):
 #for ssc only
 @login_required
 def startElection(request, type, voter):
-
-	form = ElectionForm({'election_type': type,
-		'election_start': datetime.now(),
-		'voter_type': voter})
+	form = None
+	if voter == '-1':
+		form = ElectionForm({'election_type': type,
+			'election_start': datetime.now(),
+			'voter_campus': None})
+	else:
+		form = ElectionForm({'election_type': type,
+			'election_start': datetime.now(),
+			'voter_campus': voter})
+	
 	if form.is_valid():
 		set_id = form.save()
 		Party.objects.filter(election_type=type).update(election_id=set_id.id)

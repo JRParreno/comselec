@@ -1,0 +1,124 @@
+{% extends "election/preview_base.html" %}
+{% load static %}
+{% block content %}
+<form action="{% url 'summary-vote' election_id type %}" method="POST" onsubmit="return checkVoteForm(this);">
+<div class="d-flex flex-column justify-content-center">
+	<!-- header section -->
+	{% csrf_token %}
+	{{ request.session.student_online }}
+	<div class="p-0">
+		<div class="d-flex justify-content-between">
+			<div class="p-2 align-self-center ballot-img">
+				<img src="{% static 'election/images/rtulogov2.png' %}" class="img-fluid" alt="rtu logo">
+			</div>
+			<div class="p-2 text-center align-self-center">
+				<h1 class="font-weight-bold ballot-header">Rizal Technological University</h1>
+				<h3 class="ballot-sub-text">Cities of Mandaluyong and Pasig</h3>
+				<h5 class="ballot-sub-text">COMMISSION ON STUDENT ELECTION</h5>
+			</div>
+			<div class="p-2 align-self-center  ballot-img">
+				<img src="{% static 'users/css/images/imageedit_2_4577194142.jpg' %}" class="img-fluid" alt="comselec logo">
+			</div>
+		</div>
+	</div>
+	<div class="p-1">
+		<div class="d-flex flex-wrap-reverse justify-content-between">
+			<div class="d-flex flex-column p-2">
+				<div class="p-1">
+					<h5 class="font-weight-bold p-0 m-0">PARAAN NG PAGBOTO</h5>
+				</div>
+				<div class="p-1">
+					(1.) I-click ang box sa tabi ng pangalan ng kandidatong napili.
+				</div>
+				<div class="p-1">
+					(2.) HUWAG bumoto ng labis sa nakatalagang bilang sa napiling posisyon.
+				</div>
+			</div>
+			<div class="d-flex flex-column p-2">
+				<div class="p-1">
+					<h5 class="font-weight-bold p-0 m-0">Student Information</h5>
+				</div>
+				<div class="p-1">
+					<span class="font-weight-bold">Date:</span> {% now "jS F Y" %}
+				</div>
+				<div class="p-1">
+					<span class="font-weight-bold">College:</span>{{ college }}
+				</div>
+				<div class="p-1">
+					<span class="font-weight-bold">Student Name:</span> {{ student_name }}
+				</div>
+				<div class="p-1">
+					<span class="font-weight-bold">Student Number:</span> {{ student_number }}
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="py-5">
+		<div class="d-flex flex-column text-center">
+			<h1 class="text-uppercase font-weight-bold">official ballot</h1>
+		</div>
+		<div class="d-flex flex-column text-center mt-2">
+			<h3>{{ election }}</h3>
+		</div>
+	</div>
+	<div class="p-0">
+		<div class="d-flex justify-content-center">
+			<div class="card card-width">
+  				{% for names in major_candidates %}
+				{% for pos in positions %}
+				{% if names.position == pos.id %}
+  				<div class="card-header bg-primary text-light">
+    				<p class="text-uppercase font-weight-bold p-0 m-0 text-center">for {{ pos }}</p>
+  				</div>
+  				{% endif %}
+  				{% endfor %}
+  				{% for i in names.candidate %}
+  				{% for party in partylists %}
+  				{% if i.party_id == party.id %}
+  				<ul class="list-group list-group-flush">
+    				<li class="list-group-item">
+						<div class="custom-control custom-radio btn-group">
+  							<label class="form-check-label">
+  							<input type="radio" id="{{ i.position_id }}" name="{{ i.position_id }}" class="custom-control-input"
+  							value="{{i.id}}">
+  							<label class="custom-control-label" for="{{ i.position_id }}">
+  								{{ i.candidate_name }} ({{ party.acronym }})
+  							</label>
+  							</label>
+						</div>
+    				</li>
+				</ul>
+				{% endif %}
+				{% endfor %}
+				{% endfor %}
+  				{% endfor %}
+  				{% if board_members %}
+				<div class="card-header bg-primary text-light">
+    				<p class="text-uppercase font-weight-bold p-0 m-0 text-center">for Board Members</p>
+  				</div>
+  				{% for board in board_members %}
+  				<ul class="list-group list-group-flush">
+    				<li class="list-group-item">
+						<div class="custom-control custom-radio btn-group">
+  							<label class="form-check-label">
+  							<input type="radio" id="{{ board.position.id }}" name="{{ board.position.id }}" class="custom-control-input" value="{{board.id}}">
+  							<label class="custom-control-label" for="{{ board.position.id }}">
+  								{{ board }} 
+  							</label>
+  							</label>
+						</div>
+    				</li>
+				</ul>
+  				{% endfor %}
+  				{% endif %}
+  				
+  				
+			</div>
+		</div>
+	</div>
+	<div class="py-5 text-center">
+		<button type="submit" class="btn btn-primary">Submit Vote</button>
+	</div>
+</div>
+</form>
+{% endblock content %}

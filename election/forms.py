@@ -91,4 +91,4 @@ class ElectionForm(forms.ModelForm):
 
 	class Meta:
 		model = Election
-		fields=['election_type', 'election_start', 'voter_type']
+		fields=['election_type', 'election_start', 'voter_campus']

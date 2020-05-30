@@ -24,8 +24,8 @@
 			<small class="text-muted">Tip: always preview ballot before start the election</small>
 
 			<hr>
-			<a href="{% url 'election-start' i.id 0 %}" class="btn btn-primary">Start Election for Student</a>
-			<a href="{% url 'election-start' i.id 1 %}" class="btn btn-primary">Start Election for CISC</a>
+			<a href="{% url 'election-start' i.id '0' %}" class="btn btn-primary">Start Election for Student</a>
+			<a href="{% url 'election-start' i.id '-1' %}" class="btn btn-primary">Start Election for CISC</a>
 			<a href="{% url 'preview-ballot' i.election_name %}" target="blank" class="btn btn-secondary">Preview Ballot</a>
 		</li>
 		<!-- end of ssc -->
