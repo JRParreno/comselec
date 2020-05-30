@@ -32,7 +32,7 @@ urlpatterns = [
     path('view/voter/college/filter/<int:id>/', views.filterSSCVoter, name='filter-ssc-voter'),
     path('view/voter/college/update/<int:id>/', views.updateSSCVoter, name='update-ssc-voter'),
     path('view/voter/college/delete/<int:id>/', views.deleteSSCVoter, name='delete-ssc-voter'),
-    path('validate/voter/', views.validateStudentNumber, name='validate-ssc-voter'),
+    path('validate/voter/<str:type>/<str:voter>', views.validateStudentNumber, name='validate-ssc-voter'),
     path('check/student_number/voter/', views.checkStudentNumber, name='check-ssc-voter'),
     #view of list utilities
     path('utilities/', views.utilities, name='view-utilities'),
@@ -82,7 +82,7 @@ urlpatterns = [
     path('view/election/<str:name>/',
         views.viewElection, 
         name='view-election'),
-    path('preview/election/ballot/<str:election>',
+    path('preview/election/ballot/<str:election>/',
         views.previewElectionBallot, 
         name='preview-ballot'),
     #CRUD for position
@@ -123,7 +123,7 @@ urlpatterns = [
         views.deleteUtilitiesCourse, 
         name='course-delete'),
     #elections
-    path('election/start/<int:type>/<int:voter>/',
+    path('election/start/<int:type>/<str:voter>/',
         views.startElection, 
         name='election-start'),
 ]

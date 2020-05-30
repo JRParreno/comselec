@@ -56,7 +56,7 @@ class Election(models.Model):
 	election_year = models.DateField(default=datetime.today)
 	election_start = models.DateTimeField(null=True, blank=True)
 	election_end = models.DateTimeField(null=True, blank=True)
-	voter_type = models.IntegerField(null=True, blank=True)
+	voter_campus = models.IntegerField(null=True, blank=True)
 
 #partylist of students
 class Party(models.Model):
@@ -135,11 +135,35 @@ class CiscVoter(models.Model):
 	position = models.ForeignKey(Position, on_delete=models.CASCADE)
 	college = models.ForeignKey(College, on_delete=models.CASCADE)
 	vote_date = models.DateTimeField(null=True, blank=True)
-	vote = models.BooleanField(default=False)
 	
 	def __str__(self):
 		return self.voter_name
 
+class StudentVoter(models.Model):
+	student_name = models.CharField(max_length=100)
+	student_number = models.CharField(max_length=100)
+	campus = models.ForeignKey(Campus, on_delete=models.CASCADE,
+		null=True, blank=True)
+	college = models.ForeignKey(College, on_delete=models.CASCADE,
+		null=True, blank=True)
+	course = models.ForeignKey(Course, on_delete=models.CASCADE,
+		null=True, blank=True)
+
+	def __str__(self):
+		return self.student_name
+
+class SummaryVotes(models.Model):
+	student_number = models.CharField(max_length=100)
+	candidate = models.IntegerField(null=True, blank=True)
+	election = models.ForeignKey(Election, 
+		on_delete=models.CASCADE,
+		null=True, blank=True)
+	position = models.ForeignKey(Position, on_delete=models.CASCADE)
+	vote_date = models.DateTimeField(default=datetime.now)
+
+
+	def __str__(self):
+		return self.student_number
 
 
 

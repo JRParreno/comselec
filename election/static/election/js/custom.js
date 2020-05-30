@@ -176,7 +176,7 @@ function checkStudentNumberExist(){
   //checking if student number exists  
       //ajax request for student number if exists
       $.ajax({
-        url: '/validate/voter/',
+        url: '/validate/voter/add/cisc',
         type: "POST",
         data: {
           csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
